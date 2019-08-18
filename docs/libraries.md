@@ -1,4 +1,3 @@
-
 ---
 title: Organization of code libraries
 layout: page
