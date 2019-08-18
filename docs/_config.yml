@@ -1,0 +1,22 @@
+
+
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            latincorpus
+tagline:          'Latin text library'
+description:      'Work with a citable corpus in a defined orthography, with fully parsed lexical tokens.'
+
+baseurl: '/latin-corpus/'
+
+
+author:
+  name:           'Neel Smith'
+
+
+links:
+  - title:  Github repository
+    url:  https://github.com/neelsmith/latin-corpus
+    external: true
