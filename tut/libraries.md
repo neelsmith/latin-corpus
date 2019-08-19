@@ -9,6 +9,10 @@ layout: page
 The citable text of a `LatinToken` is a `CitableNode` (from the `ohco2` library).  Its category is an `MidTokenCategory` (from the `projectvalidator` library).  Its associated list of morphological analyses is a Vector of `LemmatizedToken`s (from the `tabulae` library).  If the Vector of analyses is empty, that means the token could not be morphologically analyzed.
 
 
+---
+INSERT REAL WORD COMPILED EXAMPLE THROUGH `tut`
+---
+
 ## Relations of main code libraries
 
 The following stack of libaries provides successively higher orders of language-specific text processing:
