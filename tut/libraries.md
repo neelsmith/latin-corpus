@@ -1,9 +1,17 @@
 ---
-title: Organization of code libraries
+title: "Implementing a Latin Corpus: overview"
 layout: page
 ---
 
-This stack of libaries provides successively higher orders of language-specific text processing:
+
+## Implementing a `LatinToken`
+
+The citable text of a `LatinToken` is a `CitableNode` (from the `ohco2` library).  Its category is an `MidTokenCategory` (from the `projectvalidator` library).  Its associated list of morphological analyses is a Vector of `LemmatizedToken`s (from the `tabulae` library).  If the Vector of analyses is empty, that means the token could not be morphologically analyzed.
+
+
+## Relations of main code libraries
+
+The following stack of libaries provides successively higher orders of language-specific text processing:
 
 1. `xcite`: concerned only with citation; not aware of what citation refers to
 2. `ohco2`: concerned with a citable corpus.  The corpus is a sequence of nodes; each node associates a citation (a CTS URN) and a text string.  Not concerned with contents of the text string.
