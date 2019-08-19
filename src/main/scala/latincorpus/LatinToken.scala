@@ -8,7 +8,7 @@ import edu.holycross.shot.mid.validator._
 case class LatinToken(
   cn: CitableNode,
   category: MidTokenCategory,
-  morphology: Vector[LemmatizedForm] = Vector.empty[LemmatizedForm]
+  analyses: Vector[LemmatizedForm] = Vector.empty[LemmatizedForm]
 ) {
 
   def urn = cn.urn
