@@ -10,7 +10,7 @@ import org.scalatest.FlatSpec
 
 
 
-class LatinNodeSpec extends FlatSpec {
+class LatinTokenSpec extends FlatSpec {
 
   val urn = CtsUrn("urn:cts:latinLit:phi0959.phi006:1.1.1")
   val cn = CitableNode(urn,"In")
@@ -41,5 +41,7 @@ class LatinNodeSpec extends FlatSpec {
     }
     assert(indeclAnalysis.pos == Preposition)
   }
+
+
 
 }
