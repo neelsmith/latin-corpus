@@ -1,17 +1,4 @@
-
-package edu.holycross.shot.latincorpus
-
-import edu.holycross.shot.cite._
-import edu.holycross.shot.ohco2._
-import edu.holycross.shot.tabulae._
-import edu.holycross.shot.mid.validator._
-import edu.holycross.shot.latin._
-
-import org.scalatest.FlatSpec
-
-class LatinCorpusSpec extends FlatSpec {
-
-val fst = """> sed
+> sed
 <u>livymorph.indecl18</u><u>ls.n43291</u>sed<indecl><indeclconj><div><indeclconj><indecl><u>indeclinfl.2</u>
 > debebatur
 <u>latcommon.verbn12387</u><u>ls.n12387</u><#>deb<verb><conj2><div><conj2><verb>ebatur<3rd><sg><impft><indic><pass><u>latcommon.ere_conj2impft9</u>
@@ -37,45 +24,3 @@ val fst = """> sed
 > urbis
 <u>latcommon.n49895</u><u>ls.n49895</u>urb<noun><fem><s_is><div><s_is><noun>is<fem><acc><pl><u>latcommoninfl.s_is21b</u>
 <u>latcommon.n49895</u><u>ls.n49895</u>urb<noun><fem><s_is><div><s_is><noun>is<fem><gen><sg><u>latcommoninfl.s_is14</u>
-""".split("\n").toVector
-
-
-
-  val cn1 = CitableNode(
-    CtsUrn("urn:cts:omar:stoa0179.stoa001.omar:1.4.1"),
-    "sed debebatur, ut opinor, fatis tantae origo urbis"
-  )
-  val corpus = Corpus(Vector(cn1))
-  val ortho = Latin24Alphabet
-  val lc = LatinCorpus.fromFstLines(corpus,ortho,fst)
-
-  "A LatinCorpus" should "have a Vector of LatinTokens" in {
-    lc.tokens(0) match {
-      case lt: LatinToken => assert(true)
-      case _ => fail("Did not create a LatinToken")
-    }
-  }
-  it should "find uniquely analyzed tokens" in {
-    println(lc.singleAnalysis.size + " out of " + lc.size)
-  }
-
-  it should "implement all filtering of the LatinTokenSequence trait such as verbs" in {
-    val verbs = lc.verbs
-    val expectedVerbs = 2
-    assert(verbs.size == expectedVerbs)
-  }
-
-  it should "collect the total of all possible analyses" in {
-    println("Total: " + lc.allAnalyses.size)
-  }
-  it should "identify all analyzed tokens" in {
-    println("Total analyzed tokens: " + lc.analyzed.size)
-  }
-  it should "therefore be able to meausre the token-level ambigutiy" in {
-    println("Token ambiguity: " + lc.tokenAmbiguity)
-  }
-  it should "collect all tokens with token-level ambiguity" in {
-    println("Token ambiguity: " + lc.tokenAmbiguity)
-  }
-
-}
