@@ -5,7 +5,26 @@ import edu.holycross.shot.cite._
 import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.validator._
 
-case class LatinCorpus(tokens: Vector[LatinToken])
+case class LatinCorpus(tokens: Vector[LatinToken]) extends LatinTokenSequence {
+
+
+
+  lazy val size : Int = tokens.size
+
+  lazy val singleAnalysis = {
+    tokens.filter(_.analyses.size == 1)
+  }
+  lazy val noAnalysis = {
+    tokens.filter(_.analyses.isEmpty)
+  }
+  lazy val mutipleAnalyses = {
+    tokens.filter(_.analyses.size > 1)
+  }
+
+  /*lazy val verbs = {
+    tokens.filter()
+  }*/
+}
 
 
 object LatinCorpus {
@@ -26,7 +45,7 @@ object LatinCorpus {
     LatinCorpus(tokens = latinTokens.toVector)
   }
 
-  def fromString(corpus: Corpus, orthography: MidOrthography, fst: Vector[String]) : LatinCorpus = {
+  def fromFstLines(corpus: Corpus, orthography: MidOrthography, fst: Vector[String]) : LatinCorpus = {
     val analyses = FstReader.parseFstLines(fst)
     LatinCorpus.fromAnalyses(corpus, orthography, analyses)
   }

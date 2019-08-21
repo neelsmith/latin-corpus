@@ -49,13 +49,22 @@ val fst = """> sed
   val ortho = Latin24Alphabet
 
   "A LatinCorpus" should "have a Vector of LatinTokens" in {
-
-    val lc = LatinCorpus.fromString(corpus,ortho,fst)
+    val lc = LatinCorpus.fromFstLines(corpus,ortho,fst)
     lc.tokens(0) match {
       case lt: LatinToken => assert(true)
       case _ => fail("Did not create a LatinToken")
     }
+  }
+  it should "find uniquely analyzed tokens" in {
+    val lc = LatinCorpus.fromFstLines(corpus,ortho,fst)
+    println(lc.singleAnalysis.size + " out of " + lc.size)
+  }
 
+  it should "implement all filtering of the LatinTokenSequence trait such as verbs" in {
+    val lc = LatinCorpus.fromFstLines(corpus,ortho,fst)
+    val verbs = lc.verbs
+    val expectedVerbs = 2
+    assert(verbs.size == expectedVerbs)
   }
 
 }
