@@ -7,7 +7,14 @@ import edu.holycross.shot.mid.validator._
 
 case class LatinCorpus(tokens: Vector[LatinToken]) extends LatinTokenSequence {
 
+  /** Cluster  into [[LatinCitableUnit]]s all [LatinToken]s with common CTS URNs for the parent level of the passage hierarchy.
+  */
   def clusterByCitation: Vector[LatinCitableUnit] = Vector.empty[LatinCitableUnit]
+
+
+  /** Segment the sequence of tokens into [[LatinPhrase]]s based on punctuation
+  ** tokens.
+  */
   def segmentByPhrase: Vector[LatinPhrase] = Vector.empty[LatinPhrase]
 }
 
