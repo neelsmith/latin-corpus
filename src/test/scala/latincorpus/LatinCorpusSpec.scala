@@ -74,8 +74,12 @@ val fst = """> sed
   it should "therefore be able to meausre the token-level ambigutiy" in {
     println("Token ambiguity: " + lc.tokenAmbiguity)
   }
-  it should "collect all tokens with token-level ambiguity" in {
-    println("Token ambiguity: " + lc.tokenAmbiguity)
+  it should "collect all tokens with token-level ambiguity" in  pending
+
+  it should "be able to measure lexeme-level ambiguity" in pending
+
+  it should "be able to construct a histogram of forms" in {
+    println(lc.formsHistogram)
   }
 
 }
