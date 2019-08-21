@@ -13,4 +13,15 @@ case class LatinToken(
 
   def urn = cn.urn
   def text = cn.text
+
+  def matchesAny(lexemes: Vector[String]) : Boolean = {
+    val tf = for (lex <- lexemes) yield {
+      matchesLexeme(lex)
+    }
+    tf.contains(true)
+  }
+
+  def matchesLexeme(lexeme: String) :  Boolean = {
+    analyses.filter(_.lemmaId == lexeme).nonEmpty
+  }
 }

@@ -8,8 +8,6 @@ import edu.holycross.shot.mid.validator._
 
 import org.scalatest.FlatSpec
 
-
-
 class LatinTokenSpec extends FlatSpec {
 
   val urn = CtsUrn("urn:cts:latinLit:phi0959.phi006:1.1.1")
@@ -42,6 +40,21 @@ class LatinTokenSpec extends FlatSpec {
     assert(indeclAnalysis.pos == Preposition)
   }
 
+  it should "determine if it has an analysis to give lexeme" in {
+    val lexeme = "ls.n22111"
+    assert(latinToken.matchesLexeme(lexeme))
+    val bogus = "ls.notforreal"
+    assert(latinToken.matchesLexeme(bogus) == false)
+  }
 
+  it should "determine if it has an analysis matching any of a list of lexemes" in {
+    val lexeme = "ls.n22111"
+    val bogus = "ls.notforreal"
+    val mixed = Vector(lexeme, bogus)
+    assert(latinToken.matchesAny(mixed))
+
+    val noneatall = Vector(bogus, "ls.anotherfake")
+    assert(latinToken.matchesAny(noneatall) == false)
+  }
 
 }

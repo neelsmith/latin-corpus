@@ -10,9 +10,23 @@ import edu.holycross.shot.histoutils._
 trait LatinTokenSequence {
   def tokens: Vector[LatinToken]
 
+
+  def matchesAny(lexemes: Vector[String]) = {
+    val tf = for (t <- tokens) yield {
+      t.matchesAny(lexemes)
+    }
+    tf.contains(true)
+  }
+
+  def matchesLexeme(lexeme: String) : Boolean = {
+    val tf = for (t <- tokens) yield {
+      t.matchesLexeme(lexeme)
+    }
+    tf.contains(true)
+  }
+
   /** All tokens with at least one morphological analysis.*/
   lazy val analyzed = tokens.filter(_.analyses.nonEmpty)
-
 
   /** All lexical tokens.*/
   lazy val lexicalTokens = tokens.filter(_.category == LexicalToken)
@@ -50,10 +64,32 @@ trait LatinTokenSequence {
   /** List of all morphological analyses.*/
   lazy val allAnalyses =  analyzed.flatMap(_.analyses)
 
-  def formsHistogram    = {//: Histogram[String] = {
+  /** Reduce analyzed tokens to citable node + lexeme.*/
+  def lexemesOnly = analyzed.map(t => (t.cn, t.analyses.map(_.lemmaId).distinct) )
+
+  def multipleLexemes = {
+    analyzed.filter( _.analyses.map(_.lemmaId).distinct.size > 1)
+  }
+
+  def singleLexeme = {
+    analyzed.filter( _.analyses.map(_.lemmaId).distinct.size == 1)
+  }
+
+
+  def lexemeHistogram: Histogram[String] = {
+    val freqs : Vector[Frequency[String]] = lexemesOnly.flatMap(_._2).groupBy(s => s).toVector.map{ case (k,v) => Frequency(k, v.size) }
+    Histogram(freqs)
+  }
+
+
+  lazy val lexicalAmbiguity = {
+    analyzed.size / singleLexeme.size.toDouble
+  }
+
+  /** Compute frequency of individual forms.*/
+  def formsHistogram  : Histogram[String] = {
     val freqs : Vector[Frequency[String]] = allAnalyses.map(_.toString).groupBy(s => s).toVector.map{ case (k,v) => Frequency(k, v.size) }
     Histogram(freqs)
-
   }
 
 

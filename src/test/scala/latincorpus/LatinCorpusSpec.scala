@@ -56,7 +56,7 @@ val fst = """> sed
     }
   }
   it should "find uniquely analyzed tokens" in {
-    println(lc.singleAnalysis.size + " out of " + lc.size)
+    println("Unique analysis for " + lc.singleAnalysis.size + " out of " + lc.analyzed.size + " analyses")
   }
 
   it should "implement all filtering of the LatinTokenSequence trait such as verbs" in {
@@ -66,7 +66,7 @@ val fst = """> sed
   }
 
   it should "collect the total of all possible analyses" in {
-    println("Total: " + lc.allAnalyses.size)
+    println("Total number of *analyses*: " + lc.allAnalyses.size)
   }
   it should "identify all analyzed tokens" in {
     println("Total analyzed tokens: " + lc.analyzed.size)
@@ -76,10 +76,17 @@ val fst = """> sed
   }
   it should "collect all tokens with token-level ambiguity" in  pending
 
-  it should "be able to measure lexeme-level ambiguity" in pending
+  it should "be able to measure lexeme-level ambiguity" in {
+
+    println("Lexical ambiguity: " + lc.lexicalAmbiguity)
+  }
 
   it should "be able to construct a histogram of forms" in {
-    println(lc.formsHistogram)
+    val expectedMaximum = 2
+    assert(lc.formsHistogram.sorted(0).count == expectedMaximum)
+  }
+  it should "construct a histogram of lexemes" in  {
+    println(lc.lexemeHistogram.sorted)
   }
 
 }
