@@ -9,7 +9,14 @@ case class LatinCorpus(tokens: Vector[LatinToken]) extends LatinTokenSequence {
 
   /** Cluster  into [[LatinCitableUnit]]s all [LatinToken]s with common CTS URNs for the parent level of the passage hierarchy.
   */
-  def clusterByCitation: Vector[LatinCitableUnit] = Vector.empty[LatinCitableUnit]
+  def clusterByCitation: Vector[LatinCitableUnit] = {
+    val parentUrns = tokens.map(_.cn.urn.collapsePassageBy(1)).distinct
+
+    val clustered = for (parent <- parentUrns) yield {
+      LatinCitableUnit(tokens.filter(t => parent > t.cn.urn ))
+    }
+    clustered.toVector
+  }
 
 
   /** Segment the sequence of tokens into [[LatinPhrase]]s based on punctuation

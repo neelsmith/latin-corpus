@@ -11,6 +11,7 @@ trait LatinTokenSequence {
   def tokens: Vector[LatinToken]
 
 
+
   def matchesAny(lexemes: Vector[String]) = {
     val tf = for (t <- tokens) yield {
       t.matchesAny(lexemes)
@@ -124,7 +125,7 @@ trait LatinTokenSequence {
   }
 
   /** Infinitive tokens only*/
-  lazy val infintives = {
+  lazy val infinitives = {
     analyzed.filter(_.analyses(0).posLabel == "infintive")
   }
 

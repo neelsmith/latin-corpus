@@ -9,7 +9,7 @@ import edu.holycross.shot.latin._
 
 import org.scalatest.FlatSpec
 
-class LatinCorpusSpec extends FlatSpec {
+class TokenSequenceFilterSpec extends FlatSpec {
 
 val fst = """> sed
 <u>livymorph.indecl18</u><u>ls.n43291</u>sed<indecl><indeclconj><div><indeclconj><indecl><u>indeclinfl.2</u>
@@ -48,50 +48,18 @@ val fst = """> sed
   val corpus = Corpus(Vector(cn1))
   val ortho = Latin24Alphabet
   val lc = LatinCorpus.fromFstLines(corpus,ortho,fst)
+  val citableUnits = lc.clusterByCitation
+  val patternFilter =  TokenSequenceFilter(citableUnits(0))
 
-  "A LatinCorpus" should "have a Vector of LatinTokens" in {
-    lc.tokens(0) match {
-      case lt: LatinToken => assert(true)
-      case _ => fail("Did not create a LatinToken")
+  "A TokenSequenceFilter" should "have a LatinTokenSequence" in {
+    patternFilter.tokenSequence match {
+      case lts: LatinTokenSequence => assert(true)
+      case _ => fail("Woops, that's not a LatinTokenSequence")
     }
-  }
-  it should "find uniquely analyzed tokens" in {
-    println("Unique analysis for " + lc.singleAnalysis.size + " out of " + lc.analyzed.size + " analyses")
+
   }
 
-  it should "implement all filtering of the LatinTokenSequence trait such as verbs" in {
-    val verbs = lc.verbs
-    val expectedVerbs = 2
-    assert(verbs.size == expectedVerbs)
+  it should "filter the sequence for vectors containing substantives only in a given set of cases" in {
+    assert(patternFilter.limitedToCases(Vector(Nominative, Genitive)) == false)
   }
-
-  it should "collect the total of all possible analyses" in {
-    println("Total number of *analyses*: " + lc.allAnalyses.size)
-  }
-  it should "identify all analyzed tokens" in {
-    println("Total analyzed tokens: " + lc.analyzed.size)
-  }
-  it should "therefore be able to meausre the token-level ambiguity" in {
-    println("Token ambiguity: " + lc.tokenAmbiguity)
-  }
-  it should "collect all tokens with token-level ambiguity" in  pending
-
-  it should "be able to measure lexeme-level ambiguity" in {
-
-    println("Lexical ambiguity: " + lc.lexicalAmbiguity)
-  }
-
-  it should "be able to construct a histogram of forms" in {
-    val expectedMaximum = 2
-    assert(lc.formsHistogram.sorted(0).count == expectedMaximum)
-  }
-  it should "construct a histogram of lexemes" in  {
-    println(lc.lexemeHistogram.sorted)
-  }
-
-  it should "cluster a corpus into citable nodes" in {
-    val clustered = lc.clusterByCitation
-    println(clustered)
-  }
-
 }
