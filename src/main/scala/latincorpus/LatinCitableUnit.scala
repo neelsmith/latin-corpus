@@ -8,15 +8,19 @@ import edu.holycross.shot.mid.validator._
 
 case class LatinCitableUnit(tokens: Vector[LatinToken]) extends LatinTokenSequence {
 
+  /** Create an OHCO2 CitableNode for the tokens in this sequence.
+  */
   def canonicalNode :  CitableNode = {
     val urn = tokens(0).cn.urn.collapsePassageBy(1)
     val text = for (t <- tokens) yield {
-      t.category match {
-        case PunctuationToken => t.cn.text
+      t.category.toString match {
+        case "PunctuationToken" => {
+          t.cn.text.trim
+        }
         case _ => " " + t.cn.text
       }
     }
-    CitableNode(urn,text.mkString)
+    CitableNode(urn,text.mkString.trim)
   }
 
 }
