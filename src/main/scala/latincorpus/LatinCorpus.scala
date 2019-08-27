@@ -9,13 +9,24 @@ case class LatinCorpus(tokens: Vector[LatinToken]) extends LatinTokenSequence {
 
   /** Cluster  into [[LatinCitableUnit]]s all [LatinToken]s with common CTS URNs for the parent level of the passage hierarchy.
   */
-  def clusterByCitation: Vector[LatinCitableUnit] = {
+  def cluster2: Vector[LatinCitableUnit] = {
     val parentUrns = tokens.map(_.cn.urn.collapsePassageBy(1)).distinct
 
     val clustered = for (parent <- parentUrns) yield {
       LatinCitableUnit(tokens.filter(t => parent > t.cn.urn ))
     }
     clustered.toVector
+  }
+
+  /** Cluster  into [[LatinCitableUnit]]s all [[LatinToken]]s with common CTS URNs for the parent level of the passage hierarchy.
+  */
+  def clusterByCitation : Vector[LatinCitableUnit] = {
+    val zipped = tokens.zipWithIndex
+    val grouped = zipped.groupBy(_._1.urn.collapsePassageBy(1))
+    val ordered = grouped.toVector.sortBy(_._2.head._2)
+    //val tidy = ordered.map{ case (u,v) => (u, v.sortBy(_._2).map(_._1.text).mkString(" "))}
+
+    ordered.map{ case (u,v) => LatinCitableUnit(v.sortBy(_._2).map(_._1)) }
   }
 
 
@@ -48,7 +59,16 @@ object LatinCorpus {
       } else {
         Vector.empty[LemmatizedForm]
       }
-      LatinToken(tkn.citableNode, tkn.tokenCategory.get, forms)
+      try {
+        LatinToken(tkn.citableNode, tkn.tokenCategory.get, forms)
+      } catch {
+        case th : Throwable => {
+          println("Failed on token category opt " + tkn.tokenCategory)
+          println("Citable node was " + tkn.citableNode)
+          throw(th)
+        }
+      }
+
     }
     LatinCorpus(tokens = latinTokens.toVector)
   }

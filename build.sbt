@@ -1,9 +1,12 @@
 ThisBuild / scalaVersion := "2.12.7"
 ThisBuild / organization := "edu.holycross.shot"
 
-lazy val hello = (project in file("."))
+lazy val latincorpus = (project in file("."))
   .settings(
     name := "latincorpus",
+    version := "1.0.0",
+
+
     resolvers += Resolver.jcenterRepo,
     resolvers += Resolver.bintrayRepo("neelsmith", "maven"),
 
@@ -18,7 +21,7 @@ lazy val hello = (project in file("."))
 
       "edu.holycross.shot" %% "greek" % "2.4.0",
       "edu.holycross.shot" %% "latphone" % "2.5.2",
-      "edu.holycross.shot" %% "tabulae" % "5.3.0",
+      "edu.holycross.shot" %% "tabulae" % "5.3.1",
 
       "com.github.pathikrit" %% "better-files" % "3.5.0"
     ),
