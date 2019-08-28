@@ -19,7 +19,12 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
   }
 
   def tokenConcordance  = {
+    tcorpus.concordance
+  }
 
+  def tokenLexemeIndex = {
+    val forms1 = this.analyzed.map(t => (t.text, t.analyses.map(_.lemmaId).distinct))
+    forms1.groupBy(_._1).map{ case (s,v) => (s, v.map(_._2).flatten)}
   }
 
   /** Cluster  into [[LatinCitableUnit]]s all [[LatinToken]]s with common CTS URNs for the parent level of the passage hierarchy.

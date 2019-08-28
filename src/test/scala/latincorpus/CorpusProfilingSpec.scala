@@ -52,11 +52,18 @@ val fst = """> sed
   "A LatinCorpus" should "create a histogram of tokens" in {
     println(lc.lexTokenHistogram)
   }
+  it should "index from tokens to lexemes" in {
+    println(lc.tokenLexemeIndex)
+  }
   it  should "create a histogram of lexemes" in pending
   it  should "create a histogram of forms" in pending
 
-  it should "create concordance of tokens" in pending
+  it should "create concordance of tokens" in {
+    println(lc.tokenConcordance)
+  }
   it should "create concordance of lexemes" in pending
   it should "create concordance of forms" in pending
+
+
 
 }
