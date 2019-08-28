@@ -23,6 +23,10 @@ lazy val latincorpus = (project in file("."))
       "edu.holycross.shot" %% "latphone" % "2.5.2",
       "edu.holycross.shot" %% "tabulae" % "5.3.1",
 
+      "edu.holycross.shot" %% "histoutils" % "2.0.0",
+
+
+
       "com.github.pathikrit" %% "better-files" % "3.5.0"
     ),
     tutTargetDirectory := file("docs"),

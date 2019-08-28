@@ -6,11 +6,11 @@ import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.validator._
 
 
-trait FeatureOccurrence {
+trait FeaturesInPassage {
   def urn : CtsUrn
   def featureList : Vector[MorphologicalProperty]
 }
 
-case class GrammaticalCaseOccurrence(urn: CtsUrn, featureList : Vector[MorphologicalProperty]) extends FeatureOccurrence
+case class GrammaticalCasesInPassage(urn: CtsUrn, featureList : Vector[MorphologicalProperty]) extends FeaturesInPassage
 
 //

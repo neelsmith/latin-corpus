@@ -5,17 +5,20 @@ import edu.holycross.shot.cite._
 import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.validator._
 
-case class LatinCorpus(tokens: Vector[LatinToken]) extends LatinTokenSequence {
+import edu.holycross.shot.histoutils._
 
-  /** Cluster  into [[LatinCitableUnit]]s all [LatinToken]s with common CTS URNs for the parent level of the passage hierarchy.
-  */
-  def cluster2: Vector[LatinCitableUnit] = {
-    val parentUrns = tokens.map(_.cn.urn.collapsePassageBy(1)).distinct
+case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) extends LatinTokenSequence {
 
-    val clustered = for (parent <- parentUrns) yield {
-      LatinCitableUnit(tokens.filter(t => parent > t.cn.urn ))
-    }
-    clustered.toVector
+
+
+
+
+  def lexTokenHistogram : Histogram[String] = {
+    tcorpus.lexHistogram.sorted
+  }
+
+  def tokenConcordance  = {
+    tcorpus.lexHistogram.sorted
   }
 
   /** Cluster  into [[LatinCitableUnit]]s all [[LatinToken]]s with common CTS URNs for the parent level of the passage hierarchy.
@@ -70,7 +73,7 @@ object LatinCorpus {
       }
 
     }
-    LatinCorpus(tokens = latinTokens.toVector)
+    LatinCorpus(tokens = latinTokens.toVector, tokenizableCorpus)
   }
 
 
