@@ -27,6 +27,11 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
     forms1.groupBy(_._1).map{ case (s,v) => (s, v.map(_._2).flatten)}
   }
 
+  def lexemeTokenIndex = {
+    val reversed = tokenLexemeIndex.toVector.map{ case (s,v) => v.map(el => (s,el))}
+    reversed.flatten
+  }
+
   /** Cluster  into [[LatinCitableUnit]]s all [[LatinToken]]s with common CTS URNs for the parent level of the passage hierarchy.
   */
   def clusterByCitation : Vector[LatinCitableUnit] = {

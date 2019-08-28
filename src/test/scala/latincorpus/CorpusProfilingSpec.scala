@@ -55,6 +55,9 @@ val fst = """> sed
   it should "index from tokens to lexemes" in {
     println(lc.tokenLexemeIndex)
   }
+  it should "index from lexemes to tokens" in {
+    println(lc.lexemeTokenIndex)
+  }
   it  should "create a histogram of lexemes" in pending
   it  should "create a histogram of forms" in pending
 
