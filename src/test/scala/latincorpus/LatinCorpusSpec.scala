@@ -83,7 +83,7 @@ val fst = """> sed
 
   it should "be able to construct a histogram of forms" in {
     val expectedMaximum = 2
-    assert(lc.formsHistogram.sorted(0).count == expectedMaximum)
+    assert(lc.formsHistogram.sorted.frequencies(0).count == expectedMaximum)
   }
   it should "construct a histogram of lexemes" in  {
     println(lc.lexemeHistogram.sorted)

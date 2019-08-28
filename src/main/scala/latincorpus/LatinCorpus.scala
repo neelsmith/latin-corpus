@@ -14,11 +14,12 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
 
 
   def lexTokenHistogram : Histogram[String] = {
-    tcorpus.lexHistogram.sorted
+    val lexHist : Histogram[String] = tcorpus.lexHistogram
+    lexHist.sorted
   }
 
   def tokenConcordance  = {
-    tcorpus.lexHistogram.sorted
+
   }
 
   /** Cluster  into [[LatinCitableUnit]]s all [[LatinToken]]s with common CTS URNs for the parent level of the passage hierarchy.
