@@ -143,12 +143,16 @@
                         <a href="CorpusProfiler.html" title="">CorpusProfiler</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="trait" href="FeatureOccurrence.html" title=""></a>
-                        <a href="FeatureOccurrence.html" title="">FeatureOccurrence</a>
+                        <a class="trait" href="FeatureConcordance.html" title=""></a>
+                        <a href="FeatureConcordance.html" title="">FeatureConcordance</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="GrammaticalCaseOccurrence.html" title=""></a>
-                        <a href="GrammaticalCaseOccurrence.html" title="">GrammaticalCaseOccurrence</a>
+                        <a class="trait" href="FeaturesInPassage.html" title=""></a>
+                        <a href="FeaturesInPassage.html" title="">FeaturesInPassage</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="GrammaticalCasesInPassage.html" title=""></a>
+                        <a href="GrammaticalCasesInPassage.html" title="">GrammaticalCasesInPassage</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="LatinCitableUnit.html" title=""></a>
@@ -214,7 +218,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">LatinCorpus</span><span class="params">(<span name="tokens">tokens: <span class="extype" name="scala.Vector">Vector</span>[<a href="LatinToken.html" class="extype" name="edu.holycross.shot.latincorpus.LatinToken">LatinToken</a>]</span>)</span><span class="result"> extends <a href="LatinTokenSequence.html" class="extype" name="edu.holycross.shot.latincorpus.LatinTokenSequence">LatinTokenSequence</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">LatinCorpus</span><span class="params">(<span name="tokens">tokens: <span class="extype" name="scala.Vector">Vector</span>[<a href="LatinToken.html" class="extype" name="edu.holycross.shot.latincorpus.LatinToken">LatinToken</a>]</span>, <span name="tcorpus">tcorpus: <span class="extype" name="edu.holycross.shot.mid.validator.TokenizableCorpus">TokenizableCorpus</span></span>)</span><span class="result"> extends <a href="LatinTokenSequence.html" class="extype" name="edu.holycross.shot.latincorpus.LatinTokenSequence">LatinTokenSequence</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
 
@@ -270,9 +274,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="edu.holycross.shot.latincorpus.LatinCorpus#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(tokens:Vector[edu.holycross.shot.latincorpus.LatinToken]):edu.holycross.shot.latincorpus.LatinCorpus"></a><a id="&lt;init&gt;:LatinCorpus"></a>
+      <a id="&lt;init&gt;(tokens:Vector[edu.holycross.shot.latincorpus.LatinToken],tcorpus:edu.holycross.shot.mid.validator.TokenizableCorpus):edu.holycross.shot.latincorpus.LatinCorpus"></a><a id="&lt;init&gt;:LatinCorpus"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#&lt;init&gt;(tokens:Vector[edu.holycross.shot.latincorpus.LatinToken]):edu.holycross.shot.latincorpus.LatinCorpus" title="Permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#&lt;init&gt;(tokens:Vector[edu.holycross.shot.latincorpus.LatinToken],tcorpus:edu.holycross.shot.mid.validator.TokenizableCorpus):edu.holycross.shot.latincorpus.LatinCorpus" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -281,7 +285,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">LatinCorpus</span><span class="params">(<span name="tokens">tokens: <span class="extype" name="scala.Vector">Vector</span>[<a href="LatinToken.html" class="extype" name="edu.holycross.shot.latincorpus.LatinToken">LatinToken</a>]</span>)</span>
+        <span class="name">LatinCorpus</span><span class="params">(<span name="tokens">tokens: <span class="extype" name="scala.Vector">Vector</span>[<a href="LatinToken.html" class="extype" name="edu.holycross.shot.latincorpus.LatinToken">LatinToken</a>]</span>, <span name="tcorpus">tcorpus: <span class="extype" name="edu.holycross.shot.mid.validator.TokenizableCorpus">TokenizableCorpus</span></span>)</span>
       </span>
       
       
@@ -447,22 +451,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#cluster2" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="cluster2:Vector[edu.holycross.shot.latincorpus.LatinCitableUnit]"></a><a id="cluster2:Vector[LatinCitableUnit]"></a>
-      <span class="permalink">
-      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#cluster2:Vector[edu.holycross.shot.latincorpus.LatinCitableUnit]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">cluster2</span><span class="result">: <span class="extype" name="scala.Vector">Vector</span>[<a href="LatinCitableUnit.html" class="extype" name="edu.holycross.shot.latincorpus.LatinCitableUnit">LatinCitableUnit</a>]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Cluster  into <a href="LatinCitableUnit.html" class="extype" name="edu.holycross.shot.latincorpus.LatinCitableUnit">LatinCitableUnit</a>s all [LatinToken]s with common CTS URNs for the parent level of the passage hierarchy.</p>
     </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#clusterByCitation" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="clusterByCitation:Vector[edu.holycross.shot.latincorpus.LatinCitableUnit]"></a><a id="clusterByCitation:Vector[LatinCitableUnit]"></a>
       <span class="permalink">
@@ -517,6 +505,38 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#formConcordance" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="formConcordance:scala.collection.immutable.Map[edu.holycross.shot.tabulae.LemmatizedForm,scala.collection.immutable.Vector[edu.holycross.shot.cite.CtsUrn]]"></a><a id="formConcordance:Map[LemmatizedForm,Vector[CtsUrn]]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#formConcordance:scala.collection.immutable.Map[edu.holycross.shot.tabulae.LemmatizedForm,scala.collection.immutable.Vector[edu.holycross.shot.cite.CtsUrn]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">formConcordance</span><span class="result">: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="edu.holycross.shot.tabulae.LemmatizedForm">LemmatizedForm</span>, <span class="extype" name="scala.collection.immutable.Vector">Vector</span>[<span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span>]]</span>
+      </span>
+      
+      
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#formHistogram" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="formHistogram:edu.holycross.shot.histoutils.Histogram[edu.holycross.shot.tabulae.LemmatizedForm]"></a><a id="formHistogram:Histogram[LemmatizedForm]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#formHistogram:edu.holycross.shot.histoutils.Histogram[edu.holycross.shot.tabulae.LemmatizedForm]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">formHistogram</span><span class="result">: <span class="extype" name="edu.holycross.shot.histoutils.Histogram">Histogram</span>[<span class="extype" name="edu.holycross.shot.tabulae.LemmatizedForm">LemmatizedForm</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Create a histogram of LemmatizedForms.</p>
     </li><li name="edu.holycross.shot.latincorpus.LatinTokenSequence#formsHistogram" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="formsHistogram:edu.holycross.shot.histoutils.Histogram[String]"></a><a id="formsHistogram:Histogram[String]"></a>
       <span class="permalink">
@@ -632,7 +652,55 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="edu.holycross.shot.latincorpus.LatinTokenSequence#lexemeHistogram" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#labelledLexemeHistogram" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="labelledLexemeHistogram:edu.holycross.shot.histoutils.Histogram[String]"></a><a id="labelledLexemeHistogram:Histogram[String]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#labelledLexemeHistogram:edu.holycross.shot.histoutils.Histogram[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">labelledLexemeHistogram</span><span class="result">: <span class="extype" name="edu.holycross.shot.histoutils.Histogram">Histogram</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Create a histogram of lexemes using labelled ID strings as the counted items.</p>
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#lexTokenHistogram" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lexTokenHistogram:edu.holycross.shot.histoutils.Histogram[String]"></a><a id="lexTokenHistogram:Histogram[String]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#lexTokenHistogram:edu.holycross.shot.histoutils.Histogram[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lexTokenHistogram</span><span class="result">: <span class="extype" name="edu.holycross.shot.histoutils.Histogram">Histogram</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Create a histogram of lexical tokens.</p>
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#lexemeConcordance" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lexemeConcordance:Map[String,Vector[edu.holycross.shot.cite.CtsUrn]]"></a><a id="lexemeConcordance:Map[String,Vector[CtsUrn]]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#lexemeConcordance:Map[String,Vector[edu.holycross.shot.cite.CtsUrn]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lexemeConcordance</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Map lexemes to an (unsorted) list of passages where the lexeme occurs.</p>
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#lexemeHistogram" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="lexemeHistogram:edu.holycross.shot.histoutils.Histogram[String]"></a><a id="lexemeHistogram:Histogram[String]"></a>
       <span class="permalink">
       <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#lexemeHistogram:edu.holycross.shot.histoutils.Histogram[String]" title="Permalink">
@@ -647,7 +715,56 @@
         <span class="name">lexemeHistogram</span><span class="result">: <span class="extype" name="edu.holycross.shot.histoutils.Histogram">Histogram</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
+      <p class="shortcomment cmt">Create a histogram of lexemes.</p>
+    </li><li name="edu.holycross.shot.latincorpus.LatinTokenSequence#lexemeToFormsHistogram" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="lexemeToFormsHistogram:edu.holycross.shot.histoutils.Histogram[String]"></a><a id="lexemeToFormsHistogram:Histogram[String]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#lexemeToFormsHistogram:edu.holycross.shot.histoutils.Histogram[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lexemeToFormsHistogram</span><span class="result">: <span class="extype" name="edu.holycross.shot.histoutils.Histogram">Histogram</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LatinTokenSequence.html" class="extype" name="edu.holycross.shot.latincorpus.LatinTokenSequence">LatinTokenSequence</a></dd></dl></div>
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#lexemeTokenIndex" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lexemeTokenIndex:scala.collection.immutable.Map[String,scala.collection.immutable.Vector[String]]"></a><a id="lexemeTokenIndex:Map[String,Vector[String]]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#lexemeTokenIndex:scala.collection.immutable.Map[String,scala.collection.immutable.Vector[String]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lexemeTokenIndex</span><span class="result">: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.collection.immutable.Vector">Vector</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Index of lexemes to Vector of tokens.</p>
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#lexemeTokenPairings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lexemeTokenPairings:scala.collection.immutable.Vector[(String,String)]"></a><a id="lexemeTokenPairings:Vector[(String,String)]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#lexemeTokenPairings:scala.collection.immutable.Vector[(String,String)]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lexemeTokenPairings</span><span class="result">: <span class="extype" name="scala.collection.immutable.Vector">Vector</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Flat list of every combination of individual lexeme
+with individual token.</p>
     </li><li name="edu.holycross.shot.latincorpus.LatinTokenSequence#lexemesOnly" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="lexemesOnly:scala.collection.immutable.Vector[(edu.holycross.shot.ohco2.CitableNode,scala.collection.immutable.Vector[String])]"></a><a id="lexemesOnly:Vector[(CitableNode,Vector[String])]"></a>
       <span class="permalink">
@@ -879,6 +996,24 @@
       </span>
       
       <p class="shortcomment cmt">Participle tokens only</p><div class="fullcomment"><div class="comment cmt"><p>Participle tokens only</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LatinTokenSequence.html" class="extype" name="edu.holycross.shot.latincorpus.LatinTokenSequence">LatinTokenSequence</a></dd></dl></div>
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#passagesForLexeme" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="passagesForLexeme(lexId:String):Vector[edu.holycross.shot.cite.CtsUrn]"></a><a id="passagesForLexeme(String):Vector[CtsUrn]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#passagesForLexeme(lexId:String):Vector[edu.holycross.shot.cite.CtsUrn]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">passagesForLexeme</span><span class="params">(<span name="lexId">lexId: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Safe lookup in lexeme concordance.</p><div class="fullcomment"><div class="comment cmt"><p>Safe lookup in lexeme concordance.  Returns empty
+Vector if lexeme not found.
+</p></div><dl class="paramcmts block"><dt class="param">lexId</dt><dd class="cmt"><p>ID for lexeme to look up.</p></dd></dl></div>
     </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#segmentByPhrase" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="segmentByPhrase:Vector[edu.holycross.shot.latincorpus.LatinPhrase]"></a><a id="segmentByPhrase:Vector[LatinPhrase]"></a>
       <span class="permalink">
@@ -976,6 +1111,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#tcorpus" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="tcorpus:edu.holycross.shot.mid.validator.TokenizableCorpus"></a><a id="tcorpus:TokenizableCorpus"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#tcorpus:edu.holycross.shot.mid.validator.TokenizableCorpus" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tcorpus</span><span class="result">: <span class="extype" name="edu.holycross.shot.mid.validator.TokenizableCorpus">TokenizableCorpus</span></span>
+      </span>
+      
+      
     </li><li name="edu.holycross.shot.latincorpus.LatinTokenSequence#tokenAmbiguity" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="tokenAmbiguity:Double"></a>
       <span class="permalink">
@@ -992,6 +1143,38 @@
       </span>
       
       <p class="shortcomment cmt">Measure of ambigutiy/uniqueness of tokens.</p><div class="fullcomment"><div class="comment cmt"><p>Measure of ambigutiy/uniqueness of tokens.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LatinTokenSequence.html" class="extype" name="edu.holycross.shot.latincorpus.LatinTokenSequence">LatinTokenSequence</a></dd></dl></div>
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#tokenConcordance" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="tokenConcordance:Map[String,Vector[edu.holycross.shot.cite.CtsUrn]]"></a><a id="tokenConcordance:Map[String,Vector[CtsUrn]]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#tokenConcordance:Map[String,Vector[edu.holycross.shot.cite.CtsUrn]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tokenConcordance</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Concordance of all lexical tokens in corpus.</p>
+    </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#tokenLexemeIndex" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="tokenLexemeIndex:Map[String,Vector[String]]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus.html#tokenLexemeIndex:Map[String,Vector[String]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tokenLexemeIndex</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Index of tokens to Vector of identifiers for lexeme.</p>
     </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#tokens" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="tokens:Vector[edu.holycross.shot.latincorpus.LatinToken]"></a><a id="tokens:Vector[LatinToken]"></a>
       <span class="permalink">
