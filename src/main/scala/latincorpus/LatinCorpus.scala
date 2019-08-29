@@ -92,6 +92,14 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
     Histogram(freqs.toVector).sorted
   }
 
+
+  def formConcordance = {
+    val urnPlusAnalyses = this.tokens.map(t => (t.urn, t.analyses))
+    val pairings = urnPlusAnalyses.flatMap{ case (k,v)  => v.map(f => (f,k))}
+    pairings.groupBy(_._1).map{ case (k,v) => k -> v.map(_._2) }
+
+  }
+
   /** Cluster  into [[LatinCitableUnit]]s all [[LatinToken]]s with common CTS URNs for the parent level of the passage hierarchy.
   */
   def clusterByCitation : Vector[LatinCitableUnit] = {

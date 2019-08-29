@@ -81,10 +81,14 @@ val fst = """> sed
     val expectedPassages = Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1"))
     assert(lc.passagesForLexeme("ls.n43291") == expectedPassages)
   }
-  it should "create a concordance of lemmatized forms" in pending
+  it should "create a concordance of lemmatized forms" in {
+    val neutablpl = NounForm("ls.n17799", "latcommon.n17799","livymorph.us_i22", Neuter, Ablative, Plural)
+    val expectedPassages = Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1.4"))
+    assert(lc.formConcordance(neutablpl) == expectedPassages)
+  }
   it should "create a histogram of lemmatized forms" in {
-    val fns = NounForm("ls.n17799", "latcommon.n17799","livymorph.us_i22", Neuter, Ablative, Plural)
+    val neutablpl = NounForm("ls.n17799", "latcommon.n17799","livymorph.us_i22", Neuter, Ablative, Plural)
     //println(lc.formHistogram.frequencies.mkString("\n"))
-    assert(lc.formHistogram.countForItem(fns) == 1)
+    assert(lc.formHistogram.countForItem(neutablpl) == 1)
   }
 }
