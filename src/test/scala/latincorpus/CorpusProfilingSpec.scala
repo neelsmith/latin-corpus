@@ -6,7 +6,7 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.validator._
 import edu.holycross.shot.latin._
-
+import edu.holycross.shot.tabulae._
 import org.scalatest.FlatSpec
 
 class CorpusProfilingSpec extends FlatSpec {
@@ -50,23 +50,41 @@ val fst = """> sed
   val lc = LatinCorpus.fromFstLines(corpus,ortho,fst)
 
   "A LatinCorpus" should "create a histogram of tokens" in {
-    println(lc.lexTokenHistogram)
+    val expectedFrequency = 1
+    assert(lc.lexTokenHistogram.countForItem("opinor") == expectedFrequency)
   }
   it should "index from tokens to lexemes" in {
-    println(lc.tokenLexemeIndex)
+    val expectedNumberLexemes = 1
+    val expectedLexVector = Vector("ls.n32747")
+    assert(lc.tokenLexemeIndex("opinor").size == expectedNumberLexemes)
+    assert(lc.tokenLexemeIndex("opinor") == expectedLexVector)
   }
   it should "index from lexemes to tokens" in {
-    println(lc.lexemeTokenIndex)
+    val expectedVector = Vector("ls.n43291")
+    assert(lc.lexemeTokenIndex("sed") == expectedVector)
   }
-  it  should "create a histogram of lexemes" in pending
-  it  should "create a histogram of forms" in pending
+
+  it  should "create a histogram of lexemes" in {
+    assert(lc.lexemeHistogram.countForItem("ls.n43291") == 1 )
+  }
+  it  should "create a histogram of LS-labelled lexemes" in {
+    assert(lc.labelledLexemeHistogram.countForItem("ls.n43291:sed1") == 1)
+  }
 
   it should "create concordance of tokens" in {
-    println(lc.tokenConcordance)
+    val expectedPassages = Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1"))
+    assert(lc.tokenConcordance("sed") == expectedPassages)
   }
-  it should "create concordance of lexemes" in pending
-  it should "create concordance of forms" in pending
+  it should "create concordance of lexemes" in {
+    assert(lc.passagesForLexeme("sed") == Vector.empty[CtsUrn])
 
-
-
+    val expectedPassages = Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1"))
+    assert(lc.passagesForLexeme("ls.n43291") == expectedPassages)
+  }
+  it should "create a concordance of lemmatized forms" in pending
+  it should "create a histogram of lemmatized forms" in {
+    val fns = NounForm("ls.n17799", "latcommon.n17799","livymorph.us_i22", Neuter, Ablative, Plural)
+    //println(lc.formHistogram.frequencies.mkString("\n"))
+    assert(lc.formHistogram.countForItem(fns) == 1)
+  }
 }

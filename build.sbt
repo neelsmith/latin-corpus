@@ -17,13 +17,13 @@ lazy val latincorpus = (project in file("."))
       "edu.holycross.shot.cite" %% "xcite" % "4.1.0",
       "edu.holycross.shot" %% "ohco2" % "10.14.0",
 
-      "edu.holycross.shot" %% "midvalidator" % "7.2.0",
+      "edu.holycross.shot" %% "midvalidator" % "8.0.0",
 
       "edu.holycross.shot" %% "greek" % "2.4.0",
       "edu.holycross.shot" %% "latphone" % "2.5.2",
       "edu.holycross.shot" %% "tabulae" % "5.3.1",
 
-      "edu.holycross.shot" %% "histoutils" % "2.0.0",
+      "edu.holycross.shot" %% "histoutils" % "2.1.0",
 
 
 

@@ -10,26 +10,86 @@ import edu.holycross.shot.histoutils._
 case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) extends LatinTokenSequence {
 
 
+  /** Flat list of every combination of individual lexeme
+  * with individual token. */
+  def lexemeTokenPairings = {
+    val idx = this.tokenLexemeIndex
+    val lemmaVectorsWithTokens = this.analyzed.map(t => (idx(t.text), t.text))
+    val distinctLemmasPlusTokens = lemmaVectorsWithTokens.map{ case (v, t) => v.map(id => (id, t)) }.flatten.distinct
+    distinctLemmasPlusTokens
+  }
+
+  /** Map lexemes to an (unsorted) list of passages where the lexeme occurs.*/
+  def lexemeConcordance : Map[String, Vector[CtsUrn]]= {
+    val distinctLemmasPlusTokens = lexemeTokenPairings
+    val concData = distinctLemmasPlusTokens.map{ case (lex,tkn) => (lex, tcorpus.concordance(tkn) ) }
+    concData.toMap
+  }
 
 
+  /** Safe lookup in lexeme concordance.  Returns empty
+  * Vector if lexeme not found.
+  *
+  * @param lexId ID for lexeme to look up.
+  */
+  def passagesForLexeme(lexId: String) : Vector[CtsUrn] = {
+    try {
+      lexemeConcordance(lexId)
+    } catch {
+      case nsee: NoSuchElementException => Vector.empty[CtsUrn]
+      case t: Throwable => throw t
+    }
+  }
 
+  /** Create a histogram of lexemes.*/
+  def lexemeHistogram : Histogram[String] = {
+    // avoid repeating function call: generate this map once
+    val lemmaWithGroupedCounts = lexemeTokenPairings.map{
+      case (lemma,token) => (lemma, tcorpus.lexHistogram.countForItem(token))
+    }groupBy(_._1)
+    //val grouped = lemmaWithCounts.
+    val totaled =  lemmaWithGroupedCounts.map { case (k,v) => Frequency(k, v.map(_._2).sum) }
+    //val mapped = totaled.toVector.sortBy(_._2).reverse.map{ case (lemma, count) => lemma -> count }
+    //mapped
+    Histogram(totaled.toVector).sorted
+  }
+
+  /** Create a histogram of lexemes using labelled ID strings as the counted items.*/
+  def labelledLexemeHistogram: Histogram[String] = {
+    val labelled = lexemeHistogram.frequencies.map(fr => Frequency( LewisShort.label(fr.item),fr.count ))
+    Histogram(labelled).sorted
+  }
+
+  /** Create a histogram of lexical tokens.*/
   def lexTokenHistogram : Histogram[String] = {
     val lexHist : Histogram[String] = tcorpus.lexHistogram
     lexHist.sorted
   }
 
+  /** Concordance of all lexical tokens in corpus.*/
   def tokenConcordance  = {
     tcorpus.concordance
   }
 
-  def tokenLexemeIndex = {
-    val forms1 = this.analyzed.map(t => (t.text, t.analyses.map(_.lemmaId).distinct))
-    forms1.groupBy(_._1).map{ case (s,v) => (s, v.map(_._2).flatten)}
+  /** Index of tokens to Vector of identifiers for lexeme.*/
+  def tokenLexemeIndex : Map[String,Vector[String]] = {
+    val analyzedForms = this.analyzed.map(t => (t.text, t.analyses.map(_.lemmaId).distinct))
+    analyzedForms.groupBy(_._1).map{ case (s,v) => (s, v.map(_._2).flatten.distinct)}
   }
 
-  def lexemeTokenIndex = {
-    val reversed = tokenLexemeIndex.toVector.map{ case (s,v) => v.map(el => (s,el))}
-    reversed.flatten
+  /** Index of lexemes to Vector of tokens.*/
+  def lexemeTokenIndex  ={ //: Map[String,Vector[String]] = {
+
+    val reversedIndex = tokenLexemeIndex.toVector.map{ case (s,v) => v.map(el => (s,el))}.flatten
+    val indexVector = reversedIndex.groupBy(_._1).toVector.map{ case (s,v) => (s, v.map(_._2))}
+    indexVector.map{ case (s,v) => s -> v }.toMap
+  }
+
+
+  /** Create a histogram of LemmatizedForms.*/
+  def formHistogram : Histogram[LemmatizedForm] = {
+    val freqs = this.analyzed.flatMap(_.analyses).groupBy(f => f).map{ case(k,v) => Frequency(k, v.size) }
+    Histogram(freqs.toVector).sorted
   }
 
   /** Cluster  into [[LatinCitableUnit]]s all [[LatinToken]]s with common CTS URNs for the parent level of the passage hierarchy.
@@ -82,7 +142,6 @@ object LatinCorpus {
           throw(th)
         }
       }
-
     }
     LatinCorpus(tokens = latinTokens.toVector, tokenizableCorpus)
   }

@@ -77,7 +77,7 @@ trait LatinTokenSequence {
   }
 
 
-  def lexemeHistogram: Histogram[String] = {
+  def lexemeToFormsHistogram: Histogram[String] = {
     val freqs : Vector[Frequency[String]] = lexemesOnly.flatMap(_._2).groupBy(s => s).toVector.map{ case (k,v) => Frequency(k, v.size) }
     Histogram(freqs)
   }
