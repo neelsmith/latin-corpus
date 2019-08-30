@@ -130,10 +130,10 @@ object LatinCorpus {
   * @param morphology Morphological analyses to associate with tokens in the
   * citable corpus.
   */
-  def fromAnalyses(corpus: Corpus, orthography: MidOrthography, morphology: Vector[AnalyzedToken]) : LatinCorpus = {
+  def fromAnalyses(corpus: Corpus, orthography: MidOrthography, morphology: Vector[AnalyzedToken], strict: Boolean = true) : LatinCorpus = {
     val tokenizableCorpus = TokenizableCorpus(corpus, orthography)
 
-    val latinTokens =   for (tkn <- tokenizableCorpus.tokens) yield {
+    val latinTokens  = for (tkn <- tokenizableCorpus.tokens) yield {
       val analyzedTokens = morphology.filter(_.token == tkn.string)
       val forms : Vector[LemmatizedForm] = if (analyzedTokens.size == 1) {
         val formVector: Vector[LemmatizedForm] = analyzedTokens(0).analyses
@@ -142,16 +142,23 @@ object LatinCorpus {
         Vector.empty[LemmatizedForm]
       }
       try {
-        LatinToken(tkn.citableNode, tkn.tokenCategory.get, forms)
+        Some(LatinToken(tkn.citableNode, tkn.tokenCategory.get, forms))
       } catch {
         case th : Throwable => {
-          println("Failed on token category opt " + tkn.tokenCategory)
-          println("Citable node was " + tkn.citableNode)
-          throw(th)
+          val msg = "Failed on token category opt " + tkn.tokenCategory +  "\nCitable node was " + tkn.citableNode
+          if (strict) {
+            throw new Exception(msg)
+
+          } else {
+            // should log properly...
+            println(msg)
+            None
+          }
+
         }
       }
     }
-    LatinCorpus(tokens = latinTokens.toVector, tokenizableCorpus)
+    LatinCorpus(tokens = latinTokens.toVector.flatten, tokenizableCorpus)
   }
 
 
@@ -164,8 +171,8 @@ object LatinCorpus {
   * a classified tokenization of the corpus.
   * @param fst Lines of output from a parser built with tabulae.
   */
-  def fromFstLines(corpus: Corpus, orthography: MidOrthography, fst: Vector[String]) : LatinCorpus = {
+  def fromFstLines(corpus: Corpus, orthography: MidOrthography, fst: Vector[String], strict: Boolean = true) : LatinCorpus = {
     val analyses = FstReader.parseFstLines(fst)
-    LatinCorpus.fromAnalyses(corpus, orthography, analyses)
+    LatinCorpus.fromAnalyses(corpus, orthography, analyses, strict)
   }
 }
