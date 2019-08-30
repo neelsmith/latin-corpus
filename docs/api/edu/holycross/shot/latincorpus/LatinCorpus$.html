@@ -423,9 +423,9 @@
               
         </dd></dl></div>
     </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#fromAnalyses" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromAnalyses(corpus:edu.holycross.shot.ohco2.Corpus,orthography:edu.holycross.shot.mid.validator.MidOrthography,morphology:Vector[edu.holycross.shot.tabulae.AnalyzedToken]):edu.holycross.shot.latincorpus.LatinCorpus"></a><a id="fromAnalyses(Corpus,MidOrthography,Vector[AnalyzedToken]):LatinCorpus"></a>
+      <a id="fromAnalyses(corpus:edu.holycross.shot.ohco2.Corpus,orthography:edu.holycross.shot.mid.validator.MidOrthography,morphology:Vector[edu.holycross.shot.tabulae.AnalyzedToken],strict:Boolean):edu.holycross.shot.latincorpus.LatinCorpus"></a><a id="fromAnalyses(Corpus,MidOrthography,Vector[AnalyzedToken],Boolean):LatinCorpus"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus$.html#fromAnalyses(corpus:edu.holycross.shot.ohco2.Corpus,orthography:edu.holycross.shot.mid.validator.MidOrthography,morphology:Vector[edu.holycross.shot.tabulae.AnalyzedToken]):edu.holycross.shot.latincorpus.LatinCorpus" title="Permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus$.html#fromAnalyses(corpus:edu.holycross.shot.ohco2.Corpus,orthography:edu.holycross.shot.mid.validator.MidOrthography,morphology:Vector[edu.holycross.shot.tabulae.AnalyzedToken],strict:Boolean):edu.holycross.shot.latincorpus.LatinCorpus" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -434,7 +434,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromAnalyses</span><span class="params">(<span name="corpus">corpus: <span class="extype" name="edu.holycross.shot.ohco2.Corpus">Corpus</span></span>, <span name="orthography">orthography: <span class="extype" name="edu.holycross.shot.mid.validator.MidOrthography">MidOrthography</span></span>, <span name="morphology">morphology: <span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="edu.holycross.shot.tabulae.AnalyzedToken">AnalyzedToken</span>]</span>)</span><span class="result">: <a href="LatinCorpus.html" class="extype" name="edu.holycross.shot.latincorpus.LatinCorpus">LatinCorpus</a></span>
+        <span class="name">fromAnalyses</span><span class="params">(<span name="corpus">corpus: <span class="extype" name="edu.holycross.shot.ohco2.Corpus">Corpus</span></span>, <span name="orthography">orthography: <span class="extype" name="edu.holycross.shot.mid.validator.MidOrthography">MidOrthography</span></span>, <span name="morphology">morphology: <span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="edu.holycross.shot.tabulae.AnalyzedToken">AnalyzedToken</span>]</span>, <span name="strict">strict: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="result">: <a href="LatinCorpus.html" class="extype" name="edu.holycross.shot.latincorpus.LatinCorpus">LatinCorpus</a></span>
       </span>
       
       <p class="shortcomment cmt">Create a LatinCorpus by associating an OHCO2 Corpus in a known
@@ -444,9 +444,9 @@ orthographic system with morphological analyses.
 a classified tokenization of the corpus.</p></dd><dt class="param">morphology</dt><dd class="cmt"><p>Morphological analyses to associate with tokens in the
 citable corpus.</p></dd></dl></div>
     </li><li name="edu.holycross.shot.latincorpus.LatinCorpus#fromFstLines" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromFstLines(corpus:edu.holycross.shot.ohco2.Corpus,orthography:edu.holycross.shot.mid.validator.MidOrthography,fst:Vector[String]):edu.holycross.shot.latincorpus.LatinCorpus"></a><a id="fromFstLines(Corpus,MidOrthography,Vector[String]):LatinCorpus"></a>
+      <a id="fromFstLines(corpus:edu.holycross.shot.ohco2.Corpus,orthography:edu.holycross.shot.mid.validator.MidOrthography,fst:Vector[String],strict:Boolean):edu.holycross.shot.latincorpus.LatinCorpus"></a><a id="fromFstLines(Corpus,MidOrthography,Vector[String],Boolean):LatinCorpus"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus$.html#fromFstLines(corpus:edu.holycross.shot.ohco2.Corpus,orthography:edu.holycross.shot.mid.validator.MidOrthography,fst:Vector[String]):edu.holycross.shot.latincorpus.LatinCorpus" title="Permalink">
+      <a href="../../../../edu/holycross/shot/latincorpus/LatinCorpus$.html#fromFstLines(corpus:edu.holycross.shot.ohco2.Corpus,orthography:edu.holycross.shot.mid.validator.MidOrthography,fst:Vector[String],strict:Boolean):edu.holycross.shot.latincorpus.LatinCorpus" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -455,7 +455,7 @@ citable corpus.</p></dd></dl></div>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromFstLines</span><span class="params">(<span name="corpus">corpus: <span class="extype" name="edu.holycross.shot.ohco2.Corpus">Corpus</span></span>, <span name="orthography">orthography: <span class="extype" name="edu.holycross.shot.mid.validator.MidOrthography">MidOrthography</span></span>, <span name="fst">fst: <span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="LatinCorpus.html" class="extype" name="edu.holycross.shot.latincorpus.LatinCorpus">LatinCorpus</a></span>
+        <span class="name">fromFstLines</span><span class="params">(<span name="corpus">corpus: <span class="extype" name="edu.holycross.shot.ohco2.Corpus">Corpus</span></span>, <span name="orthography">orthography: <span class="extype" name="edu.holycross.shot.mid.validator.MidOrthography">MidOrthography</span></span>, <span name="fst">fst: <span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="strict">strict: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="result">: <a href="LatinCorpus.html" class="extype" name="edu.holycross.shot.latincorpus.LatinCorpus">LatinCorpus</a></span>
       </span>
       
       <p class="shortcomment cmt">Create a LatinCorpus by associating an OHCO2 Corpus in a known
