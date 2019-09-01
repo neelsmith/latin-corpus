@@ -7,7 +7,9 @@ import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.validator._
 import edu.holycross.shot.latin._
 import edu.holycross.shot.tabulae._
+import edu.holycross.shot.histoutils._
 import org.scalatest.FlatSpec
+import scala.io._
 
 class CorpusProfilingSpec extends FlatSpec {
 
@@ -81,7 +83,7 @@ val fst = """> sed
     val expectedPassages = Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1"))
     assert(lc.passagesForLexeme("ls.n43291") == expectedPassages)
   }
-  it should "create a concordance of lemmatized forms" in {
+  it should "create a concordance of lexemes" in {
     val neutablpl = NounForm("ls.n17799", "latcommon.n17799","livymorph.us_i22", Neuter, Ablative, Plural)
     val expectedPassages = Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1.4"))
     assert(lc.formConcordance(neutablpl) == expectedPassages)
@@ -91,4 +93,22 @@ val fst = """> sed
     //println(lc.formHistogram.frequencies.mkString("\n"))
     assert(lc.formHistogram.countForItem(neutablpl) == 1)
   }
+  it should "create a histogram of lexemes labelled with PoS" in pending
+
+  it should "create a histogram of tokens labelled with PoS" in pending
+
+  it should "measure percent coverage of tokens" in pending
+  it should "measure percent coverage of token occurrences" in pending
+
+  it should "create a histogram of lexically ambiguous tokens" in {
+    val o2corpus = CorpusSource.fromFile("src/test/resources/cex/livy-mt.cex", cexHeader=true)
+    val fstLines = Source.fromFile("src/test/resources/fst/livy-mt-parsed.txt").getLines.toVector
+    val corpus = LatinCorpus.fromFstLines(o2corpus, Latin24Alphabet, fstLines)
+    val mostFrequent = corpus.multipleLexemesHistogram.sorted.frequencies(0)
+
+    val expectedRecord =  Frequency("qui: ls.n40242:quis1, ls.n40103:qui1",87)
+    assert (mostFrequent == expectedRecord)
+  }
+
+
 }

@@ -6,6 +6,7 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.validator._
 import edu.holycross.shot.latin._
+import scala.io.Source
 
 import org.scalatest.FlatSpec
 
@@ -94,10 +95,23 @@ val fst = """> sed
 
   it should "cluster a corpus into citable nodes" in  {
     val clustered = lc.clusterByCitation
-    println(clustered)
+    val numberClusters = 1
+    assert(clustered.size == numberClusters)
   }
 
-  it should "construct a concordance of lexemes" in  pending
+  it should "construct a concordance of lexemes" in  {
+    val expectedPassages =  Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1"))
+    assert(lc.lexemeConcordance("ls.n32747") == expectedPassages)
+  }
+
+  it should "construct a concordance for a corpus with multiple nodes" in {
+    val o2corpus = CorpusSource.fromFile("src/test/resources/cex/livy-mt.cex", cexHeader=true)
+    val fstLines = Source.fromFile("src/test/resources/fst/livy-mt-parsed.txt").getLines.toVector
+    val corpus = LatinCorpus.fromFstLines(o2corpus, Latin24Alphabet, fstLines)
+    val lex = "ls.n23674"
+    println("Entries for " + LewisShort.label(lex))
+    println(corpus.lexemeConcordance(lex).toVector.mkString("\n"))
+  }
 
   it should "implement all filtering of the LatinTokenSequence trait such as verbs" in {
     val verbs = lc.verbs

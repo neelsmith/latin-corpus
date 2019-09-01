@@ -12,6 +12,24 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) extends LatinTokenSequence {
 
+// mt.multipleLexemes.map(l => (l.text + ": " +  l.analyses.map(a => LewisShort.label(a.lemmaId)).distinct.mkString(", "))).distinct
+
+  def multipleLexemesHistogram :  Histogram[String]= {
+    val ambiguous: Vector[Frequency[String]] = multipleLexemes.map(l =>
+      {
+      val item = l.text + ": " +
+      l.analyses.map (a => LewisShort.label(a.lemmaId)).distinct.mkString(", ")
+      val count = lexTokenHistogram.countForItem(l.text)
+      Frequency(item, count)
+    }
+    ).distinct
+    Histogram(ambiguous)
+  }
+//
+
+  def percent(n: Int, total: Int) : Int = {
+    ((n / total.toDouble) * 100).toInt
+  }
 
   /** Flat list of every combination of individual lexeme
   * with individual token. */
