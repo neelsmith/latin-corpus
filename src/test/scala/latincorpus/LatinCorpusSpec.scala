@@ -55,43 +55,54 @@ val fst = """> sed
       case _ => fail("Did not create a LatinToken")
     }
   }
-  it should "find uniquely analyzed tokens" in {
-    println("Unique analysis for " + lc.singleAnalysis.size + " out of " + lc.analyzed.size + " analyses")
-  }
 
-  it should "implement all filtering of the LatinTokenSequence trait such as verbs" in {
-    val verbs = lc.verbs
-    val expectedVerbs = 2
-    assert(verbs.size == expectedVerbs)
-  }
-
-  it should "collect the total of all possible analyses" in {
-    println("Total number of *analyses*: " + lc.allAnalyses.size)
-  }
   it should "identify all analyzed tokens" in {
-    println("Total analyzed tokens: " + lc.analyzed.size)
+    val expectedTokens = 8
+    assert(lc.analyzed.size == expectedTokens)
   }
-  it should "therefore be able to meausre the token-level ambiguity" in {
-    println("Token ambiguity: " + lc.tokenAmbiguity)
+  it should "find uniquely analyzed tokens" in {
+    val expectedTotal = 8
+    assert(lc.analyzed.size == expectedTotal)
+
+    val expectedUnique = 4
+    assert(lc.singleAnalysis.size  == expectedUnique)
+  }
+  it should "collect the total of all possible analyses" in {
+    val expectedAnalyses = 18
+    assert(lc.allAnalyses.size == expectedAnalyses)
+  }
+
+  it should "therefore be able to measure the token-level ambiguity" in  {
+    val expectedAmbiguity = 2.25
+    assert(lc.tokenAmbiguity == expectedAmbiguity)
   }
   it should "collect all tokens with token-level ambiguity" in  pending
 
-  it should "be able to measure lexeme-level ambiguity" in {
+  it should "be able to measure lexeme-level ambiguity" in pending/* {
 
     println("Lexical ambiguity: " + lc.lexicalAmbiguity)
-  }
+  }*/
 
   it should "be able to construct a histogram of forms" in {
     val expectedMaximum = 2
     assert(lc.formsHistogram.sorted.frequencies(0).count == expectedMaximum)
   }
-  it should "construct a histogram of lexemes" in  {
-    println(lc.lexemeHistogram.sorted)
+  it should "construct a histogram of lexemes" in {
+    val expectedSize = 8
+    assert(lc.lexemeHistogram.size == expectedSize)
   }
 
-  it should "cluster a corpus into citable nodes" in {
+  it should "cluster a corpus into citable nodes" in  {
     val clustered = lc.clusterByCitation
     println(clustered)
+  }
+
+  it should "construct a concordance of lexemes" in  pending
+
+  it should "implement all filtering of the LatinTokenSequence trait such as verbs" in {
+    val verbs = lc.verbs
+    val expectedVerbs = 2
+    assert(verbs.size == expectedVerbs)
   }
 
 }
