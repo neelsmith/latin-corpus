@@ -6,8 +6,10 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.validator._
 import edu.holycross.shot.latin._
+import scala.io._
 
 import org.scalatest.FlatSpec
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 class LatinCorpusObjectSpec extends FlatSpec {
 
@@ -70,8 +72,23 @@ val fst = """> ut
         assert(t.toString.contains("Failed on token category opt None"))
       }
     }
+  }
 
+  it should "keep LatinTokens aligned with tokens of TokenizableCorpus" in {
+    val corpus = CorpusSource.fromFile("src/test/resources/cex/livy-mt.cex", cexHeader=true)
+    val fstLines = Source.fromFile("src/test/resources/fst/livy-mt-parsed.txt").getLines.toVector
+    val latin = LatinCorpus.fromFstLines(corpus, Latin24Alphabet, fstLines, strict=false)
 
+    assert( latin.size == latin.tcorpus.size)
+
+    // Check last n tokens:
+    val n = 30
+    val max = latin.size - 1
+    val start = max - n
+    //val testGroup = latin.tokens.slice( (max - n), max)
+    for (i <- start until max) {
+      assert(latin.tokens(i).text == latin.tcorpus.tokens(i).text)
+    }
   }
 
 

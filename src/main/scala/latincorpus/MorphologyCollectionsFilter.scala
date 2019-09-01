@@ -20,10 +20,26 @@ case class MorphologyCollectionsFilter(tokenSequences: Vector[LatinTokenSequence
   *
   * @param caseList Limiting list of grammatical cases.
   */
-  def limitSubstantiveCase(caseList: Vector[GrammaticalCase]) = {
+  def limitSubstantiveCase(caseList: Vector[GrammaticalCase]) : Vector[LatinCitableUnit] = {
     val matchingSequences = tokenSequences.filter(TokenSequenceFilter(_).limitedToCases(caseList))
-    matchingSequences
+    val citableUnits = matchingSequences.map(tkn => tkn match {
+      case citable: LatinCitableUnit => citable
+    })
+    citableUnits
   }
+
+
+  def limitSubstantiveCaseNodes(caseList: Vector[GrammaticalCase]) : Vector[CitableNode] = {
+    val citables = limitSubstantiveCase(caseList)
+    citables.map(_.canonicalNode)
+  }
+
+  def limitSubstantiveCaseText(caseList: Vector[GrammaticalCase]) : Vector[String] = {
+    val citableNodes = limitSubstantiveCaseNodes(caseList)
+    citableNodes.map(_.text)
+  }
+
+
 
   def limitVerbTenseMood(tenseMood: Vector[TenseMood]) = {}
 

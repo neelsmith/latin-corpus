@@ -1,5 +1,6 @@
 # `latincorpus`: release notes
 
+**1.2.1**:  Implement logging with airframe framework (issue #22).
 
 **1.2.0**: Adds `strict` option to `fromFstLines` and `fromAnalyses` to permit continuing after failure on an individual token.
 

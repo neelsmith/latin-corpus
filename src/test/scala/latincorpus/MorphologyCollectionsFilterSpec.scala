@@ -52,11 +52,19 @@ val fst = """> sed
   val patternFilter =  MorphologyCollectionsFilter(citableUnits)
 
   "A MorphologyCollectionsFilter" should "have a Vector of Vectors of LatinTokens" in {
-
     assert(patternFilter.tokenSequences.size == 1)
   }
 
   it should "filter for vectors containing substantives only in a given set of cases" in {
-    patternFilter.limitSubstantiveCase(Vector(Nominative, Genitive))
+    val matches = patternFilter.limitSubstantiveCase(Vector(Nominative, Genitive, Dative, Accusative, Ablative))
+    println(matches)
   }
+
+  it should "return citable nodes containing substantives only in a given set of cases" in  pending
+
+  it should "return strings containing substantives only in a given set of cases" in  pending
+
+  it should "highlight requested cases in filtered strings" in pending
+  it should "default to markdown in highlighting" in pending
+  it should "permit optional specification of highlight begin/end strings" in pending
 }

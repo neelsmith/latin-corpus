@@ -7,6 +7,9 @@ import edu.holycross.shot.mid.validator._
 
 import edu.holycross.shot.histoutils._
 
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
 case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) extends LatinTokenSequence {
 
 
@@ -119,7 +122,8 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
 }
 
 
-object LatinCorpus {
+object LatinCorpus extends LogSupport {
+  Logger.setDefaultLogLevel(LogLevel.WARN)
 
   /** Create a LatinCorpus by associating an OHCO2 Corpus in a known
   * orthographic system with morphological analyses.
@@ -134,7 +138,9 @@ object LatinCorpus {
     val tokenizableCorpus = TokenizableCorpus(corpus, orthography)
 
     val latinTokens  = for (tkn <- tokenizableCorpus.tokens) yield {
+
       val analyzedTokens = morphology.filter(_.token == tkn.string)
+      debug("From tokenizable corpus, " + tkn)
       val forms : Vector[LemmatizedForm] = if (analyzedTokens.size == 1) {
         val formVector: Vector[LemmatizedForm] = analyzedTokens(0).analyses
         formVector
@@ -142,16 +148,17 @@ object LatinCorpus {
         Vector.empty[LemmatizedForm]
       }
       try {
-        Some(LatinToken(tkn.citableNode, tkn.tokenCategory.get, forms))
+        val lattkn = Some(LatinToken(tkn.citableNode, tkn.tokenCategory.get, forms))
+        debug("Produced LatinToken for " + tkn.citableNode)
+        lattkn
       } catch {
         case th : Throwable => {
-          val msg = "Failed on token category opt " + tkn.tokenCategory +  "\nCitable node was " + tkn.citableNode
+          val msg = "Failed on token category opt " + tkn.tokenCategory +  ".  Citable node was \n\t" + tkn.citableNode
           if (strict) {
             throw new Exception(msg)
 
           } else {
-            // should log properly...
-            println(msg)
+            warn(msg)
             None
           }
 

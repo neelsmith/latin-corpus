@@ -114,6 +114,11 @@ trait LatinTokenSequence {
     analyzed.filter(_.analyses(0).posLabel == "adverb")
   }
 
+  /** Adverb tokens only*/
+  lazy val pronouns = {
+    analyzed.filter(_.analyses(0).posLabel == "pronoun")
+  }
+
   /** Uninflected lexical tokens only*/
   lazy val indeclinables = {
     analyzed.filter(_.analyses(0).posLabel == "indeclinable")
