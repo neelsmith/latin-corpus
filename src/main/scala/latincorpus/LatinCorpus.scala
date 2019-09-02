@@ -17,7 +17,8 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
   def multipleLexemesHistogram :  Histogram[String]= {
     val ambiguous: Vector[Frequency[String]] = multipleLexemes.map(l =>
       {
-      val item = l.text + ": " +
+      val pct = dblPercent(lexTokenHistogram.countForItem(l.text), tokens.size)
+      val item = l.text + s" (${pct}%): " +
       l.analyses.map (a => LewisShort.label(a.lemmaId)).distinct.mkString(", ")
       val count = lexTokenHistogram.countForItem(l.text)
       Frequency(item, count)
@@ -25,7 +26,13 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
     ).distinct
     Histogram(ambiguous)
   }
-//
+
+  def dblPercent(n: Int, total: Int, scale: Int = 2) : Double = {
+    val flt = ((n / total.toDouble) * 100).toDouble
+
+    BigDecimal(flt).setScale(scale, BigDecimal.RoundingMode.HALF_UP).toDouble
+  }
+
 
   def percent(n: Int, total: Int) : Int = {
     ((n / total.toDouble) * 100).toInt

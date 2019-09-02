@@ -106,7 +106,7 @@ val fst = """> sed
     val corpus = LatinCorpus.fromFstLines(o2corpus, Latin24Alphabet, fstLines)
     val mostFrequent = corpus.multipleLexemesHistogram.sorted.frequencies(0)
 
-    val expectedRecord =  Frequency("qui: ls.n40242:quis1, ls.n40103:qui1",87)
+    val expectedRecord =  Frequency("qui (0.48%): ls.n40242:quis1, ls.n40103:qui1",87)
     assert (mostFrequent == expectedRecord)
   }
 

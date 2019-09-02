@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**1.4.0**: `multipleLexemesHistogram` adds percent of total token occurences to item string.
+
 **1.3.0**: Adds `multipleLexemesHistogram` function to `LatinCorpus`.
 
 **1.2.1**:  Implement logging with airframe framework (issue #22).
