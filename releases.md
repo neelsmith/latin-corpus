@@ -1,5 +1,8 @@
 # `latincorpus`: release notes
 
+**1.5.0**:  Token sequences can highlight token strings by part of speech, using configurable open/close highlighting strings.
+
+
 **1.4.0**: `multipleLexemesHistogram` adds percent of total token occurences to item string.
 
 **1.3.0**: Adds `multipleLexemesHistogram` function to `LatinCorpus`.

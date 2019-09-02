@@ -10,6 +10,20 @@ import edu.holycross.shot.histoutils._
 trait LatinTokenSequence {
   def tokens: Vector[LatinToken]
 
+  def highlightPoS(label: String, hlOpen : String = "**", hlClose : String = "**") = {
+    val hilited = tokens.map(t => {
+      if (t.analyses.map(_.posLabel).contains(label)) {
+        s"${hlOpen}${t.text}${hlClose}"
+      } else {
+        t.text
+      }
+    })
+    hilited.mkString(" ")
+  }
+
+
+
+
 
 
   def matchesAny(lexemes: Vector[String]) = {

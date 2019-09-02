@@ -6,11 +6,12 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.validator._
 import edu.holycross.shot.latin._
-import scala.io.Source
+
 
 import org.scalatest.FlatSpec
 
-class LatinCorpusSpec extends FlatSpec {
+class LatinTokenSequenceSpec extends FlatSpec {
+
 
 val fst = """> sed
 <u>livymorph.indecl18</u><u>ls.n43291</u>sed<indecl><indeclconj><div><indeclconj><indecl><u>indeclinfl.2</u>
@@ -50,75 +51,15 @@ val fst = """> sed
   val ortho = Latin24Alphabet
   val lc = LatinCorpus.fromFstLines(corpus,ortho,fst)
 
-  "A LatinCorpus" should "have a Vector of LatinTokens" in {
-    lc.tokens(0) match {
-      case lt: LatinToken => assert(true)
-      case _ => fail("Did not create a LatinToken")
-    }
+
+
+  "A LatinTokenSequence" should "do things" in {
+    println(lc.clusterByCitation(0).highlightPoS("verb"))
   }
 
-  it should "identify all analyzed tokens" in {
-    val expectedTokens = 8
-    assert(lc.analyzed.size == expectedTokens)
-  }
-  it should "find uniquely analyzed tokens" in {
-    val expectedTotal = 8
-    assert(lc.analyzed.size == expectedTotal)
-
-    val expectedUnique = 4
-    assert(lc.singleAnalysis.size  == expectedUnique)
-  }
-  it should "collect the total of all possible analyses" in {
-    val expectedAnalyses = 18
-    assert(lc.allAnalyses.size == expectedAnalyses)
+  it should "allow configuration of open/close strings in highlighting" in {
+    println(lc.clusterByCitation(0).highlightPoS("verb", "<span style=\"color:green\">", "</span>"))
   }
 
-  it should "therefore be able to measure the token-level ambiguity" in  {
-    val expectedAmbiguity = 2.25
-    assert(lc.tokenAmbiguity == expectedAmbiguity)
-  }
-  it should "collect all tokens with token-level ambiguity" in  pending
-
-  it should "be able to measure lexeme-level ambiguity" in pending/* {
-
-    println("Lexical ambiguity: " + lc.lexicalAmbiguity)
-  }*/
-
-  it should "be able to construct a histogram of forms" in {
-    val expectedMaximum = 2
-    assert(lc.formsHistogram.sorted.frequencies(0).count == expectedMaximum)
-  }
-  it should "construct a histogram of lexemes" in {
-    val expectedSize = 8
-    assert(lc.lexemeHistogram.size == expectedSize)
-  }
-
-  it should "cluster a corpus into citable nodes" in  {
-    val clustered = lc.clusterByCitation
-    val numberClusters = 1
-    assert(clustered.size == numberClusters)
-  }
-
-  it should "construct a concordance of lexemes" in  {
-    val expectedPassages =  Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1"))
-    assert(lc.lexemeConcordance("ls.n32747") == expectedPassages)
-  }
-
-  it should "construct a concordance for a corpus with multiple nodes" in {
-    val o2corpus = CorpusSource.fromFile("src/test/resources/cex/livy-mt.cex", cexHeader=true)
-    val fstLines = Source.fromFile("src/test/resources/fst/livy-mt-parsed.txt").getLines.toVector
-    val corpus = LatinCorpus.fromFstLines(o2corpus, Latin24Alphabet, fstLines)
-    val lex = "ls.n23674"
-    println("Entries for " + LewisShort.label(lex))
-    println(corpus.lexemeConcordance(lex).toVector.mkString("\n"))
-  }
-
-  it should "implement all filtering of the LatinTokenSequence trait such as verbs" in {
-    val verbs = lc.verbs
-    val expectedVerbs = 2
-    assert(verbs.size == expectedVerbs)
-  }
-
-  it should "highlight tokens by grammatical cateogry" in pending
 
 }
