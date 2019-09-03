@@ -55,7 +55,7 @@ What does that output look like in a markdown environment?
 >sed debebatur, ut **opinor**, fatis tantae origo urbis maximique secundum deorum opes imperii principium. compressa cum geminum partum edidisse
 
 
-Default highlighting uses markdown, but you can specifify bracketing opening and closing text.  Let's use some HTML.
+Default highlighting uses markdown, but you can specify bracketing opening and closing text.  Let's use some HTML.
 
 ```scala
 scala> val open = "<span style=\"color:green\">"
