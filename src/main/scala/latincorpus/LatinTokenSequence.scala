@@ -7,7 +7,10 @@ import edu.holycross.shot.mid.validator._
 import edu.holycross.shot.histoutils._
 
 
-trait LatinTokenSequence {
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
+trait LatinTokenSequence extends LogSupport {
   def tokens: Vector[LatinToken]
 
   def highlightPoS(label: String, hlOpen : String = "**", hlClose : String = "**") = {
@@ -19,6 +22,33 @@ trait LatinTokenSequence {
       }
     })
     hilited.mkString(" ")
+  }
+
+  def highlightForms(mf : MorphologyFilter,
+    hlOpen : String = "**",
+    hlClose : String = "**") = {
+    Logger.setDefaultLogLevel(LogLevel.WARN)
+
+    val hilited = tokens.map(t => {
+      t.category.toString match {
+        case "PunctuationToken" => {
+          t.text.trim
+        }
+        case _ => {
+          val formsMatch = t.analyses.map(mf.agrees(_))
+
+          if (formsMatch.contains(true)) {
+            s" ${hlOpen}${t.text}${hlClose}"
+          } else {
+            " " + t.text
+          }
+        }
+      }
+    })
+
+
+    debug("Highlighted toekns: " + hilited.mkString("").trim)
+    hilited.mkString("").trim
   }
 
 

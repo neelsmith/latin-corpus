@@ -53,13 +53,32 @@ val fst = """> sed
 
 
 
-  "A LatinTokenSequence" should "do things" in {
+  "A LatinTokenSequence" should "highlight tokens matching a part of speech" in pending /*{
     println(lc.clusterByCitation(0).highlightPoS("verb"))
-  }
+  }*/
 
-  it should "allow configuration of open/close strings in highlighting" in {
+  it should "allow configuration of open/close strings in highlighting" in pending /*{
     println(lc.clusterByCitation(0).highlightPoS("verb", "<span style=\"color:green\">", "</span>"))
+  }*/
+
+
+  it should "highlight tokens matching a morphological filter" in {
+    val mf = MorphologyFilter(person = Some(First), grammaticalNumber = Some(Singular))
+    println("1st sing: " + lc.clusterByCitation(0).highlightForms(mf))
   }
 
+  it should "show off" in pending /*{
+    val mf = MorphologyFilter(person = Some(First), grammaticalNumber = Some(Singular))
+    val oneCluster = lc.clusterByCitation(0)
+    val hilited = oneCluster.highlightForms(mf)
+    println(oneCluster)
+    println(hilited)
+
+    val open = "<span style=\"color:green\">"
+    val closer = "</span>"
+    val html  = oneCluster.highlightForms(mf, open, closer)
+    println(html)
+  }
+*/
 
 }

@@ -23,7 +23,7 @@ lazy val latincorpus = (project in file("."))
 
       "edu.holycross.shot" %% "greek" % "2.4.0",
       "edu.holycross.shot" %% "latphone" % "2.5.2",
-      "edu.holycross.shot" %% "tabulae" % "5.4.1",
+      "edu.holycross.shot" %% "tabulae" % "5.5.0",
 
       "edu.holycross.shot" %% "histoutils" % "2.1.0",
 
