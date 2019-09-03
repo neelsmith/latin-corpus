@@ -73,4 +73,4 @@ What does that look like when it's rendered?
 
 > sed debebatur  ut <span style="color:green">opinor</span>, fatis tantae origo urbis maximique secundum deorum opes imperii principium. compressa cum geminum partum edidisset,
 
-(As a bonus, note how the `LatinTokenSequence` thoughtfully observe the token type, and adjusts white spacing appropriately for punctuation tokens.)
+(As a bonus, note how the `LatinTokenSequence` thoughtfully observes the token type, and adjusts white spacing appropriately for punctuation tokens.)
