@@ -24,6 +24,73 @@ trait LatinTokenSequence extends LogSupport {
     hilited.mkString(" ")
   }
 
+
+
+
+  def formatSingleAnalysis(text: String, analysis: LemmatizedForm, highlighters: Vector[Highlighter])  =  {
+    val formatted = for  (hl <- highlighters) yield {
+      if (hl.mf.agrees(analysis)) {
+        (true, hl.opening + text + hl.closing)
+      } else {
+      (false, text)
+      }
+    }
+    val flattened = formatted.filter(_._1 == true).map(_._2)
+
+    if (flattened.isEmpty) {
+      ""
+    } else {
+      flattened(0)
+    }
+  }
+
+
+  def highlight(tkn: LatinToken, highlighters: Vector[Highlighter]) : String  = {
+    val formatted =  for (a <- tkn.analyses) yield {
+      formatSingleAnalysis(tkn.text, a, highlighters)
+    }
+    if (formatted.flatten.isEmpty) {
+      tkn.text
+    } else {
+      formatted(0)
+    }
+  }
+
+        /*val matched = formatted.filter(_._1 == true)
+        if (matched.isEmpty) {
+          text
+        } else {
+          matched(0)._2
+        }*/
+
+/*
+    val matchingForms = tkn.analyses.map(a => {
+
+    })
+    val hilites = matchingForms.filter(_.nonEmpty)
+    if (hilites.nonEmpty) {
+      hilites(0)
+    } else {
+      tkn.text
+    }
+  }*/
+
+  def highlightForms(highlighters: Vector[Highlighter]) = {
+    Logger.setDefaultLogLevel(LogLevel.DEBUG)
+    val hilited = tokens.map(t => {
+      t.category.toString match {
+        case "PunctuationToken" => {
+          t.text.trim
+        }
+        case _ => {
+          " " + highlight(t, highlighters)
+        }
+      }
+    })
+    hilited.mkString("").trim
+  }
+
+
   def highlightForms(mf : MorphologyFilter,
     hlOpen : String = "**",
     hlClose : String = "**") = {

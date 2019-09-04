@@ -67,18 +67,33 @@ val fst = """> sed
     println("1st sing: " + lc.clusterByCitation(0).highlightForms(mf))
   }
 
-  it should "show off" in pending /*{
-    val mf = MorphologyFilter(person = Some(First), grammaticalNumber = Some(Singular))
-    val oneCluster = lc.clusterByCitation(0)
-    val hilited = oneCluster.highlightForms(mf)
-    println(oneCluster)
-    println(hilited)
+  it should "highlight tokens matching a Vector of Highlighters" in {
+    val nhi = Highlighter(MorphologyFilter(pos = Some("noun")))
+    val vhi = Highlighter(MorphologyFilter(pos = Some("verb")))
+    val hiliters = Vector(nhi, vhi)
+    val seq =   lc.clusterByCitation(0)
+    val hl = seq.highlightForms(hiliters)
 
-    val open = "<span style=\"color:green\">"
-    val closer = "</span>"
-    val html  = oneCluster.highlightForms(mf, open, closer)
-    println(html)
+
+    val expectedHilights = "sed **debebatur**, ut **opinor**, **fatis** tantae **origo** **urbis**"
+    assert (hl == expectedHilights)
   }
-*/
+
+  it should "support different highlighting configurations" in {
+    val blue = "<span style=\"color:blue\">"
+    val green = "<span style=\"color:green\">"
+    val closer = "</span>"
+    val nhi = Highlighter(MorphologyFilter(pos = Some("noun")),blue, closer )
+    val vhi = Highlighter(MorphologyFilter(pos = Some("verb")), green, closer)
+    val hiliters = Vector(nhi, vhi)
+    val seq =   lc.clusterByCitation(0)
+    val hl = seq.highlightForms(hiliters)
+
+
+    val expectedHtmlized = "sed <span style=\"color:green\">debebatur</span>, ut <span style=\"color:green\">opinor</span>, <span style=\"color:blue\">fatis</span> tantae <span style=\"color:blue\">origo</span> <span style=\"color:blue\">urbis</span>"
+
+    assert(hl == expectedHtmlized)
+  }
+
 
 }
