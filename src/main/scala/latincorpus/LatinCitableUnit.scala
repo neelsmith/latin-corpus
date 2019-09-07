@@ -24,6 +24,6 @@ case class LatinCitableUnit(tokens: Vector[LatinToken]) extends LatinTokenSequen
   }
 
 
-  
+
 
 }

@@ -12,7 +12,6 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) extends LatinTokenSequence {
 
-// mt.multipleLexemes.map(l => (l.text + ": " +  l.analyses.map(a => LewisShort.label(a.lemmaId)).distinct.mkString(", "))).distinct
 
   def multipleLexemesHistogram :  Histogram[String]= {
     val ambiguous: Vector[Frequency[String]] = multipleLexemes.map(l =>
@@ -27,6 +26,12 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
     Histogram(ambiguous)
   }
 
+  /** Compute percent as a Double to a given scale.
+  *
+  * @param n Number.
+  * @param total Total of which n is some percent.
+  * @param scale Scale for resulting Double.
+  */
   def dblPercent(n: Int, total: Int, scale: Int = 2) : Double = {
     val flt = ((n / total.toDouble) * 100).toDouble
 
@@ -34,6 +39,11 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
   }
 
 
+  /** Compute percent as an Int.
+  *
+  * @param n Number.
+  * @param total Total of which n is some percent.
+  */
   def percent(n: Int, total: Int) : Int = {
     ((n / total.toDouble) * 100).toInt
   }
@@ -143,7 +153,31 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
   /** Segment the sequence of tokens into [[LatinPhrase]]s based on punctuation
   ** tokens.
   */
-  def segmentByPhrase: Vector[LatinPhrase] = Vector.empty[LatinPhrase]
+  def segmentByPhrase(
+    source: Vector[LatinToken] = tokens,
+    collected: Vector[LatinToken] =   Vector.empty[LatinToken],
+    phrases : Vector[LatinPhrase] = Vector.empty[LatinPhrase]
+  ): Vector[LatinPhrase] = {
+    if (source.isEmpty) {
+      phrases
+    } else {
+
+      if (source.head.category.toString == "PunctuationToken") {
+        source.head.text match {
+          case "." => {
+            val phrase = LatinPhrase(collected :+ source.head)
+            segmentByPhrase(source.tail, Vector.empty[LatinToken], phrases :+ phrase)
+          }
+          case _ => segmentByPhrase(source.tail, collected :+ source.head, phrases)
+        }
+
+
+      } else {
+        segmentByPhrase(source.tail, collected :+ source.head, phrases)
+      }
+    }
+
+  }
 }
 
 
