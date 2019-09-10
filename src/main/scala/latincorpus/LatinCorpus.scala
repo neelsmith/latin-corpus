@@ -11,7 +11,7 @@ import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) extends LatinTokenSequence {
-
+  Logger.setDefaultLogLevel(LogLevel.DEBUG)
 
   def multipleLexemesHistogram :  Histogram[String]= {
     val ambiguous: Vector[Frequency[String]] = multipleLexemes.map(l =>
@@ -158,6 +158,7 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
     collected: Vector[LatinToken] =   Vector.empty[LatinToken],
     phrases : Vector[LatinPhrase] = Vector.empty[LatinPhrase]
   ): Vector[LatinPhrase] = {
+    debug("Segmenting phrases: source size " + source.size)
     if (source.isEmpty) {
       phrases
     } else {
