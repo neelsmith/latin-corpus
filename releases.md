@@ -1,5 +1,8 @@
 # `latincorpus`: release notes
 
+**2.1.0**: Adds `hover` function to `LatinTokenSequence`s.
+
+
 **2.0.0**: Removes the `LewisShort` object, instead using the object in the updated `tabulae` library.
 
 **1.6.0**: Adds `Highlighter` class.  `LatinTokenSequence` can now highlight text from a Vector of `Highlighter`s.
