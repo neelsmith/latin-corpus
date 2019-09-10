@@ -11,10 +11,13 @@ import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 trait LatinTokenSequence extends LogSupport {
+  Logger.setDefaultLogLevel(LogLevel.WARN)
+
+
   def tokens: Vector[LatinToken]
 
 
-  
+
 
 
   def highlightPoS(label: String, hlOpen : String = "**", hlClose : String = "**") = {
@@ -60,24 +63,6 @@ trait LatinTokenSequence extends LogSupport {
     }
   }
 
-        /*val matched = formatted.filter(_._1 == true)
-        if (matched.isEmpty) {
-          text
-        } else {
-          matched(0)._2
-        }*/
-
-/*
-    val matchingForms = tkn.analyses.map(a => {
-
-    })
-    val hilites = matchingForms.filter(_.nonEmpty)
-    if (hilites.nonEmpty) {
-      hilites(0)
-    } else {
-      tkn.text
-    }
-  }*/
 
   def highlightForms(highlighters: Vector[Highlighter]) = {
     Logger.setDefaultLogLevel(LogLevel.DEBUG)
@@ -123,7 +108,33 @@ trait LatinTokenSequence extends LogSupport {
   }
 
 
+  /** Attach HTML markup to effect display of form information when
+  * mouse is over a token.
+  *
+  * @param mfs Vector of filters to apply.
+  * @param color Color to use in HTML highlighting.
+  */
+  def hover(mfs : Vector[MorphologyFilter],
+    color: String = "green") : String = {
 
+    val closer = "</a>"
+    val hilited = tokens.map(t => {
+
+      val label = t.analyses.map(_.formLabel).mkString(", or ")
+      val opener = s"<a href=" + "\"" + "#" + "\"" +  " data-tooltip=\"" + label + "\"" +  " class=\"hoverclass\">"
+      val hls = mfs.map ( mfilt => Highlighter(mfilt, opener, closer))
+
+      val highlighted = this.highlight(t, hls)
+      if (highlighted == t.text) {
+        t.text
+      } else {
+        "<span color=\"" + color + "\">" + highlighted + "</span>"
+      }
+
+    })
+    hilited.mkString(" ") + "\n\n\n" + css
+
+  }
 
 
 
@@ -263,5 +274,28 @@ trait LatinTokenSequence extends LogSupport {
   lazy val supines = {
     analyzed.filter(_.analyses(0).posLabel == "supine")
   }
+
+
+
+
+  val css = """
+<style>
+a.hoverclass {
+  position: relative ;
+}
+a.hoverclass:hover::after {
+  content: attr(data-tooltip) ;
+  position: absolute ;
+  top: 1.1em ;
+  left: 1em ;
+  min-width: 200px ;
+  border: 1px #808080 solid ;
+  padding: 8px ;
+  z-index: 1 ;
+  color: silver;
+  background-color: white;
+}
+</style>
+"""
 
 }

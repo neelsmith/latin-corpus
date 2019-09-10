@@ -119,6 +119,8 @@ val fst = """> sed
     assert(verbs.size == expectedVerbs)
   }
 
-  it should "highlight tokens by grammatical cateogry" in pending
+  it should "highlight tokens by grammatical category" in pending
+
+  it should "support cool hover display in HTML environment" in pending
 
 }
