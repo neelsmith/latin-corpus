@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**2.0.0**: Removes the `LewisShort` object, instead using the object in the updated `tabulae` library.
+
 **1.6.0**: Adds `Highlighter` class.  `LatinTokenSequence` can now highlight text from a Vector of `Highlighter`s.
 
 **1.5.0**:  Token sequences can highlight token strings by part of speech, using configurable open/close highlighting strings.
