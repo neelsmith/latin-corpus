@@ -1,7 +1,11 @@
 # `latincorpus`: release notes
 
-**2.1.1**: Updates library dependencies, and correctly uses `+` to demarcate morpheme boundaries.
+**2.2.1**: Correctly versioned publication of changes in both 2.2.0 and 2.1.1.
 
+**2.2.0**: Updates highlighting functions.
+
+
+**2.1.1**: Updates library dependencies, and correctly uses `+` to demarcate morpheme boundaries.
 
 **2.1.0**: Adds `hover` function to `LatinTokenSequence`s.
 
