@@ -3,7 +3,7 @@
 A library for working with a citable corpus of texts in Latin.
 
 
-## Current version:  2.1.0
+## Current version:  2.1.1
 
 See [release notes](releases.md)
 
