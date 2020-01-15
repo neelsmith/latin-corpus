@@ -1,12 +1,17 @@
 # `latin-corpus`
 
-A library for working with a citable corpus of texts in Latin.
+A JVM library for working with a citable corpus of morphologically parsed texts in Latin.
+
+`latin-corpus` reads output from a morphological parser built with [tabulae](https://github.com/neelsmith/tabulae), and applies it to a citable text corpus. `latin-corpus` supports higher-level manipulation of the corpus than `tabulae`'s token-level paring. It can profile usage of arbitrary combinations of morphological features or vocabulary in a corpus, and can filter the corpus to include or exclude passages containing a specified set of features or vocabulary.
 
 
 ## Current version:  2.2.1
 
-See [release notes](releases.md)
+The `latincorpus` library is currently in active development as part of a one-year pilot project during academic year 2019-2020 in the Classics Department at the College of the Holy Cross.  As part of the review of our pilot program, we plan to publish user documentation [at this site](https://neelsmith.github.io/latin-corpus/) in spring, 2020.
 
-Documentation:  <https://neelsmith.github.io/latin-corpus/>
+
+See [release notes](releases.md).
 
 API documentation: <https://neelsmith.github.io/latin-corpus/api/edu/holycross/shot/latincorpus/index.html>
+
+Binaries are available from bintray: for maven, ivy or gradle coordinates, see [this page](https://bintray.com/neelsmith/maven/latincorpus).
