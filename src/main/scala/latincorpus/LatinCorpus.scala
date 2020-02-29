@@ -11,7 +11,7 @@ import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) extends LatinTokenSequence {
-  Logger.setDefaultLogLevel(LogLevel.WARN)
+  //Logger.setDefaultLogLevel(LogLevel.WARN)
 
   def multipleLexemesHistogram :  Histogram[String]= {
     val ambiguous: Vector[Frequency[String]] = multipleLexemes.map(l =>
@@ -183,7 +183,7 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
 
 
 object LatinCorpus extends LogSupport {
-  Logger.setDefaultLogLevel(LogLevel.WARN)
+
 
   /** Create a LatinCorpus by associating an OHCO2 Corpus in a known
   * orthographic system with morphological analyses.
@@ -195,8 +195,12 @@ object LatinCorpus extends LogSupport {
   * citable corpus.
   */
   def fromAnalyses(corpus: Corpus, orthography: MidOrthography, morphology: Vector[AnalyzedToken], strict: Boolean = true) : LatinCorpus = {
+    debug("Creating tokenizable corpus...")
     val tokenizableCorpus = TokenizableCorpus(corpus, orthography)
+    debug("Done creating tokenizable corpus.")
+    debug(s"Cycle through ${tokenizableCorpus.tokens.size} tokenizable tokens.")
 
+    Logger.setDefaultLogLevel(LogLevel.WARN)
     val latinTokens  = for (tkn <- tokenizableCorpus.tokens) yield {
 
       val analyzedTokens = morphology.filter(_.token == tkn.string)
@@ -239,7 +243,12 @@ object LatinCorpus extends LogSupport {
   * @param fst Lines of output from a parser built with tabulae.
   */
   def fromFstLines(corpus: Corpus, orthography: MidOrthography, fst: Vector[String], strict: Boolean = true) : LatinCorpus = {
+    Logger.setDefaultLogLevel(LogLevel.DEBUG)
+    debug("Computing analyses with FstReader")
     val analyses = FstReader.parseFstLines(fst)
+    debug("Done computing analyses.")
+    debug("Now generate corpus from analyses.")
+
     LatinCorpus.fromAnalyses(corpus, orthography, analyses, strict)
   }
 }

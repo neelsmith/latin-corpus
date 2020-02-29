@@ -11,7 +11,7 @@ import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 trait LatinTokenSequence extends LogSupport {
-  Logger.setDefaultLogLevel(LogLevel.WARN)
+  //Logger.setDefaultLogLevel(LogLevel.WARN)
 
 
   def tokens: Vector[LatinToken]
@@ -156,8 +156,8 @@ trait LatinTokenSequence extends LogSupport {
   lazy val analyzed = tokens.filter(_.analyses.nonEmpty)
 
   /** All lexical tokens.*/
-  lazy val lexicalTokens = tokens.filter(_.category == LexicalToken)
-
+  lazy val lexicalTokens = tokens.filter(t => t.category == edu.holycross.shot.latin.LexicalToken)
+  
   /** Total number of tokens.*/
   lazy val size : Int = tokens.size
 

@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**2.2.2**: Fixes a bug in filtering lexical tokens from a Latin token sequence.
+
 **2.2.1**: Correctly versioned publication of changes in both 2.2.0 and 2.1.1.
 
 **2.2.0**: Updates highlighting functions.
