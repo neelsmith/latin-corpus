@@ -1,38 +1,57 @@
-ThisBuild / scalaVersion := "2.12.7"
-ThisBuild / organization := "edu.holycross.shot"
+lazy val scala211 = "2.11.12"
+lazy val scala212 = "2.12.10"
+lazy val supportedScalaVersions = List(scala212, scala211)
 
-lazy val latincorpus = (project in file("."))
+ThisBuild / scalaVersion := scala212
+ThisBuild / turbo := true
+
+lazy val root = (project in file("."))
+  .aggregate(crossed.js, crossed.jvm)
   .settings(
-    name := "latincorpus",
-    version := "2.2.2",
-    licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
+        crossScalaVersions := Nil,
+        publish / skip := true
+    )
 
-    resolvers += Resolver.jcenterRepo,
-    resolvers += Resolver.bintrayRepo("neelsmith", "maven"),
+lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
+    settings(
+      name := "latincorpus",
+      version := "3.0.0",
+      licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
+      resolvers += Resolver.jcenterRepo,
+      libraryDependencies ++= Seq(
+        "org.scalatest" %%% "scalatest" % "3.1.2" % "test",
+        "org.wvlet.airframe" %%% "airframe-log" % "20.5.2",
 
-    libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.1" % "test",
-      "org.scala-lang.modules" %% "scala-xml" % "1.0.6",
+        "edu.holycross.shot.cite" %%% "xcite" % "4.3.0",
+        "edu.holycross.shot" %%% "ohco2" % "10.20.4",
+        "edu.holycross.shot.mid" %%% "orthography" % "2.1.0",
 
-      "org.wvlet.airframe" %% "airframe-log" % "19.8.10",
+        "edu.holycross.shot" %%% "latphone" % "3.0.0",
 
-      "edu.holycross.shot.cite" %% "xcite" % "4.1.1",
-      "edu.holycross.shot" %% "ohco2" % "10.16.0",
-
-      "edu.holycross.shot" %% "midvalidator" % "9.1.0",
-
-      "edu.holycross.shot" %% "greek" % "2.4.0",
-      "edu.holycross.shot" %% "latphone" % "2.7.2",
-      "edu.holycross.shot" %% "tabulae" % "6.0.1",
-
-      "edu.holycross.shot" %% "histoutils" % "2.2.0",
+        "edu.holycross.shot" %%% "histoutils" % "2.3.0",
 
 
+      )
+    ).
+    jvmSettings(
+      libraryDependencies ++= Seq(
+          "org.scala-js" %% "scalajs-stubs" % "1.0.0" % "provided",
+          "com.github.pathikrit" %% "better-files" % "3.5.0",
+          "edu.holycross.shot" %% "tabulae" % "6.0.1"
+        )
+    ).
+    jsSettings(
+      // JS-specific settings:
+        scalaJSUseMainModuleInitializer := true,
+    )
 
-      "com.github.pathikrit" %% "better-files" % "3.5.0"
-    ),
-    tutTargetDirectory := file("docs"),
-    tutSourceDirectory := file("tut"),
+lazy val docs = project       // new documentation project
+    .in(file("docs-build")) // important: it must not be docs/
+    .dependsOn(crossed.jvm)
+    .enablePlugins(MdocPlugin)
+    .settings(
+      mdocIn := file("guide"),
+      mdocOut := file("docs"),
+      mdocExtraArguments := Seq("--no-link-hygiene"),
 
-  )
-  enablePlugins(TutPlugin)
+    )
