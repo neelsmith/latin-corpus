@@ -15,7 +15,7 @@ lazy val root = (project in file("."))
 lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
     settings(
       name := "latincorpus",
-      version := "3.0.0",
+      version := "3.1.0",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
       libraryDependencies ++= Seq(
@@ -37,7 +37,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       libraryDependencies ++= Seq(
           "org.scala-js" %% "scalajs-stubs" % "1.0.0" % "provided",
           "com.github.pathikrit" %% "better-files" % "3.5.0",
-          "edu.holycross.shot" %% "tabulae" % "6.0.1"
+          "edu.holycross.shot" %% "tabulae" % "6.3.0"
         )
     ).
     jsSettings(
