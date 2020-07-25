@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**3.1.1**: Correct publication of binaries to bintray.
+
 **3.1.0**: Adds `LemmatizedFormUrns` class.
 
 **3.0.0**: API-breaking changes in numerous libraries.
