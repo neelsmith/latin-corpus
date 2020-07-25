@@ -16,7 +16,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
     settings(
       name := "latincorpus",
       organization := "edu.holycross.shot",
-      version := "3.1.1",
+      version := "3.2.0",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
       libraryDependencies ++= Seq(
@@ -46,7 +46,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
         scalaJSUseMainModuleInitializer := true,
     )
 
-lazy val docs = project       // new documentation project
+    lazy val docs = project       // new documentation project
     .in(file("docs-build")) // important: it must not be docs/
     .dependsOn(crossed.jvm)
     .enablePlugins(MdocPlugin)

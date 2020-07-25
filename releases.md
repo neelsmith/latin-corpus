@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**3.2.0**: Adds methods for generating CITE Collections of token analyses from a `LatinCorpus`.
+
 **3.1.1**: Correct publication of binaries to bintray.
 
 **3.1.0**: Adds `LemmatizedFormUrns` class.
