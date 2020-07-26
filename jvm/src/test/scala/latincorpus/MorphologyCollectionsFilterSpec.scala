@@ -51,7 +51,7 @@ val fst = """> sed
   val citableUnits = lc.clusterByCitation
   val patternFilter =  MorphologyCollectionsFilter(citableUnits)
 
-  "A MorphologyCollectionsFilter" should "have a Vector of Vectors of LatinTokens" in {
+  "A MorphologyCollectionsFilter" should "have a Vector of Vectors of LatinParsedTokens" in {
     assert(patternFilter.tokenSequences.size == 1)
   }
 

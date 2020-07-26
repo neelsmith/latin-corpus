@@ -10,7 +10,7 @@ import edu.holycross.shot.latin._
 
 import org.scalatest.FlatSpec
 
-class LatinTokenSequenceSpec extends FlatSpec {
+class LatinParsedTokenSequenceSpec extends FlatSpec {
 
 
 val fst = """> sed
@@ -53,7 +53,7 @@ val fst = """> sed
 
 
 
-  "A LatinTokenSequence" should "highlight tokens matching a part of speech" in pending /*{
+  "A LatinParsedTokenSequence" should "highlight tokens matching a part of speech" in pending /*{
     println(lc.clusterByCitation(0).highlightPoS("verb"))
   }*/
 

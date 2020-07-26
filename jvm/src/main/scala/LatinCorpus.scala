@@ -17,11 +17,11 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 /** A morpholgoically parsed Latin corpus citable at the level
 * of classified tokens.
 *
-* @param tokens Ordered list of [[LatinTokene]]s making u this corpus.
+* @param tokens Ordered list of [[LatinParsedTokene]]s making u this corpus.
 * @param tcorpus
 */
-case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) extends LatinTokenSequence {
-  //Logger.setDefaultLogLevel(LogLevel.WARN)
+case class LatinCorpus(tokens: Vector[LatinParsedToken], tcorpus: TokenizableCorpus) extends LatinParsedTokenSequence {
+  Logger.setDefaultLogLevel(LogLevel.WARN)
   val formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd")
   val todayFormatted = LocalDate.now.format(formatter)
 
@@ -169,7 +169,7 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
 
   }
 
-  /** Cluster  into [[LatinCitableUnit]]s all [[LatinToken]]s with common CTS URNs for the parent level of the passage hierarchy.
+  /** Cluster  into [[LatinCitableUnit]]s all [[LatinParsedToken]]s with common CTS URNs for the parent level of the passage hierarchy.
   */
   def clusterByCitation : Vector[LatinCitableUnit] = {
     val zipped = tokens.zipWithIndex
@@ -185,8 +185,8 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
   ** tokens.
   */
   def segmentByPhrase(
-    source: Vector[LatinToken] = tokens,
-    collected: Vector[LatinToken] =   Vector.empty[LatinToken],
+    source: Vector[LatinParsedToken] = tokens,
+    collected: Vector[LatinParsedToken] =   Vector.empty[LatinParsedToken],
     phrases : Vector[LatinPhrase] = Vector.empty[LatinPhrase]
   ): Vector[LatinPhrase] = {
     debug("Segmenting phrases: source size " + source.size)
@@ -198,7 +198,7 @@ case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) e
         source.head.text match {
           case "." => {
             val phrase = LatinPhrase(collected :+ source.head)
-            segmentByPhrase(source.tail, Vector.empty[LatinToken], phrases :+ phrase)
+            segmentByPhrase(source.tail, Vector.empty[LatinParsedToken], phrases :+ phrase)
           }
           case _ => segmentByPhrase(source.tail, collected :+ source.head, phrases)
         }
@@ -232,7 +232,7 @@ object LatinCorpus extends LogSupport {
     debug(s"Cycle through ${tokenizableCorpus.tokens.size} tokenizable tokens.")
 
     //Logger.setDefaultLogLevel(LogLevel.WARN)
-    val latinTokens  = for (tkn <- tokenizableCorpus.tokens) yield {
+    val LatinParsedTokens  = for (tkn <- tokenizableCorpus.tokens) yield {
 
       // Use lower-case version to find case-insensitive morphology:
       val analyzedTokens = morphology.filter(_.token == tkn.string.toLowerCase)
@@ -244,8 +244,8 @@ object LatinCorpus extends LogSupport {
         Vector.empty[LemmatizedForm]
       }
       try {
-        val lattkn = Some(LatinToken(tkn.citableNode, tkn.tokenCategory.get, forms))
-        debug("Produced LatinToken for " + tkn.citableNode)
+        val lattkn = Some(LatinParsedToken(tkn.citableNode, tkn.tokenCategory.get, forms))
+        debug("Produced LatinParsedToken for " + tkn.citableNode)
         lattkn
       } catch {
         case th : Throwable => {
@@ -261,7 +261,7 @@ object LatinCorpus extends LogSupport {
         }
       }
     }
-    LatinCorpus(tokens = latinTokens.toVector.flatten, tokenizableCorpus)
+    LatinCorpus(tokens = LatinParsedTokens.toVector.flatten, tokenizableCorpus)
   }
 
 

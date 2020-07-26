@@ -74,7 +74,7 @@ val fst = """> ut
     }
   }
 
-  it should "keep LatinTokens aligned with tokens of TokenizableCorpus" in  pending /*{
+  it should "keep LatinParsedTokens aligned with tokens of TokenizableCorpus" in  pending /*{
     val corpus = CorpusSource.fromFile("jvm/src/test/resources/cex/livy-mt.cex", cexHeader=true)
     val fstLines = Source.fromFile("jvm/src/test/resources/fst/livy-mt-parsed.txt").getLines.toVector
     val latin = LatinCorpus.fromFstLines(corpus, Latin24Alphabet, fstLines, strict=false)

@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**4.0.0**: API-breaking name changes simplify interoperation with library dependencies.
+
 **3.2.1**: Fixes a bug in handling case-insensitive creation of `LatinToken`s.
 
 **3.2.0**: Adds methods for generating CITE Collections of token analyses from a `LatinCorpus`.

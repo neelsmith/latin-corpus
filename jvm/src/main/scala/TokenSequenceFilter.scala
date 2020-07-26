@@ -11,7 +11,7 @@ import edu.holycross.shot.latin._
 *
 * @param tokenCollection A Vector of [[LatinPhrase]]s or [[LatinCitableUnit]]s.
 */
-case class TokenSequenceFilter(tokenSequence: LatinTokenSequence) {
+case class TokenSequenceFilter(tokenSequence: LatinParsedTokenSequence) {
 
 
   /** True if all substantives in sequence can be analyzed using only

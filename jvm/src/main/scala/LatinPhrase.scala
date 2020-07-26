@@ -6,7 +6,7 @@ import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.orthography._
 
 
-case class LatinPhrase(tokens: Vector[LatinToken]) extends LatinTokenSequence {
+case class LatinPhrase(tokens: Vector[LatinParsedToken]) extends LatinParsedTokenSequence {
 
   /** Create an OHCO2 CitableNode for the tokens in this sequence.
   */

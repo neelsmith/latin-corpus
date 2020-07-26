@@ -10,11 +10,11 @@ import edu.holycross.shot.histoutils._
 import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
-trait LatinTokenSequence extends LogSupport {
+trait LatinParsedTokenSequence extends LogSupport {
   //Logger.setDefaultLogLevel(LogLevel.WARN)
 
 
-  def tokens: Vector[LatinToken]
+  def tokens: Vector[LatinParsedToken]
 
 
 
@@ -52,7 +52,7 @@ trait LatinTokenSequence extends LogSupport {
   }
 
 
-  def highlight(tkn: LatinToken, highlighters: Vector[Highlighter]) : String  = {
+  def highlight(tkn: LatinParsedToken, highlighters: Vector[Highlighter]) : String  = {
     val formatted =  for (a <- tkn.analyses) yield {
       formatSingleAnalysis(tkn.text, a, highlighters)
     }

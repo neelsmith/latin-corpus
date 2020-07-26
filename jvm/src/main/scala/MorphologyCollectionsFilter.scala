@@ -12,10 +12,10 @@ import edu.holycross.shot.latin._
 *
 * @param tokenCollection A Vector of [[LatinPhrase]]s or [[LatinCitableUnit]]s.
 */
-case class MorphologyCollectionsFilter(tokenSequences: Vector[LatinTokenSequence]) {
+case class MorphologyCollectionsFilter(tokenSequences: Vector[LatinParsedTokenSequence]) {
 
 
-  /** Find [[LatinTokenSequence]]s in substantives use only the
+  /** Find [[LatinParsedTokenSequence]]s in substantives use only the
   * grammatical cases listed.
   *
   * @param caseList Limiting list of grammatical cases.

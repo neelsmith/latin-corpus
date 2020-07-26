@@ -5,7 +5,7 @@ import edu.holycross.shot.cite._
 import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.orthography._
 
-case class LatinToken(
+case class LatinParsedToken(
   cn: CitableNode,
   category: MidTokenCategory,
   analyses: Vector[LemmatizedForm] = Vector.empty[LemmatizedForm]

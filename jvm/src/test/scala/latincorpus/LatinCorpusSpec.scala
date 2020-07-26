@@ -50,10 +50,10 @@ val fst = """> sed
   val ortho = Latin24Alphabet
   val lc = LatinCorpus.fromFstLines(corpus,ortho,fst)
 
-  "A LatinCorpus" should "have a Vector of LatinTokens" in {
+  "A LatinCorpus" should "have a Vector of LatinParsedTokens" in {
     lc.tokens(0) match {
-      case lt: LatinToken => assert(true)
-      case _ => fail("Did not create a LatinToken")
+      case lt: LatinParsedToken => assert(true)
+      case _ => fail("Did not create a LatinParsedToken")
     }
   }
 
@@ -113,7 +113,7 @@ val fst = """> sed
     println(corpus.lexemeConcordance(lex).toVector.mkString("\n"))
   }*/
 
-  it should "implement all filtering of the LatinTokenSequence trait such as verbs" in pending /* {
+  it should "implement all filtering of the LatinParsedTokenSequence trait such as verbs" in pending /* {
     val verbs = lc.verbs
     val expectedVerbs = 2
     assert(verbs.size == expectedVerbs)

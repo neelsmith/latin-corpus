@@ -51,10 +51,10 @@ val fst = """> sed
   val citableUnits = lc.clusterByCitation
   val patternFilter =  TokenSequenceFilter(citableUnits(0))
 
-  "A TokenSequenceFilter" should "have a LatinTokenSequence" in {
+  "A TokenSequenceFilter" should "have a LatinParsedTokenSequence" in {
     patternFilter.tokenSequence match {
-      case lts: LatinTokenSequence => assert(true)
-      case _ => fail("Woops, that's not a LatinTokenSequence")
+      case lts: LatinParsedTokenSequence => assert(true)
+      case _ => fail("Woops, that's not a LatinParsedTokenSequence")
     }
 
   }
