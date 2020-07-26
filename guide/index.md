@@ -3,7 +3,7 @@ title: The latincorpus library
 layout: page
 ---
 
-**@VERSION@: 3.2.0**
+**@VERSION@**
 
 ## Central concepts
 

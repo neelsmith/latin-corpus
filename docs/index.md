@@ -3,7 +3,7 @@ title: The latincorpus library
 layout: page
 ---
 
-**3.2.0: 3.2.0**
+**3.2.0**
 
 ## Central concepts
 
