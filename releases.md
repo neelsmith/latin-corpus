@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**3.2.1**: Fixes a bug in handling case-insensitive creation of `LatinToken`s.
+
 **3.2.0**: Adds methods for generating CITE Collections of token analyses from a `LatinCorpus`.
 
 **3.1.1**: Correct publication of binaries to bintray.

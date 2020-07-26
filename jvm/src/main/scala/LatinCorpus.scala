@@ -13,6 +13,13 @@ import java.time.format.DateTimeFormatter
 import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
+
+/** A morpholgoically parsed Latin corpus citable at the level
+* of classified tokens.
+*
+* @param tokens Ordered list of [[LatinTokene]]s making u this corpus.
+* @param tcorpus
+*/
 case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) extends LatinTokenSequence {
   //Logger.setDefaultLogLevel(LogLevel.WARN)
   val formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd")
@@ -224,10 +231,11 @@ object LatinCorpus extends LogSupport {
     debug("Done creating tokenizable corpus.")
     debug(s"Cycle through ${tokenizableCorpus.tokens.size} tokenizable tokens.")
 
-    Logger.setDefaultLogLevel(LogLevel.WARN)
+    //Logger.setDefaultLogLevel(LogLevel.WARN)
     val latinTokens  = for (tkn <- tokenizableCorpus.tokens) yield {
 
-      val analyzedTokens = morphology.filter(_.token == tkn.string)
+      // Use lower-case version to find case-insensitive morphology:
+      val analyzedTokens = morphology.filter(_.token == tkn.string.toLowerCase)
       debug("From tokenizable corpus, " + tkn)
       val forms : Vector[LemmatizedForm] = if (analyzedTokens.size == 1) {
         val formVector: Vector[LemmatizedForm] = analyzedTokens(0).analyses
@@ -267,7 +275,7 @@ object LatinCorpus extends LogSupport {
   * @param fst Lines of output from a parser built with tabulae.
   */
   def fromFstLines(corpus: Corpus, orthography: MidOrthography, fst: Vector[String], strict: Boolean = true) : LatinCorpus = {
-    Logger.setDefaultLogLevel(LogLevel.DEBUG)
+    //Logger.setDefaultLogLevel(LogLevel.DEBUG)
     debug("Computing analyses with FstReader")
     val analyses = FstReader.parseFstLines(fst)
     debug("Done computing analyses.")
