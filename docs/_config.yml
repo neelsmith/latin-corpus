@@ -1,0 +1,7 @@
+remote_theme: pmarsceill/just-the-docs
+
+
+
+aux_links:
+  "Code on github":
+    - "https://github.com/neelsmith/latin-corpus"
