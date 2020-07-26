@@ -3,6 +3,8 @@ title: The latincorpus library
 layout: page
 ---
 
+**@VERSION@: 3.2.0**
+
 ## Central concepts
 
 1. A `LatinToken` is a categorized citable token, with an associated list of morphological analyses.

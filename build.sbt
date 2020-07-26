@@ -54,5 +54,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       mdocIn := file("guide"),
       mdocOut := file("docs"),
       mdocExtraArguments := Seq("--no-link-hygiene"),
-
+      mdocVariables := Map(
+          "VERSION" -> "3.2.0"
+        )
     )
