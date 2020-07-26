@@ -4,7 +4,7 @@ layout: page
 nav_order: 0
 ---
 
-**3.2.1**
+**Version 3.2.1**
 
 ## Central concepts
 
