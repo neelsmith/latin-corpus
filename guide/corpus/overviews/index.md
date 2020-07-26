@@ -5,33 +5,78 @@ parent: Using a LatinCorpus
 ---
 
 
-```tut:invisible
-import edu.holycross.shot.tabulae._
+# Surveying a corpus
+
+```scala mdoc:invisible
+// The latincorpus library:
+import edu.holycross.shot.latincorpus._
+// Other libraries you'll frequently use:
 import edu.holycross.shot.cite._
 import edu.holycross.shot.ohco2._
+import edu.holycross.shot.tabulae._
+import edu.holycross.shot.mid.orthography._
 
-import edu.holycross.shot.histoutils._
+// Create an ohco2 Corpus:
+val url = "https://raw.githubusercontent.com/LinguaLatina/texts/master/texts/latin23/hyginus.cex"
+val corpus = CorpusSource.fromUrl(url, cexHeader = true)
+// We'll select a single chapter to use, e.g., for a class
+// assignment:
+val chapter = corpus ~~ CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc:108a")
+// Load corresponding parsing data
+import scala.io.Source
+val fstUrl = "https://lingualatina.github.io/analysis/data/c108.fst"
+val fstLines = Source.fromURL(fstUrl).getLines.toVector
 
 import edu.holycross.shot.latin._
-import edu.holycross.shot.latincorpus._
-
-
-import edu.holycross.shot.mid.validator._
-
-
-val corpus = CorpusSource.fromFile(s"src/test/resources/cex/livy-mt.cex", cexHeader = true)
-val parserOutput = "src/test/resources/fst/livy-mt-parsed.txt"
-
-import scala.io.Source
-val fst = Source.fromFile(parserOutput).getLines.toVector
-
-val latinCorpus = LatinCorpus.fromFstLines(
-    corpus,
-    Latin23Alphabet,
-    fst,
-    strict = false
-  )
 ```
+
+
+
+```scala mdoc:silent
+val latinCorpus = LatinCorpus.fromFstLines(chapter,Latin23Alphabet, fstLines, strict=false)
+```
+
+
+## Character set
+
+## Classified tokens
+
+
+
+## Concordances
+
+Find occurrences of a token; the result is a list of URNs.
+
+
+
+```NOTSCALA
+latinCorpus.tokenConcordance("est")
+```
+
+How many?
+
+```NOTSCALA
+latinCorpus.tokenConcordance("est").size
+```
+
+What are possible lexemes for this token?
+
+```NOTSCALA
+latinCorpus.tokenLexemeIndex("est")
+```
+
+Find occurrences of a lexeme; the result is a list of URNs.
+
+```NOTSCALA
+latinCorpus.passagesForLexeme("ls.n46529")
+```
+
+How many?
+
+```NOTSCALA
+latinCorpus.passagesForLexeme("ls.n46529").size
+```
+
 
 
 ## Ambiguity
@@ -45,42 +90,8 @@ latinCorpus.lexicalAmbiguity
 
 Histograms of lexical tokens, of lexeme identifiers, and of labelled lexemes:
 
-```tut
+```NOTSCALA
 latinCorpus.lexTokenHistogram
 latinCorpus.lexemeHistogram
 latinCorpus.labelledLexemeHistogram
-```
-
-## Concordances
-
-Find occurrences of a token; the result is a list of URNs.
-
-
-
-```tut
-latinCorpus.tokenConcordance("est")
-```
-
-How many?
-
-```tut
-latinCorpus.tokenConcordance("est").size
-```
-
-What are possible lexemes for this token?
-
-```tut
-latinCorpus.tokenLexemeIndex("est")
-```
-
-Find occurrences of a lexeme; the result is a list of URNs.
-
-```tut
-latinCorpus.passagesForLexeme("ls.n46529")
-```
-
-How many?
-
-```tut
-latinCorpus.passagesForLexeme("ls.n46529").size
 ```

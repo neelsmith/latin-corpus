@@ -5,33 +5,8 @@ parent: Using a LatinCorpus
 ---
 
 
-```tut:invisible
-import edu.holycross.shot.tabulae._
-import edu.holycross.shot.cite._
-import edu.holycross.shot.ohco2._
+# Surveying a corpus
 
-import edu.holycross.shot.histoutils._
-
-import edu.holycross.shot.latin._
-import edu.holycross.shot.latincorpus._
-
-
-import edu.holycross.shot.mid.validator._
-
-
-val corpus = CorpusSource.fromFile(s"src/test/resources/cex/livy-mt.cex", cexHeader = true)
-val parserOutput = "src/test/resources/fst/livy-mt-parsed.txt"
-
-import scala.io.Source
-val fst = Source.fromFile(parserOutput).getLines.toVector
-
-val latinCorpus = LatinCorpus.fromFstLines(
-    corpus,
-    Latin23Alphabet,
-    fst,
-    strict = false
-  )
-```
 
 
 ## Ambiguity
@@ -45,7 +20,7 @@ latinCorpus.lexicalAmbiguity
 
 Histograms of lexical tokens, of lexeme identifiers, and of labelled lexemes:
 
-```tut
+```NOTSCALA
 latinCorpus.lexTokenHistogram
 latinCorpus.lexemeHistogram
 latinCorpus.labelledLexemeHistogram
@@ -57,30 +32,30 @@ Find occurrences of a token; the result is a list of URNs.
 
 
 
-```tut
+```NOTSCALA
 latinCorpus.tokenConcordance("est")
 ```
 
 How many?
 
 ```tut
-latinCorpus.tokenConcordance("est").size
+NOTSCALA.tokenConcordance("est").size
 ```
 
 What are possible lexemes for this token?
 
-```tut
+```NOTSCALA
 latinCorpus.tokenLexemeIndex("est")
 ```
 
 Find occurrences of a lexeme; the result is a list of URNs.
 
-```tut
+```NOTSCALA
 latinCorpus.passagesForLexeme("ls.n46529")
 ```
 
 How many?
 
-```tut
+```NOTSCALA
 latinCorpus.passagesForLexeme("ls.n46529").size
 ```
