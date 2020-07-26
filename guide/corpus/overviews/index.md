@@ -7,6 +7,9 @@ parent: Using a LatinCorpus
 
 # Surveying a corpus
 
+
+
+
 ```scala mdoc:invisible
 // The latincorpus library:
 import edu.holycross.shot.latincorpus._
@@ -31,43 +34,42 @@ import edu.holycross.shot.latin._
 ```
 
 
+See this page for an example of how to [build a `LatinCorpus`](https://neelsmith.github.io/latin-corpus/libraries/)
+
 
 ```scala mdoc:silent
-val latinCorpus = LatinCorpus.fromFstLines(chapter,Latin23Alphabet, fstLines, strict=false)
+val latinCorpus = LatinCorpus.fromFstLines(corpus,Latin23Alphabet, fstLines, strict=false)
 ```
 
 
 ## Character set
 
+- identify invalid characters, and summarize character set usage
+
 ## Classified tokens
 
-
+- identify invalid tokens, and summarize token usage
 
 ## Concordances
 
 Find occurrences of a token; the result is a list of URNs.
 
+How many times does the token *edixit* appear in Hyginus?
 
-
-```NOTSCALA
-latinCorpus.tokenConcordance("est")
+```scala mdoc
+latinCorpus.tokenConcordance("edixit")
 ```
 
-How many?
-
-```NOTSCALA
-latinCorpus.tokenConcordance("est").size
-```
 
 What are possible lexemes for this token?
 
-```NOTSCALA
-latinCorpus.tokenLexemeIndex("est")
+```scala mdoc
+latinCorpus.tokenLexemeIndex("edixit")
 ```
 
 Find occurrences of a lexeme; the result is a list of URNs.
 
-```NOTSCALA
+```scala mdoc
 latinCorpus.passagesForLexeme("ls.n46529")
 ```
 
