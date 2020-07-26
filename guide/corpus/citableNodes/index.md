@@ -1,6 +1,7 @@
 ---
-title: "Clustered"
+title: "Citable nodes"
 layout: page
+parent: Using a LatinCorpus
 ---
 
 

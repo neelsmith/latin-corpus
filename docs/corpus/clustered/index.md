@@ -4,7 +4,7 @@ layout: page
 parent: Using a LatinCorpus
 ---
 
-**Version 3.2.1**
+**Version 4.0.0**
 
 # Clustering tokens in citable units
 

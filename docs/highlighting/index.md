@@ -1,6 +1,7 @@
 ---
 title: "Highlighting morphological features"
 layout: page
+parent: Using a LatinCorpus
 ---
 
 ```tut:invisible
@@ -39,7 +40,7 @@ val livy_1_4_1 = clustered(0)
 
 ## What's in a token
 
-We'll start with a `LatinTokenSequence`, in this case, Livy, 1.4.1.  It contains a vector of tokens.  How many?
+We'll start with a `LatinParsedTokenSequence`, in this case, Livy, 1.4.1.  It contains a vector of tokens.  How many?
 
 ```tut
 livy_1_4_1.tokens.size
@@ -57,7 +58,7 @@ livy_1_4_1.tokens(0).cn
 livy_1_4_1.tokens(0).analyses
 ```
 
-The `LatinTokenSequence` can use all of this information in a variety of ways.  Let's do some old-fashioned Scala to read text contents of this sequence, by mapping each token to the text contents of its citable node, and combining them in a String.
+The `LatinParsedTokenSequence` can use all of this information in a variety of ways.  Let's do some old-fashioned Scala to read text contents of this sequence, by mapping each token to the text contents of its citable node, and combining them in a String.
 
 ```tut
 livy_1_4_1.tokens.map(_.cn.text).mkString(" ")
@@ -66,7 +67,7 @@ livy_1_4_1.tokens.map(_.cn.text).mkString(" ")
 
 ## Highlight a single feature
 
-The `LatinTokenSequence` can use a `MorphologyFilter` object to highlight tokens in formatted text.  Here's a filter for all first person singular forms.
+The `LatinParsedTokenSequence` can use a `MorphologyFilter` object to highlight tokens in formatted text.  Here's a filter for all first person singular forms.
 
 ```tut
  val mf = MorphologyFilter(person = Some(First), grammaticalNumber = Some(Singular))
@@ -98,7 +99,7 @@ What does that look like when it's rendered?
 
 > sed debebatur  ut <span style="color:green">opinor</span>, fatis tantae origo urbis maximique secundum deorum opes imperii principium. compressa cum geminum partum edidisset,
 
-(As a bonus, note how the `LatinTokenSequence` thoughtfully observes the token type, and adjusts white spacing appropriately for punctuation tokens.)
+(As a bonus, note how the `LatinParsedTokenSequence` thoughtfully observes the token type, and adjusts white spacing appropriately for punctuation tokens.)
 
 ## Highlighting multiple features
 

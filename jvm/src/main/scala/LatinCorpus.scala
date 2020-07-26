@@ -254,7 +254,7 @@ object LatinCorpus extends LogSupport {
             throw new Exception(msg)
 
           } else {
-            warn(msg)
+            //warn(msg)
             None
           }
 

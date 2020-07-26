@@ -1,9 +1,10 @@
 ---
 title: Clustering citable units
 layout: page
+parent: Using a LatinCorpus
 ---
 
-**@VERSION@**
+**Version @VERSION@**
 
 # Clustering tokens in citable units
 

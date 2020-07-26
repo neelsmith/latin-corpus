@@ -1,6 +1,7 @@
 ---
 title: "Overviews"
 layout: page
+parent: Using a LatinCorpus
 ---
 
 
