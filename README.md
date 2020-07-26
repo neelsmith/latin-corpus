@@ -12,6 +12,10 @@ The `latincorpus` library is currently in active development as part of a one-ye
 
 See [release notes](releases.md).
 
-API documentation: <https://neelsmith.github.io/latin-corpus/api/edu/holycross/shot/latincorpus/index.html>
 
 Binaries are available from bintray: for maven, ivy or gradle coordinates, see [this page](https://bintray.com/neelsmith/maven/latincorpus).
+
+
+## Documentation
+
+- User's guide: <https://neelsmith.github.io/latin-corpus/>
