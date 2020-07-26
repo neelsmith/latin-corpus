@@ -24,4 +24,20 @@ case class LatinToken(
   def matchesLexeme(lexeme: String) :  Boolean = {
     analyses.filter(_.lemmaId == lexeme).nonEmpty
   }
+
+  def analysisUrns(umgr: UrnManager) : Vector[LemmatizedFormUrns] = {
+    val lexNull = Cite2Urn("urn:cite2:tabulae:ls.v1:null")
+    val morphNull =  Cite2Urn("urn:cite2:tabulae:morphforms.v1:null")
+    if (analyses.isEmpty) {
+      Vector(LemmatizedFormUrns(urn,text,lexNull, morphNull))
+    } else {
+      val lines = for (a <- analyses) yield {
+        umgr.urn(a.lemmaId) match {
+          case None => LemmatizedFormUrns(urn,text,lexNull, a.formUrn)
+          case Some(u) => LemmatizedFormUrns(urn,text,u,a.formUrn)
+        }
+      }
+      lines
+    }
+  }
 }

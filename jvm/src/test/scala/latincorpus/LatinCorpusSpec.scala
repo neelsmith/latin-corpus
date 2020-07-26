@@ -123,4 +123,14 @@ val fst = """> sed
 
   it should "support cool hover display in HTML environment" in pending
 
+  it should "output a CITE collection for all analyses of all tokens" in {
+    val abbrs = Vector(
+    "abbr#full",
+    "ls#urn:cite2:tabulae:ls.v1:"
+    )
+    val umgr = UrnManager(abbrs)
+    println("\n\n\n" + lc.citeCollectionLines(umgr).mkString("\n"))
+
+  }
+
 }

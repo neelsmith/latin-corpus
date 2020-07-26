@@ -7,11 +7,33 @@ import edu.holycross.shot.mid.orthography._
 
 import edu.holycross.shot.histoutils._
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
 import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 case class LatinCorpus(tokens: Vector[LatinToken], tcorpus: TokenizableCorpus) extends LatinTokenSequence {
   //Logger.setDefaultLogLevel(LogLevel.WARN)
+  val formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd")
+  val todayFormatted = LocalDate.now.format(formatter)
+
+  def analysisUrns(umgr: UrnManager): Vector[LemmatizedFormUrns] = tokens.map(_.analysisUrns(umgr: UrnManager)).flatten
+
+  def analysisCex(umgr: UrnManager, separator: String = "#") : Vector[String] = analysisUrns(umgr).map(_.cex(separator))
+
+  def citeCollectionLines(umgr: UrnManager, urnBase: String = "urn:cite2:linglat:tkns.v1:", separator: String = "#") = {
+    val citable = for ( (ln, i) <- analysisCex(umgr, separator).zipWithIndex) yield {
+      val recordId = todayFormatted + "_" + i
+      val urnStr = urnBase + recordId
+      val label = "Record " + recordId
+      urnStr + "#" + label + "#" + ln
+    }
+    citable
+  }
+
+
+
 
 
   /*
