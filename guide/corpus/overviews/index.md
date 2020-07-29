@@ -10,7 +10,7 @@ parent: Using a LatinCorpus
 
 
 
-```scala mdoc:invisible
+```scala mdoc:silent
 // The latincorpus library:
 import edu.holycross.shot.latincorpus._
 // Other libraries you'll frequently use:
@@ -22,9 +22,6 @@ import edu.holycross.shot.mid.orthography._
 // Create an ohco2 Corpus:
 val url = "https://raw.githubusercontent.com/LinguaLatina/texts/master/texts/latin23/hyginus.cex"
 val corpus = CorpusSource.fromUrl(url, cexHeader = true)
-// We'll select a single chapter to use, e.g., for a class
-// assignment:
-val chapter = corpus ~~ CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc:108a")
 // Load corresponding parsing data
 import scala.io.Source
 val fstUrl = "https://lingualatina.github.io/analysis/data/c108.fst"
@@ -70,20 +67,15 @@ latinCorpus.tokenLexemeIndex("edixit")
 Find occurrences of a lexeme; the result is a list of URNs.
 
 ```scala mdoc
-latinCorpus.passagesForLexeme("ls.n46529")
+latinCorpus.passagesForLexeme("ls.n15140")
 ```
 
-How many?
-
-```NOTSCALA
-latinCorpus.passagesForLexeme("ls.n46529").size
-```
 
 
 
 ## Ambiguity
 
-```tut
+```scala mdoc
 latinCorpus.tokenAmbiguity
 latinCorpus.lexicalAmbiguity
 ```
