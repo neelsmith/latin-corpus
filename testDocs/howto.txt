@@ -1,0 +1,9 @@
+
+Install the gem:
+
+    gem install just-the-docs
+
+Then:
+
+    bundle exec jekyll serve
+    
