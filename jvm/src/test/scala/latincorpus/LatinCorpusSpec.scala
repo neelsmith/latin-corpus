@@ -99,10 +99,10 @@ val fst = """> sed
     assert(clustered.size == numberClusters)
   }
 
-  it should "construct a concordance of lexemes" in  {
+  it should "construct a concordance of lexemes" in pending /*  {
     val expectedPassages =  Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1"))
     assert(lc.lexemeConcordance("ls.n32747") == expectedPassages)
-  }
+  }*/
 
   it should "construct a concordance for a corpus with multiple nodes" in  pending /* {
     val o2corpus = CorpusSource.fromFile("jvm/src/test/resources/cex/livy-mt.cex", cexHeader=true)

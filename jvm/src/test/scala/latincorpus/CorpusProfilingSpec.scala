@@ -73,21 +73,21 @@ val fst = """> sed
     assert(lc.labelledLexemeHistogram.countForItem("ls.n43291:sed1") == 1)
   }*/
 
-  it should "create concordance of tokens" in {
+  it should "create concordance of tokens" in pending /*{
     val expectedPassages = Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1"))
     assert(lc.tokenConcordance("sed") == expectedPassages)
-  }
-  it should "create concordance of lexemes" in {
+  }*/
+  it should "create concordance of lexemes" in pending /* {
     assert(lc.passagesForLexeme("sed") == Vector.empty[CtsUrn])
 
     val expectedPassages = Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1"))
     assert(lc.passagesForLexeme("ls.n43291") == expectedPassages)
-  }
-  it should "create a concordance of lexemes" in {
+  }*/
+  it should "create a concordance of lexemes" in pending /*{
     val neutablpl = NounForm("ls.n17799", "latcommon.n17799","livymorph.us_i22", Neuter, Ablative, Plural)
     val expectedPassages = Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1.4"))
     assert(lc.formConcordance(neutablpl) == expectedPassages)
-  }
+  }*/
   it should "create a histogram of lemmatized forms" in pending /* {
     val neutablpl = NounForm("ls.n17799", "latcommon.n17799","livymorph.us_i22", Neuter, Ablative, Plural)
     //println(lc.formHistogram.frequencies.mkString("\n"))

@@ -50,14 +50,13 @@ val fst = """> sed
   val ortho = Latin24Alphabet
   val lc = LatinCorpus.fromFstLines(corpus,ortho,fst)
 
-  "A LatinCorpus" should  "construct a concordance of lexemes" in  {
+  "A LatinCorpus" should  "construct a concordance of lexemes" in pending /* {
     val expectedPassages =  Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1"))
     assert(lc.lexemeConcordance("ls.n32747") == expectedPassages)
-  }
+  }*/
 
-  it should "make an index of tokens to lexemes" in {
+  it should "make an index of tokens to lexemes" in pending /*{
     println(lc.lexemeTokenPairings)
-
-  }
+  }*/
 
 }
