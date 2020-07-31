@@ -18,9 +18,8 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 * of classified tokens.
 *
 * @param tokens Ordered list of [[LatinParsedTokene]]s making u this corpus.
-* @param tcorpus
 */
-case class LatinCorpus(tokens: Vector[LatinParsedToken], tcorpus: TokenizableCorpus) extends LatinParsedTokenSequence {
+case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedTokenSequence {
   Logger.setDefaultLogLevel(LogLevel.WARN)
   val formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd")
   val todayFormatted = LocalDate.now.format(formatter)
@@ -88,7 +87,7 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken], tcorpus: TokenizableCor
     distinctLemmasPlusTokens
   }
 
-  /** Map lexemes to an (unsorted) list of passages where the lexeme occurs.*/
+  /** Map lexemes to an (unsorted) list of passages where the lexeme occurs.
   def lexemeConcordance : Map[String, Vector[CtsUrn]]= {
     Logger.setDefaultLogLevel(LogLevel.DEBUG)
     val distinctLemmasPlusTokens = lexemeTokenPairings
@@ -96,14 +95,14 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken], tcorpus: TokenizableCor
 
     Logger.setDefaultLogLevel(LogLevel.INFO)
     concData.toMap
-  }
+  }*/
 
 
   /** Safe lookup in lexeme concordance.  Returns empty
   * Vector if lexeme not found.
   *
   * @param lexId ID for lexeme to look up.
-  */
+
   def passagesForLexeme(lexId: String) : Vector[CtsUrn] = {
     try {
       lexemeConcordance(lexId)
@@ -112,7 +111,7 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken], tcorpus: TokenizableCor
       case t: Throwable => throw t
     }
   }
-
+*/
   /** Create a histogram of lexemes.
   def lexemeHistogram : Histogram[String] = {
     // avoid repeating function call: generate this map once
@@ -138,10 +137,10 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken], tcorpus: TokenizableCor
     lexHist.sorted
   }
 */
-  /** Concordance of all lexical tokens in corpus.*/
+  /** Concordance of all lexical tokens in corpus.
   def tokenConcordance  = {
     tcorpus.concordance
-  }
+  }*/
 
   /** Index of tokens to Vector of identifiers for lexeme.*/
   def tokenLexemeIndex : Map[String,Vector[String]] = {
@@ -274,7 +273,7 @@ object LatinCorpus extends LogSupport {
         }
       }
     }
-    LatinCorpus(tokens = LatinParsedTokens.toVector.flatten, tokenizableCorpus)
+    LatinCorpus(tokens = LatinParsedTokens.toVector.flatten)
   }
 
 

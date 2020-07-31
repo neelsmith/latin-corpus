@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**5.0.0**: Simpler redefinition of `LatinCorpus` class breaks API.
+
 **4.0.0**: API-breaking name changes simplify interoperation with library dependencies.
 
 **3.2.1**: Fixes a bug in handling case-insensitive creation of `LatinToken`s.
