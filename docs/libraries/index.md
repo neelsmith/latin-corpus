@@ -1,7 +1,7 @@
 ---
 title: "Overview of data structures"
 layout: page
-nav_order: 1
+nav_order: 2
 ---
 
 # Overview of data structures
@@ -133,7 +133,7 @@ val tknAnalysis = tkn.analyses.head
 tknAnalysis.lemmaId
 // res5: String = "ls.n6614"
 tknAnalysis.formUrn
-// res6: Cite2Urn = Cite2Urn("urn:cite2:tabulae:morphforms.v1:21112000")
+// res6: Cite2Urn = Cite2Urn("urn:cite2:tabulae:morphforms.v1:211120004")
 tknAnalysis.formLabel
 // res7: String = "verb: second, singular, present, indicative, passive"
 ```

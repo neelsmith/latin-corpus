@@ -1,7 +1,8 @@
 ---
-title: "Overviews"
+title: "Surveying a corpus"
 layout: page
 parent: Using a LatinCorpus
+nav_order: 1
 ---
 
 
@@ -53,28 +54,21 @@ Find occurrences of a token; the result is a list of URNs.
 
 How many times does the token *edixit* appear in Hyginus?
 
-```scala
+```NOT SCALA
 latinCorpus.tokenConcordance("edixit")
-// res0: Vector[CtsUrn] = Vector(
-//   CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:67pr.5"),
-//   CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:72a.1"),
-//   CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:108a.2")
-// )
 ```
 
 
 What are possible lexemes for this token?
 
-```scala
+```NOT SCALA
 latinCorpus.tokenLexemeIndex("edixit")
-// res1: Vector[String] = Vector("ls.n15140")
 ```
 
 Find occurrences of a lexeme; the result is a list of URNs.
 
-```scala
+```NOT SCALA
 latinCorpus.passagesForLexeme("ls.n15140")
-// res2: Vector[CtsUrn] = Vector()
 ```
 
 
@@ -84,9 +78,9 @@ latinCorpus.passagesForLexeme("ls.n15140")
 
 ```scala
 latinCorpus.tokenAmbiguity
-// res3: Double = 1.201610305958132
+// res0: Double = 1.201610305958132
 latinCorpus.lexicalAmbiguity
-// res4: Double = 1.0412474849094568
+// res1: Double = 1.0412474849094568
 ```
 
 ## Histograms

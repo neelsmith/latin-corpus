@@ -2,6 +2,7 @@
 title: "Citable nodes"
 layout: page
 parent: Using a LatinCorpus
+nav_order: 2
 ---
 
 

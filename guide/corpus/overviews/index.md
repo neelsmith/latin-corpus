@@ -1,7 +1,8 @@
 ---
-title: "Overviews"
+title: "Surveying a corpus"
 layout: page
 parent: Using a LatinCorpus
+nav_order: 1
 ---
 
 
@@ -53,20 +54,20 @@ Find occurrences of a token; the result is a list of URNs.
 
 How many times does the token *edixit* appear in Hyginus?
 
-```scala mdoc
+```NOT SCALA
 latinCorpus.tokenConcordance("edixit")
 ```
 
 
 What are possible lexemes for this token?
 
-```scala mdoc
+```NOT SCALA
 latinCorpus.tokenLexemeIndex("edixit")
 ```
 
 Find occurrences of a lexeme; the result is a list of URNs.
 
-```scala mdoc
+```NOT SCALA
 latinCorpus.passagesForLexeme("ls.n15140")
 ```
 
