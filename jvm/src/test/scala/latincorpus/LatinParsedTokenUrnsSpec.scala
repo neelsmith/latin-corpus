@@ -24,9 +24,16 @@ class LatinParsedTokenUrnsSpec extends FlatSpec {
 
   "A LatinNode" should "be able to express all analyses as LemmatizedFormUrns" in {
     val expectedAnalyses = 1
-    val expectedForm = Cite2Urn("urn:cite2:tabulae:morphforms.v1:00000000")
+    val expectedLexeme = Cite2Urn("urn:cite2:tabulae:ls.v1:n22111")
+    val expectedForm = Cite2Urn("urn:cite2:tabulae:morphforms.v1:00000000B")
     val tokenUrns = parsedToken.analysisUrns(umgr)
+    val expectedPassage = CtsUrn("urn:cts:latinLit:phi0959.phi006:1.1.1")
     assert(tokenUrns.size == expectedAnalyses)
-    assert(tokenUrns.head.form == expectedForm)
+    assert(tokenUrns.head.txt == "In")
+    assert(tokenUrns.head.lexeme == expectedLexeme)
+    assert(tokenUrns.head.psg == expectedPassage)
+
+    val expectedCex = "urn:cts:latinLit:phi0959.phi006:1.1.1#In#urn:cite2:tabulae:ls.v1:n22111#urn:cite2:tabulae:morphforms.v1:00000000B"
+    assert(tokenUrns.head.cex() == expectedCex)
   }
 }
