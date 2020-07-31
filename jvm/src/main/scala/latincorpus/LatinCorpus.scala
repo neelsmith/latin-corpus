@@ -33,11 +33,15 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
       val recordId = todayFormatted + "_" + i
       val urnStr = urnBase + recordId
       val label = "Record " + recordId
-      urnStr + "#" + label + "#" + ln
+      urnStr + "#" + label + "#" + ln + "#" + i
     }
     citable
   }
 
+  def cex(umgr: UrnManager, urnBase: String = "urn:cite2:linglat:tkns.v1:", separator: String = "#") {
+    val header = "urn#label#passage#token#lexeme#form#sequence\n"
+    header + citeCollectionLines(umgr, urnBase, separator).mkString("\n")
+  }
 
 
 
