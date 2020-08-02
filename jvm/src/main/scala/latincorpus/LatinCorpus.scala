@@ -4,6 +4,7 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.orthography._
+import scala.io.Source
 
 import edu.holycross.shot.histoutils._
 
@@ -226,9 +227,38 @@ object LatinCorpus extends LogSupport {
 
 
   /*
-  def apply(cexLines: Vector[String]): LatinCorpus = {
-    //tokens: Vector[LatinParsedToken], tcorpus: TokenizableCorpus
-  }*/
+  def apply(): LatinCorpus = {
+    val tokens: Vector[LatinParsedToken], tcorpus: TokenizableCorpus
+  }
+  */
+
+
+  // Read index value from CEX line
+  def indexCex(cex: String, separator: String = "#") : Int = {
+    val columns = cex.split(separator)
+    columns(7).toInt
+  }
+
+  //urn#label#passage#token#lexeme#form#category#sequence
+  def fromCexLines(cexLines: Vector[String]) = {
+    val byToken = cexLines.groupBy( ln => {
+      val cols = ln.split("#")
+      cols(2)
+    })
+    val indexed = byToken.toVector.map{ case (k,v) => {
+      val sequence = indexCex(v.head)
+      (v, sequence)
+    }}
+    val sorted = indexed.sortBy(_._2).map(_._1)
+    sorted.map(tknLines => LatinParsedToken(tknLines))
+    //val cexLines = sorted.map( tknGroup => ParsedLatinToken(tknGroup._1))
+    //println(byToken.size + " TO " + indexed.size)
+    //println(cexLines.take(3))
+  }
+
+  def fromFile(f: String) = {
+    fromCexLines(Source.fromFile(f).getLines.toVector)
+  }
 
   /** Create a LatinCorpus by associating an OHCO2 Corpus in a known
   * orthographic system with morphological analyses.

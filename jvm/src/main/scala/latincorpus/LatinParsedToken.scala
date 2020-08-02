@@ -54,19 +54,16 @@ case class LatinParsedToken(
 }
 
 object LatinParsedToken extends LogSupport {
-
   //urn#label#passage#token#lexeme#form#category#sequence
   // One or more lines ofr a single token
-  /*()
+
   def apply(cex: Vector[String]) : LatinParsedToken = {
-    fromCexLine(cex)
-  }
-*/
-
-  def analysesFromLines(columns: Vector[String]) = {
-
+    fromCexLines(cex)
   }
 
+  def abbreviatedUrn(urn: Cite2Urn): String = {
+    urn.collection + "." + urn.objectComponent
+  }
 
   /** From a group of lines representing all analyses of a given
   * token, construct a [[LatinParsedToken]] with one analysis from
@@ -75,25 +72,24 @@ object LatinParsedToken extends LogSupport {
   * @param cex CEX records following parsed token data model.
   * @param separator String separating columns in CEX input.
   */
-  def fromCexLines(cex: Vector[String], separator: String = "#") { //: LatinParsedToken = {
-    println(s"Work from ${cex.size} line(s): " + cex)
-
+  def fromCexLines(cex: Vector[String], separator: String = "#") : LatinParsedToken = {
     val rowsByColumns = cex.map(ln => ln.split(separator))
     val first = rowsByColumns.head
     val urn = CtsUrn(first(2)).collapsePassageBy(1)
     val text = first(3)
     val citableNode = CitableNode(urn, text)
     val tokenType: MidTokenCategory =  tokenCategory(first(6)).get
-    println("Node and category: \n" + citableNode + "\n" + tokenType )
 
-
-    val lexAnalyses = for (row <- rowsByColumns) yield {
-      println(row(4 ) + "-" + row(5))
-      //val lexeme = Cite2Urn(first(2))
-      //val form = Cite2Urn(first(3))
+    val lemmatizedForms = for (row <- rowsByColumns) yield {
+      val lexeme = Cite2Urn(row(4))
+      val lemmaId = abbreviatedUrn(lexeme)
+      val form = Cite2Urn(row(5))
+      LemmatizedForm.fromFormUrn(lemmaId, "", "", form )
     }
 
-    //LatinParsedToken(urn,tokenType, text,lexeme, form )
+    val token = LatinParsedToken(citableNode,tokenType,lemmatizedForms )
+    debug("Made token from CEX lines: " + token)
+    token
   }
 
 
