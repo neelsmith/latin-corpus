@@ -17,7 +17,7 @@ class LatinParsedTokenSpec extends FlatSpec {
   val parsedToken = LatinParsedToken(cn, LexicalToken, Vector(indeclForm))
 
 
-  "A LatinNode" should "have a URN" in {
+  "A LatinParsedToken" should "have a URN" in {
     assert(parsedToken.urn == urn)
   }
   it should "have a text reading" in {

@@ -61,8 +61,10 @@ object LatinParsedToken extends LogSupport {
 
   }
 
-/*
-  def fromCexLine(cex: Vector[String], separator: String = "#") : LatinParsedToken = {
+
+  def fromCexLine(cex: Vector[String], separator: String = "#") { //: LatinParsedToken = {
+
+    /*
     val byColumns = cex.map(ln => ln.split(separator))
     val first = byColumns.head
     val urn = CtsUrn(first(0)).collapsePassageBy(1)
@@ -76,9 +78,9 @@ object LatinParsedToken extends LogSupport {
 
     }
 
-    LatinParsedToken(urn,tokenType, text,lexeme, form )
+    LatinParsedToken(urn,tokenType, text,lexeme, form )*/
   }
-  */
+
 
   // defined in MID and latin libraries.
   // If you need other, custom types they won't be recognized.
