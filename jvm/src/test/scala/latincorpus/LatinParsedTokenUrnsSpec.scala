@@ -22,7 +22,7 @@ class LatinParsedTokenUrnsSpec extends FlatSpec {
   )
   val umgr = UrnManager(abbrs)
 
-  "A LatinNode" should "be able to express all analyses as LemmatizedFormUrns" in {
+  "A LatinParsedToken" should "be able to express all analyses as LemmatizedFormUrns" in {
     val expectedAnalyses = 1
     val expectedLexeme = Cite2Urn("urn:cite2:tabulae:ls.v1:n22111")
     val expectedForm = Cite2Urn("urn:cite2:tabulae:morphforms.v1:00000000B")
