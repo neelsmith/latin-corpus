@@ -31,7 +31,7 @@ val corpus = CorpusSource.fromUrl(url, cexHeader = true)
 
 ```scala
 // morphological info in SFST format
-val fstUrl = "https://lingualatina.github.io/analysis/data/c108.fst"
+val fstUrl = "https://raw.githubusercontent.com/LinguaLatina/analysis/master/data/hyginus-fst.txt"
 val fstLines = Source.fromURL(fstUrl).getLines.toVector
 ```
 

@@ -30,6 +30,11 @@ case class LatinParsedToken(
     analyses.filter(_.lemmaId == lexeme).nonEmpty
   }
 
+  /** Map analyses to [[LemmatizedFormUrns]] with assitance of a
+  * [[UrnManager]] to expand abbreviations fto full URNs.
+  *
+  * @param umgr UrnManger to use for expanding abbreviated IDs.
+  */
   def analysisUrns(umgr: UrnManager) : Vector[LemmatizedFormUrns] = {
     val lexNull = Cite2Urn("urn:cite2:tabulae:ls.v1:null")
     val morphNull =  Cite2Urn("urn:cite2:tabulae:morphforms.v1:null")
@@ -57,28 +62,38 @@ object LatinParsedToken extends LogSupport {
     fromCexLine(cex)
   }
 */
-  def analysisFromLine(columns: Vector[String]) = {
+
+  def analysesFromLines(columns: Vector[String]) = {
 
   }
 
 
-  def fromCexLine(cex: Vector[String], separator: String = "#") { //: LatinParsedToken = {
+  /** From a group of lines representing all analyses of a given
+  * token, construct a [[LatinParsedToken]] with one analysis from
+  * each CEX line.
+  *
+  * @param cex CEX records following parsed token data model.
+  * @param separator String separating columns in CEX input.
+  */
+  def fromCexLines(cex: Vector[String], separator: String = "#") { //: LatinParsedToken = {
+    println(s"Work from ${cex.size} line(s): " + cex)
 
-    /*
-    val byColumns = cex.map(ln => ln.split(separator))
-    val first = byColumns.head
-    val urn = CtsUrn(first(0)).collapsePassageBy(1)
-    val text = first(1)
+    val rowsByColumns = cex.map(ln => ln.split(separator))
+    val first = rowsByColumns.head
+    val urn = CtsUrn(first(2)).collapsePassageBy(1)
+    val text = first(3)
     val citableNode = CitableNode(urn, text)
-    val tokenType: MidTokenCategory =  tokenCategory(first(4))
+    val tokenType: MidTokenCategory =  tokenCategory(first(6)).get
+    println("Node and category: \n" + citableNode + "\n" + tokenType )
 
-    for (row <- byColumns) yield {
-      val lexeme = Cite2Urn(first(2))
-      val form = Cite2Urn(first(3))
 
+    val lexAnalyses = for (row <- rowsByColumns) yield {
+      println(row(4 ) + "-" + row(5))
+      //val lexeme = Cite2Urn(first(2))
+      //val form = Cite2Urn(first(3))
     }
 
-    LatinParsedToken(urn,tokenType, text,lexeme, form )*/
+    //LatinParsedToken(urn,tokenType, text,lexeme, form )
   }
 
 
@@ -101,6 +116,5 @@ object LatinParsedToken extends LogSupport {
       None
     }
   }
-
 
 }
