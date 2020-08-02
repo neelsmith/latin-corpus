@@ -39,7 +39,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       libraryDependencies ++= Seq(
           "org.scala-js" %% "scalajs-stubs" % "1.0.0" % "provided",
           "com.github.pathikrit" %% "better-files" % "3.5.0",
-          "edu.holycross.shot" %% "tabulae" % "6.5.0"
+          "edu.holycross.shot" %% "tabulae" % "6.6.0"
         )
     ).
     jsSettings(
