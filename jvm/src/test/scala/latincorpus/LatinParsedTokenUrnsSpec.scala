@@ -33,7 +33,8 @@ class LatinParsedTokenUrnsSpec extends FlatSpec {
     assert(tokenUrns.head.lexeme == expectedLexeme)
     assert(tokenUrns.head.psg == expectedPassage)
 
-    val expectedCex = "urn:cts:latinLit:phi0959.phi006:1.1.1#In#urn:cite2:tabulae:ls.v1:n22111#urn:cite2:tabulae:morphforms.v1:00000000B"
+    val expectedCex = "urn:cts:latinLit:phi0959.phi006:1.1.1#In#urn:cite2:tabulae:ls.v1:n22111#urn:cite2:tabulae:morphforms.v1:00000000B#LexicalToken"
     assert(tokenUrns.head.cex() == expectedCex)
   }
+
 }

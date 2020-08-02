@@ -20,16 +20,16 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 * @param tokens Ordered list of [[LatinParsedTokene]]s making u this corpus.
 */
 case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedTokenSequence {
-  Logger.setDefaultLogLevel(LogLevel.WARN)
+  //Logger.setDefaultLogLevel(LogLevel.WARN)
   val formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd")
   val todayFormatted = LocalDate.now.format(formatter)
 
   def analysisUrns(umgr: UrnManager): Vector[LemmatizedFormUrns] = tokens.map(_.analysisUrns(umgr: UrnManager)).flatten
 
-  def cex(umgr: UrnManager, separator: String = "#") : Vector[String] = analysisUrns(umgr).map(_.cex(separator))
+  def cexLines(umgr: UrnManager, separator: String = "#") : Vector[String] = analysisUrns(umgr).map(_.cex(separator))
 
   def citeCollectionLines(umgr: UrnManager, urnBase: String = "urn:cite2:linglat:tkns.v1:", separator: String = "#") = {
-    val citable = for ( (ln, i) <- cex(umgr, separator).zipWithIndex) yield {
+    val citable = for ( (ln, i) <- cexLines(umgr, separator).zipWithIndex) yield {
       val recordId = todayFormatted + "_" + i
       val urnStr = urnBase + recordId
       val label = "Record " + recordId
@@ -38,8 +38,8 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     citable
   }
 
-  def cex(umgr: UrnManager, urnBase: String = "urn:cite2:linglat:tkns.v1:", separator: String = "#") {
-    val header = "urn#label#passage#token#lexeme#form#sequence\n"
+  def cex(umgr: UrnManager, urnBase: String = "urn:cite2:linglat:tkns.v1:", separator: String = "#") : String = {
+    val header = "urn#label#passage#token#lexeme#form#category#sequence\n"
     header + citeCollectionLines(umgr, urnBase, separator).mkString("\n")
   }
 
@@ -221,12 +221,10 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
 
 object LatinCorpus extends LogSupport {
 
-//urn:cite2:linglat:tkns.v1:2020_07_27_18#Record 2020_07_27_18#urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1.7#urbis#urn:cite2:tabulae:ls.v1:n49895#urn:cite2:tabulae:morphforms.v1:02000240
-/*
-  def cexToToken(cex: String): LatinParsedToken = {
 
-  }
-*/
+
+
+
   /*
   def apply(cexLines: Vector[String]): LatinCorpus = {
     //tokens: Vector[LatinParsedToken], tcorpus: TokenizableCorpus

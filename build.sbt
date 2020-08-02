@@ -19,6 +19,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       version := "5.0.0",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
+      resolvers += Resolver.bintrayRepo("neelsmith", "maven"),
       libraryDependencies ++= Seq(
         "org.scalatest" %%% "scalatest" % "3.1.2" % "test",
         "org.wvlet.airframe" %%% "airframe-log" % "20.5.2",
@@ -38,7 +39,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       libraryDependencies ++= Seq(
           "org.scala-js" %% "scalajs-stubs" % "1.0.0" % "provided",
           "com.github.pathikrit" %% "better-files" % "3.5.0",
-          "edu.holycross.shot" %% "tabulae" % "6.4.0"
+          "edu.holycross.shot" %% "tabulae" % "6.5.0"
         )
     ).
     jsSettings(

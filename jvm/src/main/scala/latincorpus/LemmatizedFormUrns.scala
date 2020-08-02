@@ -9,9 +9,10 @@ case class LemmatizedFormUrns(
   psg: CtsUrn,
   txt: String,
   lexeme: Cite2Urn,
-  form: Cite2Urn
+  form: Cite2Urn,
+  category: MidTokenCategory
 ) {
   def cex(separator: String = "#") = {
-    List(psg, txt, lexeme, form).mkString(separator)
+    List(psg, txt, lexeme, form, category).mkString(separator)
   }
 }
