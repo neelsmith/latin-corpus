@@ -4,6 +4,9 @@ layout: page
 nav_order: 2
 ---
 
+**Version @VERSIO@**
+
+
 # Overview of data structures
 
 ## The `LatinCorpus`

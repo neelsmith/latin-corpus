@@ -4,64 +4,74 @@ layout: page
 parent: Using a LatinCorpus
 ---
 
-```tut:invisible
-// invisibly import libraries, and load data.
-//
-import edu.holycross.shot.tabulae._
-import edu.holycross.shot.cite._
-import edu.holycross.shot.ohco2._
+**Version 5.0.0**
 
-import edu.holycross.shot.histoutils._
+# Highlighting morphological features
 
-import edu.holycross.shot.latin._
-import edu.holycross.shot.latincorpus._
+Load selections from Livy (as on [this page](../citableNodes/)).
 
 
-import edu.holycross.shot.mid.validator._
 
+```scala
+val latinCorpus = LatinCorpus.fromFstLines(corpus, Latin24Alphabet, fstLines, strict=false)
+```
 
-val corpus = CorpusSource.fromFile(s"src/test/resources/cex/livy-mt.cex", cexHeader = true)
-val parserOutput = "src/test/resources/fst/livy-mt-parsed.txt"
+Cluster, and look at first cluster:
 
-import scala.io.Source
-val fst = Source.fromFile(parserOutput).getLines.toVector
-
-val latinCorpus = LatinCorpus.fromFstLines(
-    corpus,
-    Latin23Alphabet,
-    fst,
-    strict = false
-  )
-
+```scala
 val clustered = latinCorpus.clusterByCitation
-val livy_1_4_1 = clustered(0)
+val firstCluster = clustered.head
 ```
 
+Survey the first cluster: how many tokens?
 
-## What's in a token
-
-We'll start with a `LatinParsedTokenSequence`, in this case, Livy, 1.4.1.  It contains a vector of tokens.  How many?
-
-```tut
-livy_1_4_1.tokens.size
+```scala
+println(firstCluster.tokens.size)
+// 25
 ```
+
 
 Individual tokens carry a lot of information, including a citable node of text, and a list of possible morphological analyses:
 
-```tut
-livy_1_4_1.tokens(0)
-
-
+```scala
+firstCluster.tokens.head
+// res1: LatinParsedToken = LatinParsedToken(
+//   CitableNode(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1.0"), "sed"),
+//   LexicalToken,
+//   Vector(
+//     IndeclinableForm(
+//       "ls.n43291",
+//       "latcommon.indecln43291",
+//       "indeclinfl.2",
+//       Conjunction
+//     )
+//   )
+// )
 // a citable node:
-livy_1_4_1.tokens(0).cn
+firstCluster.tokens.head.cn
+// res2: CitableNode = CitableNode(
+//   CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1.0"),
+//   "sed"
+// )
 // possible analyses:
-livy_1_4_1.tokens(0).analyses
+firstCluster.tokens.head.analyses
+// res3: Vector[edu.holycross.shot.tabulae.LemmatizedForm] = Vector(
+//   IndeclinableForm(
+//     "ls.n43291",
+//     "latcommon.indecln43291",
+//     "indeclinfl.2",
+//     Conjunction
+//   )
+// )
 ```
+
 
 The `LatinParsedTokenSequence` can use all of this information in a variety of ways.  Let's do some old-fashioned Scala to read text contents of this sequence, by mapping each token to the text contents of its citable node, and combining them in a String.
 
-```tut
-livy_1_4_1.tokens.map(_.cn.text).mkString(" ")
+
+```scala
+firstCluster.tokens.map(_.cn.text).mkString(" ")
+// res4: String = "sed debebatur , ut opinor , fatis tantae origo urbis maximique secundum deorum opes imperii principium . vi compressa Vestalis cum geminum partum edidisset ,"
 ```
 
 
@@ -69,43 +79,67 @@ livy_1_4_1.tokens.map(_.cn.text).mkString(" ")
 
 The `LatinParsedTokenSequence` can use a `MorphologyFilter` object to highlight tokens in formatted text.  Here's a filter for all first person singular forms.
 
-```tut
- val mf = MorphologyFilter(person = Some(First), grammaticalNumber = Some(Singular))
- ```
-
-
-Here's Livy 1.4.1 with first singulars highlighted.
-
-```tut
-livy_1_4_1.highlightForms(mf)
+```scala
+import edu.holycross.shot.tabulae._
+val mf = MorphologyFilter(person = Some(First), grammaticalNumber = Some(Singular))
+// mf: MorphologyFilter = MorphologyFilter(
+//   None,
+//   Some(First),
+//   Some(Singular),
+//   None,
+//   None,
+//   None,
+//   None,
+//   None,
+//   None,
+//   None
+// )
 ```
 
-What does that output look like in a markdown environment?
+Here's the first cluster with first singulars highlighted:
+
+```scala
+firstCluster.highlightForms(mf)
+// res5: String = "sed debebatur, ut **opinor**, fatis tantae origo urbis maximique secundum deorum opes imperii principium. vi compressa Vestalis cum geminum partum edidisset,"
+```
+
+In a markdown-aware environment, that will look like this:
 
 >sed debebatur, ut **opinor**, fatis tantae origo urbis maximique secundum deorum opes imperii principium. compressa cum geminum partum edidisse
 
 
-Default highlighting uses markdown, but you can specify bracketing opening and closing text.  Let's use some HTML.
 
-```tut
+
+
+By default, highlighting uses markdown, but you can specify bracketing opening and closing text.  Let's use some HTML.
+
+```scala
 val open = "<span style=\"color:green\">"
+// open: String = "<span style=\"color:green\">"
 val closer = "</span>"
-livy_1_4_1.highlightForms(mf, open, closer)
-
+// closer: String = "</span>"
+firstCluster.highlightForms(mf, open, closer)
+// res6: String = "sed debebatur, ut <span style=\"color:green\">opinor</span>, fatis tantae origo urbis maximique secundum deorum opes imperii principium. vi compressa Vestalis cum geminum partum edidisset,"
 ```
 
-What does that look like when it's rendered?
+When rendered in a markdown or HTML environment, that looks like this:
 
 
 > sed debebatur  ut <span style="color:green">opinor</span>, fatis tantae origo urbis maximique secundum deorum opes imperii principium. compressa cum geminum partum edidisset,
 
+
 (As a bonus, note how the `LatinParsedTokenSequence` thoughtfully observes the token type, and adjusts white spacing appropriately for punctuation tokens.)
+
+
+
 
 ## Highlighting multiple features
 
-You can attach a `MorphologyFilter` to opening and closing highlighting strings to create a `Highlighter`.  Here, too, the default highlighting strings are markdown strong emphasis ("**").  We'll let verb forms use the default, and define a distinct highlighter for nouns.
+You can attach a `MorphologyFilter` to opening and closing highlighting strings to create a `Highlighter`.  Here, too, the default highlighting strings are markdown strong emphasis (two asterisks).  We'll let verb forms use the default, and define a distinct highlighter for nouns.
 
-```tut:silent
+
+
+```scala
 val allVerbs = MorphologyFilter(pos = Some("verb"))
 val verbsHL = Highlighter(allVerbs)
 
@@ -117,8 +151,9 @@ val hiliters = Vector(verbsHL, nounsHL)
 
 Now we can just pass the `hiliters` list in, to get this result.
 
-```tut
-livy_1_4_1.highlightForms(hiliters)
+```scala
+firstCluster.highlightForms(hiliters)
+// res7: String = "sed **debebatur**, ut **opinor**, *fatis* tantae *origo* *urbis* maximique secundum *deorum* *opes* *imperii* *principium*. *vi* compressa Vestalis cum geminum partum edidisset,"
 ```
 
 What does that look like in a markdown environment?
@@ -127,22 +162,21 @@ What does that look like in a markdown environment?
 
 And of course we can use any kind of highlighting we like.  Let's use some HTML to make nouns blue and verbs green.
 
-```tut:silent
+```scala
 val blue = "<span style=\"color:blue\">"
 val green = "<span style=\"color:green\">"
-val closer = "</span>"
 
+val blueNouns = Highlighter(allNouns, opening = blue, closing = closer)
+val greenVerbs = Highlighter(allVerbs,opening = green, closing = closer)
 
-val nounsHL = Highlighter(allNouns, opening = blue, closing = closer)
-val verbsHL = Highlighter(allVerbs,opening = green, closing = closer)
-
-val colorHiliters = Vector(verbsHL, nounsHL)
+val colorHiliters = Vector(greenVerbs, blueNouns)
 ```
 
 Here's the result.
 
-```tut
-livy_1_4_1.highlightForms(colorHiliters)
+```scala
+firstCluster.highlightForms(colorHiliters)
+// res8: String = "sed <span style=\"color:green\">debebatur</span>, ut <span style=\"color:green\">opinor</span>, <span style=\"color:blue\">fatis</span> tantae <span style=\"color:blue\">origo</span> <span style=\"color:blue\">urbis</span> maximique secundum <span style=\"color:blue\">deorum</span> <span style=\"color:blue\">opes</span> <span style=\"color:blue\">imperii</span> <span style=\"color:blue\">principium</span>. <span style=\"color:blue\">vi</span> compressa Vestalis cum geminum partum edidisset,"
 ```
 
 And here's what it looks like in an HTML setting.

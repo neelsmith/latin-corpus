@@ -5,6 +5,7 @@ parent: Using a LatinCorpus
 nav_order: 1
 ---
 
+**Version @VERSION@**
 
 # Surveying a corpus
 

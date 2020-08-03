@@ -1,84 +1,64 @@
 ---
-title: "Citable nodes"
+title: "Parsed tokens"
 layout: page
 parent: Using a LatinCorpus
 nav_order: 2
 ---
 
 
-```tut:invisible
-import edu.holycross.shot.tabulae._
-import edu.holycross.shot.cite._
+**Version @VERSION@**
+
+# Working with parsed tokens
+
+Get the citable corpus and SFST analyses to build a `LatinCorpus` of Minkova and Tunberg's selections from Livy:
+
+```scala mdoc:silent
 import edu.holycross.shot.ohco2._
+// citable corpus of Minkova-Tunberg selections of Livy
+val textFile = "jvm/src/test/resources/cex/livy-mt.cex"
+val corpus = CorpusSource.fromFile(textFile, cexHeader = true)
+// SFST data
+import scala.io.Source
+val fstFile = "jvm/src/test/resources/fst/livy-mt-parsed.txt"
+val fstLines = Source.fromFile(fstFile).getLines.toVector
+```
 
-import edu.holycross.shot.histoutils._
-
+And create the parsed corpus:
+```scala mdoc:silent
+import edu.holycross.shot.mid.orthography._
 import edu.holycross.shot.latin._
 import edu.holycross.shot.latincorpus._
-
-
-import edu.holycross.shot.mid.validator._
-
-
-val corpus = CorpusSource.fromFile(s"src/test/resources/cex/livy-mt.cex", cexHeader = true)
-val parserOutput = "src/test/resources/fst/livy-mt-parsed.txt"
-
-import scala.io.Source
-val fst = Source.fromFile(parserOutput).getLines.toVector
-
-val latinCorpus = LatinCorpus.fromFstLines(
-    corpus,
-    Latin23Alphabet,
-    fst,
-    strict = false
-  )
+val latinCorpus = LatinCorpus.fromFstLines(corpus, Latin24Alphabet, fstLines, strict=false)
 ```
 
-Group tokens into citable units:
-
-```tut:silent
+```scala mdoc:silent
 val clusters = latinCorpus.clusterByCitation
-```
-
-Create a filter to select citable sequences:
-
-```tut:silent
 val morphFilter = MorphologyCollectionsFilter(clusters)
 ```
 
-Now find citable sequences in which all substantives appear in a case given in a limiting list:
-
-```tut:silent
+```scala mdoc:silent
+import edu.holycross.shot.tabulae._
 val caseList = Vector(Nominative, Genitive)
 val nomgenOnly = morphFilter.limitSubstantiveCase(caseList)
-```
-
-The result is a Vector.  How many?
-
-```tut
-nomgenOnly.size
-```
-
-If you just want the matching canonically citable node:
-
-```tut:silent
 val nomgenNodes = morphFilter.limitSubstantiveCaseNodes(caseList)
 ```
 
-Pretty-print the first 5 of these:
 
-```tut
+
+Pretty-printing examples:
+
+```scala mdoc
 nomgenNodes.take(5).map(node => node.urn + "  " + node.text).mkString("\n\n")
 ```
 
 or if you just want the text:
 
-```tut:silent
+```scala mdoc
 val nomgenText = morphFilter.limitSubstantiveCaseText(caseList)
 ```
 
 Pretty-print the first 5 of these:
 
-```tut
+```scala mdoc
 nomgenText.take(5).mkString("\n\n")
 ```
