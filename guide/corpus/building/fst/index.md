@@ -2,12 +2,13 @@
 title: Using FST output
 layout: page
 parent: Building a LatinCorpus
+grand_parent: Using a LatinCorpus
 nav_order: 1
 ---
 
 **Version @VERSION@**
 
-# Building a `LatinCorpus from SFST output
+# Building a `LatinCorpus` from SFST output
 
 ```scala mdoc:silent
 import edu.holycross.shot.ohco2._

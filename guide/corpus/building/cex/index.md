@@ -2,6 +2,7 @@
 title: From CEX serialization
 layout: page
 parent: Building a LatinCorpus
+grand_parent: Using a LatinCorpus
 nav_order: 2
 ---
 
