@@ -3,39 +3,16 @@ title: Building a LatinCorpus
 layout: page
 parent: Using a LatinCorpus
 nav_order: 0
+has_children: true
 ---
+
+**Version @VERSION@**
 
 # Building a `LatinCorpus`
 
-Two ways:
+Other than programmatically constructing a Vector of `ParsedLatinToken`s, there are two ways to build a `LatinCorpus` from external data:
 
-- tokenizable corpus + sfst output
-- from CEX serialization of the parsed token data model
+1. using a tokenizable corpus + SFST output from parsing a word list covering that corpus
+2. using the CEX serialization of the parsed token data model
 
-
-## From SFST output
-
-```scala mdoc:silent
-import edu.holycross.shot.ohco2._
-import edu.holycross.shot.mid.orthography._
-import edu.holycross.shot.latin._
-import edu.holycross.shot.latincorpus._
-import scala.io.Source
-```
-
-```scala mdoc:silent
-// citable corpus
-val url = "https://raw.githubusercontent.com/LinguaLatina/texts/master/texts/latin23/hyginus.cex"
-val corpus = CorpusSource.fromUrl(url, cexHeader = true)
-```
-
-```scala mdoc:silent
-// morphological info in SFST format
-val fstUrl = "https://raw.githubusercontent.com/LinguaLatina/analysis/master/data/hyginus-fst.txt"
-val fstLines = Source.fromURL(fstUrl).getLines.toVector
-```
-
-```scala mdoc:silent
-// voila
-val latinCorpus = LatinCorpus.fromFstLines(corpus,Latin23Alphabet, fstLines, strict=false)
-```
+Note that if you build a `LatinCorpus` using the first method, you can then use the `cex()` method of the `LatinCorpus` class to create a CEX serialization of the parsed corpus, so that in the future you can use the faster and more convenient second method.
