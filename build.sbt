@@ -39,7 +39,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       libraryDependencies ++= Seq(
           "org.scala-js" %% "scalajs-stubs" % "1.0.0" % "provided",
           "com.github.pathikrit" %% "better-files" % "3.5.0",
-          "edu.holycross.shot" %% "tabulae" % "6.6.1"
+          "edu.holycross.shot" %% "tabulae" % "7.0.1"
         )
     ).
     jsSettings(
@@ -56,6 +56,6 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       mdocOut := file("docs"),
       mdocExtraArguments := Seq("--no-link-hygiene"),
       mdocVariables := Map(
-          "VERSION" -> "4.0.0"
+          "VERSION" -> "5.0.0"
         )
     )
