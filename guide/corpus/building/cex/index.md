@@ -10,23 +10,9 @@ nav_order: 2
 
 # Building a `LatinCorpus` from CEX serialization
 
-```scala mdoc:silent
-import edu.holycross.shot.latincorpus._
-val url = "https://raw.githubusercontent.com/LinguaLatina/analysis/master/data/hyginus/hyginus-latc.cex"
-val latinCorpus = LatinCorpus.fromUrl(url)
-```
 
+There are three ways to build a `LatinCorpus` from data serialized to CEX in the parsed token data model:
 
-The resulting `LatinCorpus` is citable by individual token, and associates a (possibly empty) list of analyses with each token.
-
-Number of tokens in the corpus:
-
-
-```scala mdoc
-println(latinCorpus.size)
-```
-
-
-- fromFile
-- fromURL
-or apply method
+1. directly from a Vector of Strings, `LatinCorpus(stringList)`
+2. from a file, `LatinCorpus.fromFile(f)`
+3. from a URL, `LatinCorpus.fromUrl(url)`

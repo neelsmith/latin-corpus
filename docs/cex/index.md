@@ -2,7 +2,7 @@
 title: Saving a LatinCorpus
 layout: page
 parent: Using a LatinCorpus
-nav_order: 0
+nav_order: 1
 ---
 
 # Saving a `LatinCorpus`
