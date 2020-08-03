@@ -21,7 +21,7 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 * @param tokens Ordered list of [[LatinParsedTokene]]s making u this corpus.
 */
 case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedTokenSequence {
-  //Logger.setDefaultLogLevel(LogLevel.WARN)
+  Logger.setDefaultLogLevel(LogLevel.WARN)
   val formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd")
   val todayFormatted = LocalDate.now.format(formatter)
 
@@ -222,27 +222,10 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
 
 object LatinCorpus extends LogSupport {
 
-
-
-
-
-  /*
-  def apply(): LatinCorpus = {
-    val tokens: Vector[LatinParsedToken], tcorpus: TokenizableCorpus
-  }
-  */
-
-
-  // Read index value from CEX line
-  def indexCex(cex: String, separator: String = "#") : Int = {
-    val columns = cex.split(separator)
-    columns(7).toInt
-  }
-
   //urn#label#passage#token#lexeme#form#category#sequence
-  def fromCexLines(cexLines: Vector[String]) = {
+  def apply(cexLines: Vector[String], separator: String = "#") : LatinCorpus = {
     val byToken = cexLines.groupBy( ln => {
-      val cols = ln.split("#")
+      val cols = ln.split(separator)
       cols(2)
     })
     val indexed = byToken.toVector.map{ case (k,v) => {
@@ -250,15 +233,32 @@ object LatinCorpus extends LogSupport {
       (v, sequence)
     }}
     val sorted = indexed.sortBy(_._2).map(_._1)
-    sorted.map(tknLines => LatinParsedToken(tknLines))
-    //val cexLines = sorted.map( tknGroup => ParsedLatinToken(tknGroup._1))
-    //println(byToken.size + " TO " + indexed.size)
-    //println(cexLines.take(3))
+    LatinCorpus(sorted.map(tknLines => LatinParsedToken(tknLines)))
   }
 
-  def fromFile(f: String) = {
-    fromCexLines(Source.fromFile(f).getLines.toVector)
+  def fromFile(f: String, separator: String = "#", cexHeader: Boolean = true): LatinCorpus = {
+    if (cexHeader) {
+      LatinCorpus(Source.fromFile(f).getLines.toVector.tail, separator)
+    } else {
+      LatinCorpus(Source.fromFile(f).getLines.toVector, separator)
+    }
   }
+
+  def fromUrl(u: String, separator: String = "#", cexHeader: Boolean = true): LatinCorpus = {
+    if (cexHeader) {
+      LatinCorpus(Source.fromURL(u).getLines.toVector.tail, separator)
+    } else {
+      LatinCorpus(Source.fromURL(u).getLines.toVector, separator)
+    }
+  }
+
+  // Read index value from column 7 of CEX line
+  def indexCex(cex: String, separator: String = "#") : Int = {
+    val columns = cex.split(separator)
+    columns(7).toInt
+  }
+
+
 
   /** Create a LatinCorpus by associating an OHCO2 Corpus in a known
   * orthographic system with morphological analyses.

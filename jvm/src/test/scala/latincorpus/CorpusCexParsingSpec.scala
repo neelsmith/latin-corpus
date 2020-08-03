@@ -45,7 +45,22 @@ class CorpusCexParsingSpec extends FlatSpec {
 
 
   it should "group together analyses by token" in {
-    LatinCorpus.fromCexLines(sectionLines.tail.take(1))
+    val latc = LatinCorpus(sectionLines)
+    val expectedTokens = 65
+    assert(latc.size == expectedTokens)
+  }
+
+  it should "create a corpus from a URL" in {
+    val url = "https://raw.githubusercontent.com/neelsmith/latin-corpus/master/jvm/src/test/resources/sect196a.cex"
+    val latc = LatinCorpus.fromUrl(url, cexHeader = false)
+    val expectedTokens = 65
+    assert(latc.size == expectedTokens)
+  }
+
+  it should "create a corpus from a file" in {
+    val latc = LatinCorpus.fromFile(f, cexHeader = false)
+    val expectedTokens = 65
+    assert(latc.size == expectedTokens)
   }
 
 }

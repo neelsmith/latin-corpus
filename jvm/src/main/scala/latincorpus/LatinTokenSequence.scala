@@ -65,7 +65,7 @@ trait LatinParsedTokenSequence extends LogSupport {
 
 
   def highlightForms(highlighters: Vector[Highlighter]) = {
-    Logger.setDefaultLogLevel(LogLevel.DEBUG)
+    //Logger.setDefaultLogLevel(LogLevel.DEBUG)
     val hilited = tokens.map(t => {
       t.category.toString match {
         case "PunctuationToken" => {
@@ -83,7 +83,7 @@ trait LatinParsedTokenSequence extends LogSupport {
   def highlightForms(mf : MorphologyFilter,
     hlOpen : String = "**",
     hlClose : String = "**") = {
-    Logger.setDefaultLogLevel(LogLevel.WARN)
+    //Logger.setDefaultLogLevel(LogLevel.WARN)
 
     val hilited = tokens.map(t => {
       t.category.toString match {

@@ -15,7 +15,7 @@ case class LatinParsedToken(
   category: MidTokenCategory,
   analyses: Vector[LemmatizedForm] = Vector.empty[LemmatizedForm]
 ) {
-
+  // Handy:
   def urn = cn.urn
   def text = cn.text
 
@@ -54,13 +54,25 @@ case class LatinParsedToken(
 }
 
 object LatinParsedToken extends LogSupport {
-  //urn#label#passage#token#lexeme#form#category#sequence
-  // One or more lines ofr a single token
 
+  /** Create a [[LatinParsedToken]] from a series of CEX
+  * lines in the parsed token data model.  The Vector should
+  * include one line for each analysis of the given token.
+  *
+  * @param cex CEX lines, one per analysis, of the form:
+  * urn#label#passage#token#lexeme#form#category#sequence
+  * where each line is an analysis of the same token.
+  */
   def apply(cex: Vector[String]) : LatinParsedToken = {
     fromCexLines(cex)
   }
 
+  /** Create abbreviated identifier following tabulae
+  * convention of crossing collection and object identifiers
+  * of a Cite2Urn.
+  *
+  * @param urn Cite2Urn to represent with an abbreviated string.
+  */
   def abbreviatedUrn(urn: Cite2Urn): String = {
     urn.collection + "." + urn.objectComponent
   }
@@ -80,13 +92,13 @@ object LatinParsedToken extends LogSupport {
     val citableNode = CitableNode(urn, text)
     val tokenType: MidTokenCategory =  tokenCategory(first(6)).get
 
-    val lemmatizedForms = for (row <- rowsByColumns) yield {
+    val lemmatizedFormOpts = for (row <- rowsByColumns) yield {
       val lexeme = Cite2Urn(row(4))
       val lemmaId = abbreviatedUrn(lexeme)
       val form = Cite2Urn(row(5))
-      LemmatizedForm.fromFormUrn(lemmaId, "", "", form )
+      LemmatizedForm(lemmaId, "", "", form )
     }
-
+    val lemmatizedForms = lemmatizedFormOpts.flatten
     val token = LatinParsedToken(citableNode,tokenType,lemmatizedForms )
     debug("Made token from CEX lines: " + token)
     token
