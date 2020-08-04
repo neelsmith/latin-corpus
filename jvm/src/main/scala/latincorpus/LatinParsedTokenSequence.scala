@@ -13,14 +13,18 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 trait LatinParsedTokenSequence extends LogSupport {
   //Logger.setDefaultLogLevel(LogLevel.WARN)
 
-
+  /** Tokens contained in this sequence.*/
   def tokens: Vector[LatinParsedToken]
 
-
-
-
-
-  def highlightPoS(label: String, hlOpen : String = "**", hlClose : String = "**") = {
+  /** Compose a String highlighting a specified part of speech.
+  *
+  * @param label Labelling String identifying a part of speech
+  * (more properly, an inflectional type).
+  * @param hlOpen Opening (left) String marking highlighted token.
+  * @param hlClose Closing (right) String marking highlighted
+  * token.
+  */
+  def highlightPoS(label: String, hlOpen : String = "**", hlClose : String = "**") : String = {
     val hilited = tokens.map(t => {
       if (t.analyses.map(_.posLabel).contains(label)) {
         s"${hlOpen}${t.text}${hlClose}"

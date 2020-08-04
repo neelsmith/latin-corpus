@@ -19,7 +19,7 @@ case class TokenSequenceFilter(tokenSequence: LatinParsedTokenSequence) {
   *
   * @param caseList Cases to look for.
   */
-  def limitedToCases(caseList: Vector[GrammaticalCase]): Boolean = {
+  def limitCase(caseList: Vector[GrammaticalCase]): Boolean = {
     val analyses = tokenSequence.tokens.map(_.analyses).filter(_.nonEmpty)
 
     // Collect a T/F evaluation of each token:
@@ -52,6 +52,11 @@ case class TokenSequenceFilter(tokenSequence: LatinParsedTokenSequence) {
     // Final result is true only if all tokens can be analyzed
     // using only this list of cases:
    (! checkList.contains(false))
+  }
+
+  def includesCase(caseList: Vector[GrammaticalCase]) : Boolean = {
+    false
+
   }
 
   def limitVerbTenseMood(tenseList: Vector[Tense], moodList: Vector[Mood]) = {}
