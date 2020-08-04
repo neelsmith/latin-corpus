@@ -12,8 +12,9 @@ nav_order: 0
 
 ## Central concepts
 
-1. A `LatinParsedToken` is a categorized citable token, with an associated list of morphological analyses.
-2. A `LatinCorpus` is a sequence of `LatinParsedToken`s.
+- A `LatinCorpus` is made up of a sequence of `LatinParsedToken`s.  A `LatinParsedToken` is a categorized citable token, with an associated list of morphological analyses.
+- Parsed tokens can be clustered in sequences (implementations of the `LatinParsedTokenSequence` trait) such as the `LatinCitableUnit`.
+
 
 
 ## Using a `LatinCorpus`

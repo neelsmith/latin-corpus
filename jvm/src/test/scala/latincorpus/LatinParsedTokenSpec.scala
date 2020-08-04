@@ -57,4 +57,6 @@ class LatinParsedTokenSpec extends FlatSpec {
     assert(parsedToken.matchesAny(noneatall) == false)
   }
 
+  it should "determine it has an analysis matching all of a list of lexemes" in pending
+
 }

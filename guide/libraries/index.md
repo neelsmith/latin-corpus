@@ -4,7 +4,7 @@ layout: page
 nav_order: 2
 ---
 
-**Version @VERSIO@**
+**Version @VERSION@**
 
 
 # Overview of data structures
