@@ -1,5 +1,5 @@
 ---
-title: Clustering citable units
+title: Filtering citable units
 layout: page
 parent: Using a LatinCorpus
 ---

@@ -16,6 +16,29 @@ trait LatinParsedTokenSequence extends LogSupport {
   /** Tokens contained in this sequence.*/
   def tokens: Vector[LatinParsedToken]
 
+  /** True if one or more tokens matches any one or more
+  * lexeme in a given list.
+  *
+  * @param lexemes List of lexemes to look for.
+  */
+  def matchesLexeme(lexemes: Vector[String]): Boolean = {
+    val tf = for (t <- tokens) yield {
+      t.matchesAny(lexemes)
+    }
+    tf.contains(true)
+  }
+
+  /** True if one or more tokens matches a given lexeme.
+  *
+  * @param lexeme Lexeme to test for.
+  */
+  def matchesLexeme(lexeme: String) : Boolean = {
+    val tf = for (t <- tokens) yield {
+      t.matchesLexeme(lexeme)
+    }
+    tf.contains(true)
+  }
+
   /** Compose a String highlighting a specified part of speech.
   *
   * @param label Labelling String identifying a part of speech
@@ -34,9 +57,6 @@ trait LatinParsedTokenSequence extends LogSupport {
     })
     hilited.mkString(" ")
   }
-
-
-
 
   def formatSingleAnalysis(text: String, analysis: LemmatizedForm, highlighters: Vector[Highlighter])  =  {
     val formatted = for  (hl <- highlighters) yield {
@@ -142,19 +162,6 @@ trait LatinParsedTokenSequence extends LogSupport {
 
 
 
-  def matchesAny(lexemes: Vector[String]) = {
-    val tf = for (t <- tokens) yield {
-      t.matchesAny(lexemes)
-    }
-    tf.contains(true)
-  }
-
-  def matchesLexeme(lexeme: String) : Boolean = {
-    val tf = for (t <- tokens) yield {
-      t.matchesLexeme(lexeme)
-    }
-    tf.contains(true)
-  }
 
   /** All tokens with at least one morphological analysis.*/
   lazy val analyzed = tokens.filter(_.analyses.nonEmpty)
@@ -229,6 +236,57 @@ trait LatinParsedTokenSequence extends LogSupport {
     analyzed.filter(_.analyses(0).posLabel == "verb")
   }
 
+
+ def tenseMoodValues : Vector[TenseMood] = {
+  //verbs.flatMap(_.analyses.flatMap(a => (a.verbTense, a.verbMood) )).distinct
+  Vector.empty[(TenseMood)]
+ }
+
+ def valuesForCategory(prop: MorphologicalCategoryValues): Vector[MorphologicalProperty] = {
+
+    val matches = prop.name match {
+
+      case "case" => {
+        // Collect all values for GrammaticalCase in all substantives:
+        val nounCases: Vector[GrammaticalCase] = nouns.flatMap(_.analyses.flatMap(a => a.substantiveCase)).distinct
+        val pronounCases = pronouns.flatMap(_.analyses.flatMap(a => a.substantiveCase)).distinct
+        val adjectiveCases = adjectives.flatMap(_.analyses.flatMap(a => a.substantiveCase)).distinct
+
+        // Add gerund and supine?
+        (nounCases ++ pronounCases ++ adjectiveCases)
+      }
+      case "gender" => {
+        val nounGenders: Vector[Gender] = nouns.flatMap(_.analyses.flatMap(a => a.substantiveGender)).distinct
+        val pronounGenders = pronouns.flatMap(_.analyses.flatMap(a => a.substantiveGender)).distinct
+        val adjectiveGenders = adjectives.flatMap(_.analyses.flatMap(a => a.substantiveGender)).distinct
+        (nounGenders ++ pronounGenders ++ adjectiveGenders)
+      }
+
+      case "person" => {
+        verbs.flatMap(_.analyses.flatMap(a => a.verbPerson))
+      }
+
+      case "tense" => {
+        val verbTenses = verbs.flatMap(v => v.analyses.flatMap( a => a.verbTense))
+        val ptcplTenses = participles.flatMap(p => p.analyses.flatMap( a => a.participleTense))
+        val infinTenses = infinitives.flatMap(i => i.analyses.flatMap(a => a.infinitiveTense))
+
+        (verbTenses ++ ptcplTenses ++ infinTenses).distinct
+      }
+
+      case "mood" => verbs.flatMap(_.analyses.flatMap(a => a.verbMood))
+
+      case "voice" => {
+        val verbVoices = verbs.flatMap(v => v.analyses.flatMap( a => a.verbVoice))
+        val ptcplVoices = participles.flatMap(p => p.analyses.flatMap( a => a.participleVoice))
+        val infinVoices = infinitives.flatMap(i => i.analyses.flatMap(a => a.infinitiveVoice))
+
+        (verbVoices ++ ptcplVoices ++ infinVoices).distinct
+      }
+    }
+    matches
+  }
+
   /** Noun tokens only*/
   lazy val nouns = {
     analyzed.filter(_.analyses(0).posLabel == "noun")
@@ -278,7 +336,6 @@ trait LatinParsedTokenSequence extends LogSupport {
   lazy val supines = {
     analyzed.filter(_.analyses(0).posLabel == "supine")
   }
-
 
 
 
