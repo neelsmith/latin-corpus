@@ -30,6 +30,28 @@ case class LatinParsedToken(
     analyses.filter(_.lemmaId == lexeme).nonEmpty
   }
 
+  def tenseValue(prop: MorphologicalProperty) : Tense = {
+    prop match {
+      case t: Tense =>  t
+      case _ =>  throw new Exception(s"${prop}  is not a Tense")
+    }
+  }
+  def moodValue(prop: MorphologicalProperty) : Mood = {
+    prop match {
+      case m: Mood => m
+      case _ => throw new Exception(s"${prop} is not a Mood")
+    }
+  }
+  def tenseMood: Vector[TenseMood] = {
+    val options = analyses.map(a => Vector(a.verbTense,a.verbMood) )
+    val noNulls = options.filterNot(v => v(0) == None || v(1) == None )
+    noNulls.map(v => TenseMood(
+        tenseValue(v(0).get),
+        moodValue(v(1).get)
+      )
+    )
+  }
+
   /** Map analyses to [[LemmatizedFormUrns]] with assitance of a
   * [[UrnManager]] to expand abbreviations fto full URNs.
   *

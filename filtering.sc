@@ -3,13 +3,27 @@ import edu.holycross.shot.cite._
 import edu.holycross.shot.ohco2._
 import edu.holycross.shot.tabulae._
 import edu.holycross.shot.latin._
-val f = "jvm/src/test/resources/c108a.cex"
+val hyginusUrl = "https://raw.githubusercontent.com/LinguaLatina/analysis/master/data/hyginus/hyginus-latc.cex"
+val hyginus = LatinCorpus.fromUrl(hyginusUrl)
+
+val urnManagerUrl = "https://raw.githubusercontent.com/neelsmith/tabulae/master/jvm/src/test/resources/datasets/analytical_types/urnregistry/collectionregistry.cex"
+val manager = UrnManager.fromUrl(urnManagerUrl)
+
+
+
+
+val lexcorp = LatinCorpus(hyginus.lexicalTokens)
+val formUrns = lexcorp.analysisUrns(manager).map(_.form)
+val labelled = formUrns.flatMap(u => if (ValidForm.labels.keySet.contains(u.toString)) {
+  Some(ValidForm.labels(u.toString)) } else { None }
+)
+
+/*val f = "jvm/src/test/resources/c108a.cex"
 val lc = LatinCorpus.fromFile(f)
 val citableUnits = lc.clusterByCitation
 val c108a = citableUnits.head
+*/
 
-val hyginusUrl = "https://raw.githubusercontent.com/LinguaLatina/analysis/master/data/hyginus/hyginus-latc.cex"
-val hyginus = LatinCorpus.fromUrl(hyginusUrl)
 
 
 /*
@@ -45,5 +59,16 @@ val counted =  grouped.map{ case (tm, v) => (tm, v.size) }
 val sorted = counted.toVector.sortBy{ case (tm, count) => count}.reverse
 
 println(sorted.mkString("\n"))
+
+
+def profileNouns
+
+def profile = {
+  println("Citable passages: " + lexcorp.clusterByCitation.size)
+  println("Lexical tokens: " + lexcorp.size)
+  println("No anlaysis: " + lexcorp.noAnalysis.size)
+  println("Tokens analyzed: " + lexcorp.analyzed.size)
+  println("Distinct lexemes: " +   lexcorp.tokens.flatMap(t => t.analyses.map(a => LewisShort.label(a.lemmaId))).distinct.size)
+}
 //urn:cite2:hmt:ls.markdown:n46529
 // urn:cite2:hmt:ls.markdown:n46529
