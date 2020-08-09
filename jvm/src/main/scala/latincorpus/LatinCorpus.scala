@@ -21,11 +21,23 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 * @param tokens Ordered list of [[LatinParsedTokene]]s making u this corpus.
 */
 case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedTokenSequence {
-  Logger.setDefaultLogLevel(LogLevel.WARN)
+  //Logger.setDefaultLogLevel(LogLevel.WARN)
+
+  /** Format time stamps with underscores as separators to
+  * faciliate use in URNs.
+  */
   val formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd")
+  /** Time stamp to use in unique identifiers for automatically
+  * generated records.
+  */
   val todayFormatted = LocalDate.now.format(formatter)
 
-  def analysisUrns(umgr: UrnManager): Vector[LemmatizedFormUrns] = tokens.map(_.analysisUrns(umgr: UrnManager)).flatten
+
+  /** Represent this corpus as a sequence of CEX lines.
+  *
+  * @param umgr UrnManager to expand abbreviated identifiers.
+  */
+  def analysisUrns(umgr: UrnManager): Vector[LemmatizedFormUrns] = tokens.flatMap(t => t.analysisUrns(umgr: UrnManager))
 
   def cexLines(umgr: UrnManager, separator: String = "#") : Vector[String] = analysisUrns(umgr).map(_.cex(separator))
 

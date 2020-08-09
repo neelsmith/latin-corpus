@@ -51,10 +51,11 @@ val fst = """> sed
   val ortho = Latin24Alphabet
   val lc = LatinCorpus.fromFstLines(corpus,ortho,fst)
 
-  "A LatinCorpus" should "create a histogram of tokens" in pending /* {
+  "A LatinCorpus" should "create a histogram of tokens" in {
     val expectedFrequency = 1
     assert(lc.lexTokenHistogram.countForItem("opinor") == expectedFrequency)
-  }*/
+  }
+  
   it should "index from tokens to lexemes" in {
     val expectedNumberLexemes = 1
     val expectedLexVector = Vector("ls.n32747")

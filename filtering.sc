@@ -10,8 +10,6 @@ val urnManagerUrl = "https://raw.githubusercontent.com/neelsmith/tabulae/master/
 val manager = UrnManager.fromUrl(urnManagerUrl)
 
 
-
-
 val lexcorp = LatinCorpus(hyginus.lexicalTokens)
 val formUrns = lexcorp.analysisUrns(manager).map(_.form)
 val labelled = formUrns.flatMap(u => if (ValidForm.labels.keySet.contains(u.toString)) {
@@ -19,14 +17,10 @@ val labelled = formUrns.flatMap(u => if (ValidForm.labels.keySet.contains(u.toSt
 )
 
 
-
 val distinctForms = lexcorp.tokens.flatMap(t => t.analysisUrns(manager)).map(_.form).distinct.filterNot(u => u.objectComponent  == "null")
-
 
 val validForms = distinctForms.map(urn => ValidForm(urn))
 
-//urn:cite2:tabulae:morphforms.v1:000000509
-//urn:cite2:tabulae:morphforms.v1:000000509
 
 
 
@@ -37,40 +31,15 @@ def formFreqs = {
     (vf, count)
   }
 }
-/*val f = "jvm/src/test/resources/c108a.cex"
-val lc = LatinCorpus.fromFile(f)
-val citableUnits = lc.clusterByCitation
-val c108a = citableUnits.head
-*/
 
 
-
-
-/*
-def tenseValue(prop: MorphologicalProperty) : Tense = {
-  prop match {
-    case t: Tense =>  t
-    case _ =>  throw new Exception(s"${prop}  is not a Tense")
-  }
-}
-def moodValue(prop: MorphologicalProperty) : Mood = {
-  prop match {
-    case m: Mood => m
-    case _ => throw new Exception(s"${prop} is not a Mood")
-  }
+def formsHisto(tokens: Vector[LatinParsedToken], umgr: UrnManager) = {
+  val forms = tokens.flatMap(t => t.analysisUrns(manager)).map(a => a.form)
+  val grouped = forms.groupBy(f => f).toVector
+  grouped.map( pr => (pr._1, pr._2.size) ).sortBy(_._2).reverse
 }
 
-def  tm (lc: LatinCorpus) : Vector[TenseMood]= {
-  val options = lc.verbs.map(v => v.analyses.map(a => Vector(a.verbTense,a.verbMood) ) ).flatten
-  val noNulls = options.filterNot(v => v(0) == None || v(1) == None )
-  noNulls.map(v => TenseMood(
-      tenseValue(v(0).get),
-      moodValue(v(1).get)
-    )
-  )
-}
-*/
-// ELIMINATE FORMS OF sum !
+// ELIMINATE FORMS OF sum:
 val sum = "ls.n46529"
 val notToBe = hyginus.verbs.filterNot(_.matchesLexeme(sum))
 val hygtm = notToBe.flatMap(_.tenseMood)
@@ -82,7 +51,7 @@ println(sorted.mkString("\n"))
 
 
 def profileNouns = {
-  //val 
+
 }
 
 def profile = {
