@@ -81,7 +81,9 @@ val sorted = counted.toVector.sortBy{ case (tm, count) => count}.reverse
 println(sorted.mkString("\n"))
 
 
-def profileNouns = {}
+def profileNouns = {
+  //val 
+}
 
 def profile = {
   println("Citable passages: " + lexcorp.clusterByCitation.size)
@@ -89,6 +91,7 @@ def profile = {
   println("Unanlayzed: " + lexcorp.noAnalysis.size)
   println("Tokens analyzed: " + lexcorp.analyzed.size)
   println("Distinct lexemes: " +   lexcorp.tokens.flatMap(t => t.analyses.map(a => LewisShort.label(a.lemmaId))).distinct.size)
+  println("Distinct (possible) forms: " + freqs.size)
 }
 //urn:cite2:hmt:ls.markdown:n46529
 // urn:cite2:hmt:ls.markdown:n46529
