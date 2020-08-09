@@ -59,7 +59,8 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
 
 
 
-  /*
+  /**
+
   def multipleLexemesHistogram :  Histogram[String]= {
     val ambiguous: Vector[Frequency[String]] = multipleLexemes.map(l =>
       {
@@ -71,7 +72,8 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     }
     ).distinct
     Histogram(ambiguous)
-  }*/
+  }
+  */
 
   /** Compute percent as a Double to a given scale.
   *
@@ -129,6 +131,7 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     }
   }
 */
+
   /** Create a histogram of lexemes.
   def lexemeHistogram : Histogram[String] = {
     // avoid repeating function call: generate this map once
@@ -146,18 +149,18 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
   def labelledLexemeHistogram: Histogram[String] = {
     val labelled = lexemeHistogram.frequencies.map(fr => Frequency( LewisShort.label(fr.item),fr.count ))
     Histogram(labelled).sorted
-  }
-*/
+  }*/
+
+
   /** Create a histogram of lexical tokens.
   def lexTokenHistogram : Histogram[String] = {
     val lexHist : Histogram[String] = tcorpus.lexHistogram
     lexHist.sorted
-  }
-*/
-  /** Concordance of all lexical tokens in corpus.
-  def tokenConcordance  = {
-    tcorpus.concordance
   }*/
+  /** Concordance of all lexical tokens in corpus.*/
+  def tokenConcordance  = {
+    Vector.empty[String]
+  }
 
   /** Index of tokens to Vector of identifiers for lexeme.*/
   def tokenLexemeIndex : Map[String,Vector[String]] = {
@@ -167,7 +170,6 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
 
   /** Index of lexemes to Vector of tokens.*/
   def lexemeTokenIndex  ={ //: Map[String,Vector[String]] = {
-
     val reversedIndex = tokenLexemeIndex.toVector.map{ case (s,v) => v.map(el => (s,el))}.flatten
     val indexVector = reversedIndex.groupBy(_._1).toVector.map{ case (s,v) => (s, v.map(_._2))}
     indexVector.map{ case (s,v) => s -> v }.toMap
@@ -185,7 +187,6 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     val urnPlusAnalyses = this.tokens.map(t => (t.urn, t.analyses))
     val pairings = urnPlusAnalyses.flatMap{ case (k,v)  => v.map(f => (f,k))}
     pairings.groupBy(_._1).map{ case (k,v) => k -> v.map(_._2) }
-
   }
 
   /** Cluster  into [[LatinCitableUnit]]s all [[LatinParsedToken]]s with common CTS URNs for the parent level of the passage hierarchy.
@@ -227,7 +228,6 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
         segmentByPhrase(source.tail, collected :+ source.head, phrases)
       }
     }
-
   }
 }
 

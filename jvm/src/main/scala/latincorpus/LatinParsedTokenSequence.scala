@@ -22,10 +22,7 @@ trait LatinParsedTokenSequence extends LogSupport {
   * @param lexemes List of lexemes to look for.
   */
   def matchesLexeme(lexemes: Vector[String]): Boolean = {
-    val tf = for (t <- tokens) yield {
-      t.matchesAny(lexemes)
-    }
-    tf.contains(true)
+    LatinParsedTokenSequence.matchesLexeme(tokens, lexemes)
   }
 
   /** True if one or more tokens matches a given lexeme.
@@ -33,10 +30,7 @@ trait LatinParsedTokenSequence extends LogSupport {
   * @param lexeme Lexeme to test for.
   */
   def matchesLexeme(lexeme: String) : Boolean = {
-    val tf = for (t <- tokens) yield {
-      t.matchesLexeme(lexeme)
-    }
-    tf.contains(true)
+    LatinParsedTokenSequence.matchesLexeme(tokens, lexeme)
   }
 
   /** Compose a String highlighting a specified part of speech.
@@ -58,7 +52,7 @@ trait LatinParsedTokenSequence extends LogSupport {
     hilited.mkString(" ")
   }
 
-  def formatSingleAnalysis(text: String, analysis: LemmatizedForm, highlighters: Vector[Highlighter])  =  {
+  def formatSingleAnalysis(text: String, analysis: LemmatizedForm, highlighters: Vector[Highlighter]) : String =  {
     val formatted = for  (hl <- highlighters) yield {
       if (hl.mf.agrees(analysis)) {
         (true, hl.opening + text + hl.closing)
@@ -88,7 +82,7 @@ trait LatinParsedTokenSequence extends LogSupport {
   }
 
 
-  def highlightForms(highlighters: Vector[Highlighter]) = {
+  def highlightForms(highlighters: Vector[Highlighter]) : String = {
     //Logger.setDefaultLogLevel(LogLevel.DEBUG)
     val hilited = tokens.map(t => {
       t.category.toString match {
@@ -106,7 +100,7 @@ trait LatinParsedTokenSequence extends LogSupport {
 
   def highlightForms(mf : MorphologyFilter,
     hlOpen : String = "**",
-    hlClose : String = "**") = {
+    hlClose : String = "**") : String= {
     //Logger.setDefaultLogLevel(LogLevel.WARN)
 
     val hilited = tokens.map(t => {
@@ -160,67 +154,59 @@ trait LatinParsedTokenSequence extends LogSupport {
 
   }
 
-
-
-
   /** All tokens with at least one morphological analysis.*/
-  lazy val analyzed = tokens.filter(_.analyses.nonEmpty)
+  lazy val analyzed: Vector[LatinParsedToken] = tokens.filter(_.analyses.nonEmpty)
 
   /** All lexical tokens.*/
-  lazy val lexicalTokens = tokens.filter(t => t.category == LexicalToken)
+  lazy val lexicalTokens: Vector[LatinParsedToken] = tokens.filter(t => t.category == LexicalToken)
 
   /** Total number of tokens.*/
   lazy val size : Int = tokens.size
 
   /** Tokens with a single morphological analysis.*/
-  lazy val singleAnalysis = {
+  lazy val singleAnalysis: Vector[LatinParsedToken] = {
     tokens.filter(_.analyses.size == 1)
   }
 
   /** Tokens with no morphological anlayses.
   */
-  lazy val noAnalysis = {
+  lazy val noAnalysis: Vector[LatinParsedToken] = {
     tokens.filter(_.analyses.isEmpty)
   }
 
   /** Tokens with more than one morphological analysis.*/
-  lazy val mutipleAnalyses = {
+  lazy val mutipleAnalyses: Vector[LatinParsedToken] = {
     tokens.filter(_.analyses.size > 1)
   }
 
-  /** Lexical tokens without a morphological anlaysis. */
-  lazy val missingAnalysis = {
-    lexicalTokens.filter(_.analyses.isEmpty)
-  }
-
   /** Measure of ambigutiy/uniqueness of tokens.*/
-  lazy val tokenAmbiguity = {
+  lazy val tokenAmbiguity: Double = {
     allAnalyses.size / analyzed.size.toDouble
   }
 
 
   /** List of all morphological analyses.*/
-  lazy val allAnalyses =  analyzed.flatMap(_.analyses)
+  lazy val allAnalyses: Vector[LemmatizedForm] =  analyzed.flatMap(_.analyses)
 
   /** Reduce analyzed tokens to citable node + lexeme.*/
-  def lexemesOnly = analyzed.map(t => (t.cn, t.analyses.map(_.lemmaId).distinct) )
+  def lexemesOnly:  Vector[(CitableNode, Vector[String])] = analyzed.map(t => (t.cn, t.analyses.map(_.lemmaId).distinct) )
 
-  def multipleLexemes = {
+  def multipleLexemes:  Vector[LatinParsedToken] = {
     analyzed.filter( _.analyses.map(_.lemmaId).distinct.size > 1)
   }
 
-  def singleLexeme = {
+  def singleLexeme:  Vector[LatinParsedToken] = {
     analyzed.filter( _.analyses.map(_.lemmaId).distinct.size == 1)
   }
 
 
-  def lexemeToFormsHistogram: Histogram[String] = {
+  def lexemesHistogram: Histogram[String] = {
     val freqs : Vector[Frequency[String]] = lexemesOnly.flatMap(_._2).groupBy(s => s).toVector.map{ case (k,v) => Frequency(k, v.size) }
     Histogram(freqs)
   }
 
 
-  lazy val lexicalAmbiguity = {
+  lazy val lexicalAmbiguity: Double = {
     analyzed.size / singleLexeme.size.toDouble
   }
 
@@ -242,8 +228,11 @@ trait LatinParsedTokenSequence extends LogSupport {
   Vector.empty[(TenseMood)]
  }
 
+ /** Collect distinct values for a class of MorphologicalCategoryValues.
+ *
+ * @param prop Morphological property to collect values for.
+ */
  def valuesForCategory(prop: MorphologicalCategoryValues): Vector[MorphologicalProperty] = {
-
     val matches = prop.name match {
 
       case "case" => {
@@ -329,7 +318,7 @@ trait LatinParsedTokenSequence extends LogSupport {
 
   /** Gerund tokens only*/
   lazy val gerunds = {
-  analyzed.filter(_.analyses(0).posLabel == "gerund")
+    analyzed.filter(_.analyses(0).posLabel == "gerund")
   }
 
   /** Supine tokens only*/
@@ -337,26 +326,32 @@ trait LatinParsedTokenSequence extends LogSupport {
     analyzed.filter(_.analyses(0).posLabel == "supine")
   }
 
+  val css = "<style>\na.hoverclass {\nposition: relative ;\n}\na.hoverclass:hover::after {\n content: attr(data-tooltip) ;\n position: absolute ;\n  top: 1.1em ;\n  left: 1em ;\n  min-width: 200px ;\n  border: 1px #808080 solid ;\n  padding: 8px ;\n  z-index: 1 ;\n  color: silver;\n  background-color: white;\n}\n</style>\n"
 
-
-  val css = """
-<style>
-a.hoverclass {
-  position: relative ;
 }
-a.hoverclass:hover::after {
-  content: attr(data-tooltip) ;
-  position: absolute ;
-  top: 1.1em ;
-  left: 1em ;
-  min-width: 200px ;
-  border: 1px #808080 solid ;
-  padding: 8px ;
-  z-index: 1 ;
-  color: silver;
-  background-color: white;
-}
-</style>
-"""
 
+object LatinParsedTokenSequence {
+
+  /** True if one or more tokens matches any one or more
+  * lexeme in a given list.
+  *
+  * @param lexemes List of lexemes to look for.
+  */
+  def matchesLexeme(tokens: Vector[LatinParsedToken], lexeme: String) : Boolean = {
+    val tf = for (t <- tokens) yield {
+      t.matchesLexeme(lexeme)
+    }
+    tf.contains(true)
+  }
+
+  /** True if one or more tokens matches a given lexeme.
+  *
+  * @param lexeme Lexeme to test for.
+  */
+  def matchesLexeme(tokens: Vector[LatinParsedToken], lexemes: Vector[String]) : Boolean = {
+    val tf = for (t <- tokens) yield {
+      t.matchesAny(lexemes)
+    }
+    tf.contains(true)
+  }
 }
