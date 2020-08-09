@@ -24,6 +24,19 @@ val distinctForms = lexcorp.tokens.flatMap(t => t.analysisUrns(manager)).map(_.f
 
 
 val validForms = distinctForms.map(urn => ValidForm(urn))
+
+//urn:cite2:tabulae:morphforms.v1:000000509
+//urn:cite2:tabulae:morphforms.v1:000000509
+
+
+
+def formFreqs = {
+  for (vf <- validForms) yield {
+    val count = lexcorp.tokens.filter(t => t.hasForm(vf.urn, manager)).size
+    println(vf.label + ": " + count)
+    (vf, count)
+  }
+}
 /*val f = "jvm/src/test/resources/c108a.cex"
 val lc = LatinCorpus.fromFile(f)
 val citableUnits = lc.clusterByCitation
