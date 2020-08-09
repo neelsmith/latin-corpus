@@ -15,10 +15,20 @@ case class LatinParsedToken(
   category: MidTokenCategory,
   analyses: Vector[LemmatizedForm] = Vector.empty[LemmatizedForm]
 ) {
-  // Handy:
+
+  // Handy shorthands:
+  /** CTS URN for this token's CitableNode.*/
   def urn = cn.urn
+  /** Text of this token's CitableNode.*/
   def text = cn.text
 
+
+  /** True if one or more analyses of this token parses
+  * to any item in a given list of lexemes.
+  *
+  * @param lexemes List of abbreviated identifiers for the lexemes
+  * to look for.d
+  */
   def matchesAny(lexemes: Vector[String]) : Boolean = {
     val tf = for (lex <- lexemes) yield {
       matchesLexeme(lex)
@@ -26,9 +36,31 @@ case class LatinParsedToken(
     tf.contains(true)
   }
 
+  /** True if one or more analyses of this token parses
+  * to a given lexeme.
+  *
+  * @param lexeme Abbreviated identifier for the lexeme
+  * to look for.
+  */
   def matchesLexeme(lexeme: String) :  Boolean = {
     analyses.filter(_.lemmaId == lexeme).nonEmpty
   }
+
+  /** True if the possible analyses of this token include
+  * a specific morphological form identified by URN.
+  *
+  * @param formUrn URN identifying the form to look for.
+  * @param umgr UrnManager for expanding abbreviated identifiers.
+  */
+  def hasForm(formUrn: Cite2Urn, umgr: UrnManager): Boolean = {
+    val formUrns = analysisUrns(umgr).filter(a => a.form == formUrn)
+    formUrns.nonEmpty
+  }
+
+  // ///////////////////////////////////////////////
+  //
+  // Support special combos not defined in tabulae's
+  // LemmatizedForm class
 
   def tenseValue(prop: MorphologicalProperty) : Tense = {
     prop match {
@@ -51,6 +83,7 @@ case class LatinParsedToken(
       )
     )
   }
+  // ///////////////////////////////////////////////
 
   /** Map analyses to [[LemmatizedFormUrns]] with assitance of a
   * [[UrnManager]] to expand abbreviations fto full URNs.

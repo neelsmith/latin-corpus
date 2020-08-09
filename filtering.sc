@@ -18,11 +18,18 @@ val labelled = formUrns.flatMap(u => if (ValidForm.labels.keySet.contains(u.toSt
   Some(ValidForm.labels(u.toString)) } else { None }
 )
 
+
+
+val distinctForms = lexcorp.tokens.flatMap(t => t.analysisUrns(manager)).map(_.form).distinct.filterNot(u => u.objectComponent  == "null")
+
+
+val validForms = distinctForms.map(urn => ValidForm(urn))
 /*val f = "jvm/src/test/resources/c108a.cex"
 val lc = LatinCorpus.fromFile(f)
 val citableUnits = lc.clusterByCitation
 val c108a = citableUnits.head
 */
+
 
 
 
@@ -61,12 +68,12 @@ val sorted = counted.toVector.sortBy{ case (tm, count) => count}.reverse
 println(sorted.mkString("\n"))
 
 
-def profileNouns
+def profileNouns = {}
 
 def profile = {
   println("Citable passages: " + lexcorp.clusterByCitation.size)
   println("Lexical tokens: " + lexcorp.size)
-  println("No anlaysis: " + lexcorp.noAnalysis.size)
+  println("Unanlayzed: " + lexcorp.noAnalysis.size)
   println("Tokens analyzed: " + lexcorp.analyzed.size)
   println("Distinct lexemes: " +   lexcorp.tokens.flatMap(t => t.analyses.map(a => LewisShort.label(a.lemmaId))).distinct.size)
 }
