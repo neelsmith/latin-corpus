@@ -37,6 +37,6 @@ class LatinParsedTokenSequenceObjectSpec extends FlatSpec {
 
   // MOVE TENSE/MOOD STUFF FROM Corpus to trait
   //
-  // see if implementations can be parameterized in a LatinParsedTokenSequence object
+
 
 }

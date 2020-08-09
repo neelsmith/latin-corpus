@@ -64,3 +64,6 @@ def profile = {
 }
 //urn:cite2:hmt:ls.markdown:n46529
 // urn:cite2:hmt:ls.markdown:n46529
+
+val f = "jvm/src/test/resources/sect196a.cex"
+val corp = LatinCorpus.fromFile(f)

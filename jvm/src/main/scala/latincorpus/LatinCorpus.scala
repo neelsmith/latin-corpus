@@ -23,42 +23,6 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedTokenSequence {
   //Logger.setDefaultLogLevel(LogLevel.WARN)
 
-  /** Format time stamps with underscores as separators to
-  * faciliate use in URNs.
-  */
-  val formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd")
-  /** Time stamp to use in unique identifiers for automatically
-  * generated records.
-  */
-  val todayFormatted = LocalDate.now.format(formatter)
-
-
-  /** Represent this corpus as a sequence of CEX lines.
-  *
-  * @param umgr UrnManager to expand abbreviated identifiers.
-  */
-  def analysisUrns(umgr: UrnManager): Vector[LemmatizedFormUrns] = tokens.flatMap(t => t.analysisUrns(umgr: UrnManager))
-
-  def cexLines(umgr: UrnManager, separator: String = "#") : Vector[String] = analysisUrns(umgr).map(_.cex(separator))
-
-  def citeCollectionLines(umgr: UrnManager, urnBase: String = "urn:cite2:linglat:tkns.v1:", separator: String = "#") = {
-    val citable = for ( (ln, i) <- cexLines(umgr, separator).zipWithIndex) yield {
-      val recordId = todayFormatted + "_" + i
-      val urnStr = urnBase + recordId
-      val label = "Record " + recordId
-      urnStr + "#" + label + "#" + ln + "#" + i
-    }
-    citable
-  }
-
-  def cex(umgr: UrnManager, urnBase: String = "urn:cite2:linglat:tkns.v1:", separator: String = "#") : String = {
-    val header = "urn#label#passage#token#lexeme#form#category#sequence\n"
-    header + citeCollectionLines(umgr, urnBase, separator).mkString("\n")
-  }
-
-
-
-
   /**
 
   def multipleLexemesHistogram :  Histogram[String]= {
@@ -75,27 +39,6 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
   }
   */
 
-  /** Compute percent as a Double to a given scale.
-  *
-  * @param n Number.
-  * @param total Total of which n is some percent.
-  * @param scale Scale for resulting Double.
-  */
-  def dblPercent(n: Int, total: Int, scale: Int = 2) : Double = {
-    val flt = ((n / total.toDouble) * 100).toDouble
-
-    BigDecimal(flt).setScale(scale, BigDecimal.RoundingMode.HALF_UP).toDouble
-  }
-
-
-  /** Compute percent as an Int.
-  *
-  * @param n Number.
-  * @param total Total of which n is some percent.
-  */
-  def percent(n: Int, total: Int) : Int = {
-    ((n / total.toDouble) * 100).toInt
-  }
 
   /** Flat list of every combination of individual lexeme
   * with individual token. */
@@ -157,30 +100,6 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     val lexHist : Histogram[String] = tcorpus.lexHistogram
     lexHist.sorted
   }*/
-  /** Concordance of all lexical tokens in corpus.*/
-  def tokenConcordance  = {
-    Vector.empty[String]
-  }
-
-  /** Index of tokens to Vector of identifiers for lexeme.*/
-  def tokenLexemeIndex : Map[String,Vector[String]] = {
-    val analyzedForms = this.analyzed.map(t => (t.text, t.analyses.map(_.lemmaId).distinct))
-    analyzedForms.groupBy(_._1).map{ case (s,v) => (s, v.map(_._2).flatten.distinct)}
-  }
-
-  /** Index of lexemes to Vector of tokens.*/
-  def lexemeTokenIndex  ={ //: Map[String,Vector[String]] = {
-    val reversedIndex = tokenLexemeIndex.toVector.map{ case (s,v) => v.map(el => (s,el))}.flatten
-    val indexVector = reversedIndex.groupBy(_._1).toVector.map{ case (s,v) => (s, v.map(_._2))}
-    indexVector.map{ case (s,v) => s -> v }.toMap
-  }
-
-
-  /** Create a histogram of LemmatizedForms.*/
-  def formHistogram : Histogram[LemmatizedForm] = {
-    val freqs = this.analyzed.flatMap(_.analyses).groupBy(f => f).map{ case(k,v) => Frequency(k, v.size) }
-    Histogram(freqs.toVector).sorted
-  }
 
 
   def formConcordance = {
