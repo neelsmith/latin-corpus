@@ -19,6 +19,11 @@ trait LatinParsedTokenSequence extends LogSupport {
   /** Tokens contained in this sequence.*/
   def tokens: Vector[LatinParsedToken]
 
+  /** Flat list of all lexemes in this sequence.*/
+  def lexemes: Vector[String] = {
+    lexicalTokens.flatMap(t => t.analyses.map(a => a.lemmaId))
+  }
+
   def vocabulary(caseSensitive: Boolean = false): Vector[String] = {
     if (caseSensitive) {
       lexicalTokens.map(t => t.text).distinct.sorted
@@ -35,7 +40,16 @@ trait LatinParsedTokenSequence extends LogSupport {
     val counts = grouped.toVector.map{ case (t, v) =>   Frequency(t, v.size)
     }
     Histogram(counts)
+  }
 
+  def lexemesHistogram : Histogram[String] = {
+    val counts = lexemes.groupBy(lex => lex).toVector.map{ case (lex, v) => Frequency(lex,v.size)}
+    Histogram(counts)
+  }
+
+  def labelledLexemesHistogram : Histogram[String] = {
+    val counts = lexemes.groupBy(lex => lex).toVector.map{ case (lex, v) => Frequency(LewisShort.label(lex),v.size)}
+    Histogram(counts)
   }
 
 
@@ -194,12 +208,6 @@ trait LatinParsedTokenSequence extends LogSupport {
 
   def singleLexeme:  Vector[LatinParsedToken] = {
     analyzed.filter( _.analyses.map(_.lemmaId).distinct.size == 1)
-  }
-
-
-  def lexemesHistogram: Histogram[String] = {
-    val freqs : Vector[Frequency[String]] = lexemesOnly.flatMap(_._2).groupBy(s => s).toVector.map{ case (k,v) => Frequency(k, v.size) }
-    Histogram(freqs)
   }
 
 

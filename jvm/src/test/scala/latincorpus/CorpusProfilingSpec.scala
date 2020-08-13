@@ -23,10 +23,30 @@ class CorpusProfilingSpec extends FlatSpec {
     assert(chapter.vocabulary().size == tokensHisto.size)
     assert(chapter.lexicalTokens.size == tokensHisto.total)
   }
+  it  should "create a histogram of lexemes" in {
+    val lexemesHisto = chapter.lexemesHistogram
+    assert(lexemesHisto.total == chapter.lexemes.size)
+    assert(lexemesHisto.total == chapter.lexicalTokens.flatMap(_.analyses).size)
+    val tops = lexemesHisto.sorted.frequencies.head
+    val expectedCount = 12
+    val expectedLexeme = "ls.n21026"
+    assert(tops.count == expectedCount)
+    assert(tops.item == expectedLexeme)
+  }
+  it  should "create a histogram of LS-labelled lexemes" in {
+    val lexemesHisto = chapter.labelledLexemesHistogram
+    //println(lexemesHisto.sorted)
+    //ls.n21026:hostis,12
+    val tops = lexemesHisto.sorted.frequencies.head
+    val expectedCount = 12
+    val expectedLexeme = "ls.n21026:hostis"
+    assert(tops.count == expectedCount)
+    assert(tops.item == expectedLexeme)
+
+  }
+
 
   it should "create a histogram of forms" in pending
-  it  should "create a histogram of lexemes" in pending
-  it  should "create a histogram of LS-labelled lexemes" in pending
   it should "create a histogram of lemmatized forms" in pending
 
 
