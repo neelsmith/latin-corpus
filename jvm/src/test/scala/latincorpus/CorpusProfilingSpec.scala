@@ -13,7 +13,16 @@ import scala.io._
 
 class CorpusProfilingSpec extends FlatSpec {
 
-  "A LatinCorpus" should "create a histogram of tokens" in pending
+  val corpusFile = "jvm/src/test/resources/hyginus-latc.cex"
+  val chapterFile = "jvm/src/test/resources/c108a.cex"
+  val corpus = LatinCorpus.fromFile(corpusFile)
+  val chapter = LatinCorpus.fromFile(chapterFile)
+
+  "A LatinCorpus" should "create a histogram of tokens" in {
+    val tokensHisto = chapter.tokensHistogram(caseSensitive = false)
+    assert(chapter.vocabulary().size == tokensHisto.size)
+    assert(chapter.lexicalTokens.size == tokensHisto.total)
+  }
 
   it should "create a histogram of forms" in pending
   it  should "create a histogram of lexemes" in pending

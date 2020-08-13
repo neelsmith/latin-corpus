@@ -26,6 +26,18 @@ trait LatinParsedTokenSequence extends LogSupport {
       lexicalTokens.map(t => t.text.toLowerCase).distinct.sorted
     }
   }
+  def tokensHistogram(caseSensitive : Boolean = true): Histogram[String] = {
+    val grouped = if (caseSensitive) {
+      lexicalTokens.groupBy(t => t.text)
+    } else {
+      lexicalTokens.groupBy(t => t.text.toLowerCase)
+    }
+    val counts = grouped.toVector.map{ case (t, v) =>   Frequency(t, v.size)
+    }
+    Histogram(counts)
+
+  }
+
 
   /** Index of tokens to Vector of identifiers for lexeme.*/
   def tokenLexemeIndex : Map[String,Vector[String]] = {
