@@ -19,11 +19,13 @@ trait LatinParsedTokenSequence extends LogSupport {
   /** Tokens contained in this sequence.*/
   def tokens: Vector[LatinParsedToken]
 
-  /** Concordance of all lexical tokens in corpus.*/
-  def tokenConcordance : Map[String, Vector[CtsUrn]] = {
-    tokens.map(t => (t.text, t.urn)).groupBy(_._1).toVector.map{ case(k,v) => (k, v.map(_._2)) }.toMap
+  def vocabulary(caseSensitive: Boolean = false): Vector[String] = {
+    if (caseSensitive) {
+      lexicalTokens.map(t => t.text).distinct.sorted
+    } else {
+      lexicalTokens.map(t => t.text.toLowerCase).distinct.sorted
+    }
   }
-
 
   /** Index of tokens to Vector of identifiers for lexeme.*/
   def tokenLexemeIndex : Map[String,Vector[String]] = {

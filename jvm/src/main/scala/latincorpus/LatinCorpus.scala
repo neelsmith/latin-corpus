@@ -23,6 +23,44 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedTokenSequence {
   //Logger.setDefaultLogLevel(LogLevel.WARN)
 
+  /** Concordance of all lexical tokens in corpus.*/
+  def tokenConcordance : Map[String, Vector[CtsUrn]] = {
+    tokens.map(t => (t.text, t.urn)).groupBy(_._1).toVector.map{ case(k,v) => (k, v.map(_._2)) }.toMap
+  }
+
+  /** Flat list of every combination of individual lexeme
+  * with individual token. */
+  def lexemeTokenPairings = {
+    val idx = this.tokenLexemeIndex
+    val lexemeVectorsWithTokens = this.analyzed.map(t => (idx(t.text), t.text))
+    val distinctLexemesPlusTokens = lexemeVectorsWithTokens.flatMap{ case (v, t) => v.map(id => (id, t)) }.distinct
+    distinctLexemesPlusTokens
+  }
+
+  /** Map lexemes to an (unsorted) list of passages where the lexeme occurs.*/
+  def lexemeConcordance : Map[String, Vector[CtsUrn]]= {
+    val tknConcordance = tokenConcordance
+    //Logger.setDefaultLogLevel(LogLevel.DEBUG)
+    val distinctLexemesPlusTokens = lexemeTokenPairings
+    val concData = distinctLexemesPlusTokens.map{ case (lex,tkn) => (lex, tknConcordance(tkn) ) }
+
+    //Logger.setDefaultLogLevel(LogLevel.INFO)
+    concData.toMap
+  }
+
+  def labelledLexemeConcordance:  Map[String, Vector[CtsUrn]]= {
+    lexemeConcordance.toVector.map{ case (lex,psgs) => (LewisShort.label(lex), psgs)}.toMap
+  }
+
+
+  def formConcordance = {
+    val urnPlusAnalyses = this.tokens.map(t => (t.urn, t.analyses))
+    val pairings = urnPlusAnalyses.flatMap{ case (k,v)  => v.map(f => (f,k))}
+    pairings.groupBy(_._1).map{ case (k,v) => k -> v.map(_._2) }
+  }
+
+
+
   /**
 
   def multipleLexemesHistogram :  Histogram[String]= {
@@ -40,14 +78,7 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
   */
 
 
-  /** Flat list of every combination of individual lexeme
-  * with individual token. */
-  def lexemeTokenPairings = {
-    val idx = this.tokenLexemeIndex
-    val lemmaVectorsWithTokens = this.analyzed.map(t => (idx(t.text), t.text))
-    val distinctLemmasPlusTokens = lemmaVectorsWithTokens.map{ case (v, t) => v.map(id => (id, t)) }.flatten.distinct
-    distinctLemmasPlusTokens
-  }
+
 
   /** Map lexemes to an (unsorted) list of passages where the lexeme occurs.
   def lexemeConcordance : Map[String, Vector[CtsUrn]]= {
@@ -102,11 +133,6 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
   }*/
 
 
-  def formConcordance = {
-    val urnPlusAnalyses = this.tokens.map(t => (t.urn, t.analyses))
-    val pairings = urnPlusAnalyses.flatMap{ case (k,v)  => v.map(f => (f,k))}
-    pairings.groupBy(_._1).map{ case (k,v) => k -> v.map(_._2) }
-  }
 
   /** Cluster  into [[LatinCitableUnit]]s all [[LatinParsedToken]]s with common CTS URNs for the parent level of the passage hierarchy.
   */
