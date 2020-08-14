@@ -29,10 +29,13 @@ class CorpusNavigationSpec extends FlatSpec {
   }
 
 
-  it should "index tokens to lexemes" in pending /*{
+  it should "index tokens to lexemes" in {
     // Works, need a good test
-    //println(chapter.tokenLexemeIndex)
-  }*/
+    println(chapter.tokenLexemeIndex)
+  }
+  it should "index lexemes to tokens" in {
+    // THIS IS IMPLEMENTED WRONG
+  }
 
   it should "create concordance of lexemes" in {
   }
