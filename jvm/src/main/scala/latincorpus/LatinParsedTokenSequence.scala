@@ -65,14 +65,17 @@ trait LatinParsedTokenSequence extends LogSupport {
     distinctLexemesPlusTokens
   }
 
+  def lexemesOnly : Vector[String]  = {
+    analyzed.flatMap(t => t.analyses.map(a => a.lemmaId))
+  }
   /** Compute a Histogram of all lexemeId values in this sequence. */
-  def lexemesHistogram : Histogram[String] = {
-    val counts = lexemes.groupBy(lex => lex).toVector.map{ case (lex, v) => Frequency(lex,v.size)}
+  def lexemesHistogram  : Histogram[String] = {
+    val counts = lexemesOnly.groupBy(lex => lex).toVector.map{ case (lex, v) => Frequency(lex,v.size)}
     Histogram(counts).sorted
   }
-  /** Compute a Histogram of all labelled lexemeId values in this sequence. */
+  /** Compute a Histogram of all labelled lexemeId values in this sequence.*/
   def labelledLexemesHistogram : Histogram[String] = {
-    val counts = lexemes.groupBy(lex => lex).toVector.map{ case (lex, v) => Frequency(LewisShort.label(lex),v.size)}
+    val counts = lexemesOnly.groupBy(lex => lex).toVector.map{ case (lex, v) => Frequency(LewisShort.label(lex),v.size)}
     Histogram(counts).sorted
   }
 
@@ -232,7 +235,7 @@ trait LatinParsedTokenSequence extends LogSupport {
   lazy val allAnalyses: Vector[LemmatizedForm] =  analyzed.flatMap(_.analyses)
 
   /** Reduce analyzed tokens to citable node + lexeme.*/
-  def lexemesOnly:  Vector[(CitableNode, Vector[String])] = analyzed.map(t => (t.cn, t.analyses.map(_.lemmaId).distinct) )
+  //def lexemesOnly:  Vector[(CitableNode, Vector[String])] = analyzed.map(t => (t.cn, t.analyses.map(_.lemmaId).distinct) )
 
   def multipleLexemes:  Vector[LatinParsedToken] = {
     analyzed.filter( _.analyses.map(_.lemmaId).distinct.size > 1)

@@ -3,15 +3,7 @@ package edu.holycross.shot.latincorpus
 
 import edu.holycross.shot.cite._
 import edu.holycross.shot.tabulae._
-/*
-import edu.holycross.shot.cite._
-import edu.holycross.shot.ohco2._
-import edu.holycross.shot.tabulae._
-import edu.holycross.shot.mid.orthography._
-import edu.holycross.shot.latin._
-import edu.holycross.shot.tabulae._
-import edu.holycross.shot.histoutils._
-*/
+
 import org.scalatest.FlatSpec
 //import scala.io._
 
@@ -43,32 +35,28 @@ class CorpusProfilingSpec extends FlatSpec {
     assert(chapter.vocabulary().size == tokensHisto.size)
     assert(chapter.lexicalTokens.size == tokensHisto.total)
   }
-  it  should "create a histogram of lexemes" in pending /*{
+  it  should "create a histogram of lexemes" in {
     val lexemesHisto = chapter.lexemesHistogram
-    assert(lexemesHisto.total == chapter.lexemes.size)
-    val tops = lexemesHisto.sorted.frequencies.head
+    assert(lexemesHisto.size == chapter.lexemes.size)
+    val tops = lexemesHisto.frequencies.head
     val expectedCount = 12
     val expectedLexeme = "ls.n21026"
     assert(tops.count == expectedCount)
     assert(tops.item == expectedLexeme)
-  }*/
-  it  should "create a histogram of LS-labelled lexemes" in pending /*{
+  }
+  it  should "create a histogram of LS-labelled lexemes" in {
     val lexemesHisto = chapter.labelledLexemesHistogram
-    //println(lexemesHisto.sorted)
-    //ls.n21026:hostis,12
     val tops = lexemesHisto.sorted.frequencies.head
     val expectedCount = 12
     val expectedLexeme = "ls.n21026:hostis"
     assert(tops.count == expectedCount)
     assert(tops.item == expectedLexeme)
-  } */
+  }
 
-
-
-    it should "create a histogram of valid forms" in {
-      val expectedMostFrequent  = 9
-      assert(chapter.formsHistogram.frequencies.head.count == expectedMostFrequent)
-    }
+  it should "create a histogram of valid forms" in {
+    val expectedMostFrequent  = 9
+    assert(chapter.formsHistogram.frequencies.head.count == expectedMostFrequent)
+  }
 
 
   it should "create a histogram of lexemes labelled with PoS" in pending
