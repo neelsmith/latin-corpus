@@ -22,7 +22,7 @@ class CorpusCexParsingSpec extends FlatSpec {
     val lines = Vector(cexLine)
     val tkn = LatinParsedToken.fromCexLines(lines)
 
-    val expectedUrn = CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:pr.1")
+    val expectedUrn = CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:pr.1.5")
     val expectedText = "et"
     assert(tkn.cn.urn == expectedUrn)
     assert(tkn.cn.text == expectedText)
@@ -32,7 +32,7 @@ class CorpusCexParsingSpec extends FlatSpec {
     val lines = Vector(cexLine)
     val tkn = LatinParsedToken(lines)
 
-    val expectedUrn = CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:pr.1")
+    val expectedUrn = CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:pr.1.5")
     val expectedText = "et"
     assert(tkn.cn.urn == expectedUrn)
     assert(tkn.cn.text == expectedText)

@@ -28,14 +28,7 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     tokens.map(t => (t.text, t.urn)).groupBy(_._1).toVector.map{ case(k,v) => (k, v.map(_._2)) }.toMap
   }
 
-  /** Flat list of every combination of individual lexeme
-  * with individual token. */
-  def lexemeTokenPairings = {
-    val idx = this.tokenLexemeIndex
-    val lexemeVectorsWithTokens = this.analyzed.map(t => (idx(t.text), t.text))
-    val distinctLexemesPlusTokens = lexemeVectorsWithTokens.flatMap{ case (v, t) => v.map(id => (id, t)) }.distinct
-    distinctLexemesPlusTokens
-  }
+
 
   /** Map lexemes to an (unsorted) list of passages where the lexeme occurs.*/
   def lexemeConcordance : Map[String, Vector[CtsUrn]]= {
@@ -181,10 +174,8 @@ object LatinCorpus extends LogSupport {
 
   //urn#label#passage#token#lexeme#form#category#sequence
   def apply(cexLines: Vector[String], separator: String = "#") : LatinCorpus = {
-    //Logger.setDefaultLogLevel(LogLevel.DEBUG)
     val byToken = cexLines.groupBy( ln => {
       val cols = ln.split(separator)
-      //debug("Grouping by " + cols(2))
       cols(2)
     })
     val indexed = byToken.toVector.map{ case (k,v) => {
@@ -192,8 +183,6 @@ object LatinCorpus extends LogSupport {
       (v, sequence)
     }}
     val sorted = indexed.sortBy(_._2).map(_._1)
-    //Logger.setDefaultLogLevel(LogLevel.WARN)
-
     LatinCorpus(sorted.map(tknLines => LatinParsedToken(tknLines)))
   }
 
@@ -266,7 +255,6 @@ object LatinCorpus extends LogSupport {
         }
       }
     }
-    //Logger.setDefaultLogLevel(LogLevel.WARN)
     LatinCorpus(tokens = LatinParsedTokens.toVector.flatten)
   }
 

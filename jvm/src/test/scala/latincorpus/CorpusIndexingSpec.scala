@@ -57,9 +57,9 @@ val fst = """> sed
     assert(lc.tokenLexemeIndex("opinor").size == expectedNumberLexemes)
     assert(lc.tokenLexemeIndex("opinor") == expectedLexVector)
   }
-  it should "index from lexemes to tokens" in {
+  it should "index from lexemes to tokens" in pending /*{
     val expectedVector = Vector("ls.n43291")
     assert(lc.lexemeTokenIndex("sed") == expectedVector)
-  }
+  }*/
 
 }

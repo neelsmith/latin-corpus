@@ -42,11 +42,20 @@ trait LatinParsedTokenSequence extends LogSupport {
     Histogram(counts)
   }
 
+  /** Flat list of every combination of individual lexeme
+  * with individual token. */
+  def lexemeTokenPairings = {
+    val idx = this.tokenLexemeIndex
+    val lexemeVectorsWithTokens = this.analyzed.map(t => (idx(t.text), t.text))
+    val distinctLexemesPlusTokens = lexemeVectorsWithTokens.flatMap{ case (v, t) => v.map(id => (id, t)) }.distinct
+    distinctLexemesPlusTokens
+  }
+
+  /// Pair:
   def lexemesHistogram : Histogram[String] = {
     val counts = lexemes.groupBy(lex => lex).toVector.map{ case (lex, v) => Frequency(lex,v.size)}
     Histogram(counts)
   }
-
   def labelledLexemesHistogram : Histogram[String] = {
     val counts = lexemes.groupBy(lex => lex).toVector.map{ case (lex, v) => Frequency(LewisShort.label(lex),v.size)}
     Histogram(counts)
@@ -59,10 +68,14 @@ trait LatinParsedTokenSequence extends LogSupport {
     analyzedForms.groupBy(_._1).map{ case (s,v) => (s, v.map(_._2).flatten.distinct)}
   }
   /** Index of lexemes to Vector of tokens.*/
-  def lexemeTokenIndex  ={ //: Map[String,Vector[String]] = {
+  def lexemeTokenIndex  : Map[String,Vector[String]] = {
+    lexemeTokenPairings.groupBy(_._1).toVector.map{ case (k,v) => (k, v.map(_._2))}.toMap
+    /*
     val reversedIndex = tokenLexemeIndex.toVector.map{ case (s,v) => v.map(el => (s,el))}.flatten
     val indexVector = reversedIndex.groupBy(_._1).toVector.map{ case (s,v) => (s, v.map(_._2))}
     indexVector.map{ case (s,v) => s -> v }.toMap
+    */
+    //Map.empty[String, Vector[String]]
   }
 
 

@@ -31,16 +31,31 @@ class CorpusNavigationSpec extends FlatSpec {
 
   it should "index tokens to lexemes" in {
     // Works, need a good test
-    println(chapter.tokenLexemeIndex)
+    val expectedSize = chapter.analyzed.map(_.text).distinct.size
+
+    assert(chapter.tokenLexemeIndex.size == expectedSize)
+    val expectedLexemes = 2 // relative/interrogative ambiguity
+    assert(chapter.tokenLexemeIndex("quem").size == expectedLexemes)
   }
+
+
+  it should "pair lexemes and tokens" in {
+    // This is OK: figure out a good test for it:
+    //println(chapter.lexemeTokenPairings)
+  }
+
   it should "index lexemes to tokens" in {
-    // THIS IS IMPLEMENTED WRONG
+    val expectedForms = Set("sunt", "essent", "est")
+    val sum = "ls.n46529"
+    assert(chapter.lexemeTokenIndex(sum).toSet == expectedForms)
   }
 
-  it should "create concordance of lexemes" in {
-  }
+  it should "create concordance of lexemes" in pending /*{
+  }*/
 
-  it should "create a concordance of forms" in pending
+  it should "create a concordance of forms" in {
+    // CEX SOURCE IS WRONGLY INDEXED TO PARENT NODE
+  }
 
 
 
