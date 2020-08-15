@@ -28,6 +28,11 @@ trait LatinParsedTokenSequence extends LogSupport {
     lexemes.map(lex => LewisShort.label(lex))
   }
 
+  /** Alphabetized list of text of all lexical tokens in this sequence.
+  *
+  * @param caseSensitive True if list should be case sensitive.  If false,
+  * resulting list is all lower case.
+  */
   def vocabulary(caseSensitive: Boolean = false): Vector[String] = {
     if (caseSensitive) {
       lexicalTokens.map(t => t.text).distinct.sorted
@@ -35,6 +40,11 @@ trait LatinParsedTokenSequence extends LogSupport {
       lexicalTokens.map(t => t.text.toLowerCase).distinct.sorted
     }
   }
+  /** Compute a Histogram of all lexical tokens in this sequence.
+  *
+  * @param caseSensitive True if items in Histogram should be case sensitive.  If false,
+  * all items are lower case.
+  */
   def tokensHistogram(caseSensitive : Boolean = true): Histogram[String] = {
     val grouped = if (caseSensitive) {
       lexicalTokens.groupBy(t => t.text)
@@ -43,11 +53,11 @@ trait LatinParsedTokenSequence extends LogSupport {
     }
     val counts = grouped.toVector.map{ case (t, v) =>   Frequency(t, v.size)
     }
-    Histogram(counts)
+    Histogram(counts).sorted
   }
 
-  /** Flat list of every combination of individual lexeme
-  * with individual token. */
+  /** Flat list of every unique combination of individual lexeme
+  * with individual token in this sequence's analyses. */
   def lexemeTokenPairings = {
     val idx = this.tokenLexemeIndex
     val lexemeVectorsWithTokens = this.analyzed.map(t => (idx(t.text), t.text))
@@ -55,39 +65,44 @@ trait LatinParsedTokenSequence extends LogSupport {
     distinctLexemesPlusTokens
   }
 
-  /// Pair:
+  /** Compute a Histogram of all lexemeId values in this sequence. */
   def lexemesHistogram : Histogram[String] = {
     val counts = lexemes.groupBy(lex => lex).toVector.map{ case (lex, v) => Frequency(lex,v.size)}
-    Histogram(counts)
+    Histogram(counts).sorted
   }
+  /** Compute a Histogram of all labelled lexemeId values in this sequence. */
   def labelledLexemesHistogram : Histogram[String] = {
     val counts = lexemes.groupBy(lex => lex).toVector.map{ case (lex, v) => Frequency(LewisShort.label(lex),v.size)}
-    Histogram(counts)
+    Histogram(counts).sorted
   }
 
 
-  /** Index of tokens to Vector of identifiers for lexeme.*/
+  /** Index of tokens to a Vector of lexeme Ids.*/
   def tokenLexemeIndex : Map[String,Vector[String]] = {
     val analyzedForms = this.analyzed.map(t => (t.text, t.analyses.map(_.lemmaId).distinct))
     analyzedForms.groupBy(_._1).map{ case (s,v) => (s, v.map(_._2).flatten.distinct)}
   }
-  /** Index of lexemes to Vector of tokens.*/
+  /** Index of lexeme Ids to a Vector of tokens.*/
   def lexemeTokenIndex  : Map[String,Vector[String]] = {
     lexemeTokenPairings.groupBy(_._1).toVector.map{ case (k,v) => (k, v.map(_._2))}.toMap
-    /*
-    val reversedIndex = tokenLexemeIndex.toVector.map{ case (s,v) => v.map(el => (s,el))}.flatten
-    val indexVector = reversedIndex.groupBy(_._1).toVector.map{ case (s,v) => (s, v.map(_._2))}
-    indexVector.map{ case (s,v) => s -> v }.toMap
-    */
-    //Map.empty[String, Vector[String]]
   }
+
+
 
 
   /** Create a histogram of LemmatizedForms.*/
-  def formHistogram : Histogram[LemmatizedForm] = {
-    val freqs = this.analyzed.flatMap(_.analyses).groupBy(f => f).map{ case(k,v) => Frequency(k, v.size) }
+  def formsHistogram : Histogram[ValidForm] = {
+    val freqs = formsOnly.groupBy(f => f).map{ case(k,v) => Frequency(k, v.size) }
     Histogram(freqs.toVector).sorted
   }
+
+  def formsOnly = analyzed.flatMap(t => t.analyses.map(a => ValidForm(a.formUrn)))
+  def forms: Vector[ValidForm] = {
+    formsOnly.distinct
+  }
+
+
+
   /** True if one or more tokens matches any one or more
   * lexeme in a given list.
   *
@@ -232,12 +247,12 @@ trait LatinParsedTokenSequence extends LogSupport {
     analyzed.size / singleLexeme.size.toDouble
   }
 
-  /** Compute frequency of individual forms.*/
+  /** Compute frequency of individual forms.
   def formsHistogram  : Histogram[String] = {
     val freqs : Vector[Frequency[String]] = allAnalyses.map(_.toString).groupBy(s => s).toVector.map{ case (k,v) => Frequency(k, v.size) }
     Histogram(freqs)
   }
-
+*/
 
   /** Verb tokens only*/
   lazy val verbs = {

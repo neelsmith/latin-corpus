@@ -2,14 +2,10 @@
 package edu.holycross.shot.latincorpus
 
 import edu.holycross.shot.cite._
-import edu.holycross.shot.ohco2._
 import edu.holycross.shot.tabulae._
-import edu.holycross.shot.mid.orthography._
-import edu.holycross.shot.latin._
-import edu.holycross.shot.tabulae._
-import edu.holycross.shot.histoutils._
+
 import org.scalatest.FlatSpec
-import scala.io._
+
 
 class CorpusNavigationSpec extends FlatSpec {
 
@@ -47,24 +43,14 @@ class CorpusNavigationSpec extends FlatSpec {
     assert(actual == expected)
   }
 
-  it should "create a concordance of forms" in {
-    //println(cha)
+  it should "create a concordance of valid forms" in {
+    val conjunction = ValidForm(Cite2Urn("urn:cite2:tabulae:morphforms.v1:00000000A"))
+    val expected = Vector(
+      CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:108a.1.29"), CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:108a.2.18"), CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:108a.3.5"), CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:108a.3.9"), CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:108a.3.14"), CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:108a.3.20"), CtsUrn("urn:cts:latinLit:stoa1263.stoa001.hc_tkns:108a.3.28")
+    )
+    assert(chapter.formConcordance(conjunction) == expected)
   }
 
-
-
-  it should "create a vocabulary list" in {
-    val expectedSize = 83
-    assert(chapter.vocabulary().size == expectedSize)
-  }
-  it should "create a lexeme list" in {
-    val lexemes = chapter.lexemes
-    //println(lexemes)
-  }
-  it should "create a labelled lexeme list" in {
-    val lexemes = chapter.labelledLexemes
-    //println(lexemes.mkString("\n"))
-  }
 
   it should "index tokens to lexemes" in {
     val expectedSize = chapter.analyzed.map(_.text).distinct.size

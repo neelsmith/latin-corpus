@@ -15,7 +15,7 @@ import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 
-/** A morpholgoically parsed Latin corpus citable at the level
+/** A morphologically parsed Latin corpus citable at the level
 * of classified tokens.
 *
 * @param tokens Ordered list of [[LatinParsedTokene]]s making u this corpus.
@@ -25,6 +25,7 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
 
   /** Concordance of all lexical tokens in corpus.*/
   def tokenConcordance : Map[String, Vector[CtsUrn]] = {
+    // cluster token's text and urn, group by text
     tokens.map(t => (t.text, t.urn)).groupBy(_._1).toVector.map{ case(k,v) => (k, v.map(_._2)) }.toMap
   }
 
@@ -42,12 +43,11 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     lexemeConcordance.toVector.map{ case (lex,psgs) => (LewisShort.label(lex), psgs)}.toMap
   }
 
+  /** Map ValidForms to passages where they occur.*/
   def formConcordance = {
-    val urnPlusAnalyses = this.tokens.map(t => (t.urn, t.analyses))
-    val pairings = urnPlusAnalyses.flatMap{ case (k,v)  => v.map(f => (f,k))}
-    pairings.groupBy(_._1).map{ case (k,v) => k -> v.map(_._2) }
+    analyzed.flatMap(t => t.analyses.map(a =>
+      (ValidForm(a.formUrn), t.urn))).groupBy(_._1).toVector.map{ case(k,v) => (k, v.map(_._2)) }.toMap
   }
-
 
 
   /**
@@ -65,61 +65,6 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     Histogram(ambiguous)
   }
   */
-
-
-
-
-  /** Map lexemes to an (unsorted) list of passages where the lexeme occurs.
-  def lexemeConcordance : Map[String, Vector[CtsUrn]]= {
-    Logger.setDefaultLogLevel(LogLevel.DEBUG)
-    val distinctLemmasPlusTokens = lexemeTokenPairings
-    val concData = distinctLemmasPlusTokens.map{ case (lex,tkn) => (lex, tcorpus.concordance(tkn.toLowerCase) ) }
-
-    Logger.setDefaultLogLevel(LogLevel.INFO)
-    concData.toMap
-  }*/
-
-
-  /** Safe lookup in lexeme concordance.  Returns empty
-  * Vector if lexeme not found.
-  *
-  * @param lexId ID for lexeme to look up.
-
-  def passagesForLexeme(lexId: String) : Vector[CtsUrn] = {
-    try {
-      lexemeConcordance(lexId)
-    } catch {
-      case nsee: NoSuchElementException => Vector.empty[CtsUrn]
-      case t: Throwable => throw t
-    }
-  }
-*/
-
-  /** Create a histogram of lexemes.
-  def lexemeHistogram : Histogram[String] = {
-    // avoid repeating function call: generate this map once
-    val lemmaWithGroupedCounts = lexemeTokenPairings.map{
-      case (lemma,token) => (lemma, tcorpus.lexHistogram.countForItem(token))
-    }groupBy(_._1)
-    //val grouped = lemmaWithCounts.
-    val totaled =  lemmaWithGroupedCounts.map { case (k,v) => Frequency(k, v.map(_._2).sum) }
-    //val mapped = totaled.toVector.sortBy(_._2).reverse.map{ case (lemma, count) => lemma -> count }
-    //mapped
-    Histogram(totaled.toVector).sorted
-  }*/
-
-  /** Create a histogram of lexemes using labelled ID strings as the counted items.
-  def labelledLexemeHistogram: Histogram[String] = {
-    val labelled = lexemeHistogram.frequencies.map(fr => Frequency( LewisShort.label(fr.item),fr.count ))
-    Histogram(labelled).sorted
-  }*/
-
-
-  /** Create a histogram of lexical tokens.
-  def lexTokenHistogram : Histogram[String] = {
-    val lexHist : Histogram[String] = tcorpus.lexHistogram
-    lexHist.sorted
-  }*/
 
 
 
