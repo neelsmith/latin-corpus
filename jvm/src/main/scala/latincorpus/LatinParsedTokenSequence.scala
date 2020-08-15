@@ -19,9 +19,13 @@ trait LatinParsedTokenSequence extends LogSupport {
   /** Tokens contained in this sequence.*/
   def tokens: Vector[LatinParsedToken]
 
-  /** Flat list of all lexemes in this sequence.*/
+  /** List lexemes in this sequence sorted by Lewis-Short position.*/
   def lexemes: Vector[String] = {
-    lexicalTokens.flatMap(t => t.analyses.map(a => a.lemmaId))
+    val lexemeIds = lexicalTokens.flatMap(t => t.analyses.map(a => a.lemmaId)).distinct
+    LatinParsedTokenSequence.sortLexemes(lexemeIds)
+  }
+  def labelledLexemes : Vector[String] = {
+    lexemes.map(lex => LewisShort.label(lex))
   }
 
   def vocabulary(caseSensitive: Boolean = false): Vector[String] = {
@@ -373,7 +377,7 @@ trait LatinParsedTokenSequence extends LogSupport {
   }
 }
 
-object LatinParsedTokenSequence {
+object LatinParsedTokenSequence extends LogSupport {
 
   /** True if one or more tokens matches any one or more
   * lexeme in a given list.
@@ -398,6 +402,44 @@ object LatinParsedTokenSequence {
     tf.contains(true)
   }
 
+  /** Recursively replace instances of a list of Strings in a given String.
+  *
+  * @param s String to strip down.
+  * @param prefixes List of prefixes to remove.
+  */
+  def stripPrefix(s: String, prefixes: Vector[String]): String = {
+    if (prefixes.isEmpty) {
+      s
+    } else {
+      stripPrefix(s.replaceFirst(prefixes.head, ""), prefixes.tail)
+    }
+  }
+
+
+
+  def sortLexemes(lexIds: Vector[String], prefixes: Vector[String] = Vector("ls.n")): Vector[String] = {
+    val paired = for (lexId <- lexIds.filter(_.nonEmpty)) yield {
+      val lexString = stripPrefix(lexId, prefixes).replaceAll("[a-z]+$","")
+      try {
+        val lexNum = lexString.toInt
+        (lexNum, lexId)
+      } catch {
+        case nfe: NumberFormatException => {
+          warn("No  configuration to sort lexeme ID " + lexId)
+          (0, lexId)
+        }
+
+        case t: Throwable => {
+          warn(t)
+          warn("No  configuration to sort lexeme ID " + lexId)
+          (0, lexId)
+        }
+      }
+    }
+    // sort by number (part 1), produce entry only (part 2)
+    val sorted = for (l <- paired.sortBy(_._1).distinct) yield { l._2 }
+    sorted
+  }
 
   def matchesForm(tokens: Vector[LatinParsedToken]) : Boolean = {
     false

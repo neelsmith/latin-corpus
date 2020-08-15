@@ -35,6 +35,8 @@ class LatinParsedTokenSequenceObjectSpec extends FlatSpec {
   it should "select all tokens with a single lexeme" in pending
   it should "select all tokens with multiple lexemes" in pending
 
+  it should "sort a list of lexeme IDs" in pending
+
   // MOVE TENSE/MOOD STUFF FROM Corpus to trait
   //
 
