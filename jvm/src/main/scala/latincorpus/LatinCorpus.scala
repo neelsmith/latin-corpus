@@ -181,8 +181,10 @@ object LatinCorpus extends LogSupport {
 
   //urn#label#passage#token#lexeme#form#category#sequence
   def apply(cexLines: Vector[String], separator: String = "#") : LatinCorpus = {
+    //Logger.setDefaultLogLevel(LogLevel.DEBUG)
     val byToken = cexLines.groupBy( ln => {
       val cols = ln.split(separator)
+      //debug("Grouping by " + cols(2))
       cols(2)
     })
     val indexed = byToken.toVector.map{ case (k,v) => {
@@ -190,6 +192,8 @@ object LatinCorpus extends LogSupport {
       (v, sequence)
     }}
     val sorted = indexed.sortBy(_._2).map(_._1)
+    //Logger.setDefaultLogLevel(LogLevel.WARN)
+
     LatinCorpus(sorted.map(tknLines => LatinParsedToken(tknLines)))
   }
 
@@ -262,6 +266,7 @@ object LatinCorpus extends LogSupport {
         }
       }
     }
+    //Logger.setDefaultLogLevel(LogLevel.WARN)
     LatinCorpus(tokens = LatinParsedTokens.toVector.flatten)
   }
 

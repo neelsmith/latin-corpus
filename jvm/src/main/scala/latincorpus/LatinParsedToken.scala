@@ -132,6 +132,8 @@ object LatinParsedToken extends LogSupport {
     urn.collection + "." + urn.objectComponent
   }
 
+
+
   /** From a group of lines representing all analyses of a given
   * token, construct a [[LatinParsedToken]] with one analysis from
   * each CEX line.
@@ -142,7 +144,7 @@ object LatinParsedToken extends LogSupport {
   def fromCexLines(cex: Vector[String], separator: String = "#") : LatinParsedToken = {
     val rowsByColumns = cex.map(ln => ln.split(separator))
     val first = rowsByColumns.head
-    val urn = CtsUrn(first(2)).collapsePassageBy(1)
+    val urn = CtsUrn(first(2))//.collapsePassageBy(1)
     val text = first(3)
     val citableNode = CitableNode(urn, text)
     val tokenType: MidTokenCategory =  tokenCategory(first(6)).get
