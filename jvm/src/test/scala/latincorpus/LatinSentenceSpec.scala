@@ -18,7 +18,8 @@ class LatinSentenceSpec extends FlatSpec {
 
   "The LatinSentence object" should "be able to parse a sequence of tokens into sentences" in {
     val sentences = LatinSentence.sentences(tokens)
-    println("\n\nFound " + sentences.size + " Sentences")
+    val expectedSize = 7
+    assert(sentences.size == expectedSize)
   }
 
 

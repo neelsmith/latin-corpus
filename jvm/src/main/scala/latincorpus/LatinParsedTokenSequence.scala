@@ -90,9 +90,6 @@ trait LatinParsedTokenSequence extends LogSupport {
     lexemeTokenPairings.groupBy(_._1).toVector.map{ case (k,v) => (k, v.map(_._2))}.toMap
   }
 
-
-
-
   /** Create a histogram of LemmatizedForms.*/
   def formsHistogram : Histogram[ValidForm] = {
     val freqs = formsOnly.groupBy(f => f).map{ case(k,v) => Frequency(k, v.size) }
@@ -104,8 +101,8 @@ trait LatinParsedTokenSequence extends LogSupport {
     formsOnly.distinct
   }
 
-  def citableForms(umgr: UrnManager) = {
-    lexicalTokens.flatMap(t => {
+  def citableFormsPerToken(umgr: UrnManager) : Vector[Vector[CitableForm]]= {
+    lexicalTokens.map(t => {
       if (t.analyses.isEmpty) {
         Vector(CitableForm(t.urn, None, t.text))
       } else {
@@ -114,8 +111,16 @@ trait LatinParsedTokenSequence extends LogSupport {
     })
   }
 
+  def citableForms(umgr: UrnManager): Vector[CitableForm] = {
+    citableFormsPerToken(umgr).flatten
+  }
+
   def functionStrings(umgr: UrnManager) = {
     citableForms(umgr).map(_.functionString)
+  }
+
+  def functionStringsPerToken(umgr: UrnManager) = {
+    citableFormsPerToken(umgr).map( v => v.map(_.functionString))
   }
 
   def lexicalText: Vector[String] = {
