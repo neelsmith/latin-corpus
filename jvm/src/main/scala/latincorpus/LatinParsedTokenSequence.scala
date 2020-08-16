@@ -6,6 +6,8 @@ import edu.holycross.shot.tabulae._
 import edu.holycross.shot.mid.orthography._
 import edu.holycross.shot.histoutils._
 
+import edu.holycross.shot.seqcomp._
+
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

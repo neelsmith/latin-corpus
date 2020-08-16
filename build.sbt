@@ -29,6 +29,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       "edu.holycross.shot.mid" %%% "orthography" % "2.1.0",
       "edu.holycross.shot" %%% "latphone" % "3.0.0",
       "edu.holycross.shot" %%% "histoutils" % "2.3.0",
+      "edu.holycross.shot" %%% "seqcomp" % "2.2.1",
     )
   ).
   jvmSettings(
