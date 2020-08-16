@@ -79,19 +79,6 @@ val fst = """> sed
   }
   it should "collect all tokens with token-level ambiguity" in  pending
 
-  it should "be able to measure lexeme-level ambiguity" in pending/* {
-
-    println("Lexical ambiguity: " + lc.lexicalAmbiguity)
-  }*/
-
-  it should "be able to construct a histogram of forms" in pending /* {
-    val expectedMaximum = 2
-    assert(lc.formsHistogram.sorted.frequencies(0).count == expectedMaximum)
-  } */
-  it should "construct a histogram of lexemes" in pending /*{
-    val expectedSize = 8
-    assert(lc.lexemeHistogram.size == expectedSize)
-  } */
 
   it should "cluster a corpus into citable nodes" in  {
     val clustered = lc.clusterByCitation
@@ -99,38 +86,21 @@ val fst = """> sed
     assert(clustered.size == numberClusters)
   }
 
-  it should "construct a concordance of lexemes" in pending /*  {
-    val expectedPassages =  Vector(CtsUrn("urn:cts:omar:stoa0179.stoa001.omar_tkns:1.4.1"))
-    assert(lc.lexemeConcordance("ls.n32747") == expectedPassages)
-  }*/
-
-  it should "construct a concordance for a corpus with multiple nodes" in  pending /* {
-    val o2corpus = CorpusSource.fromFile("jvm/src/test/resources/cex/livy-mt.cex", cexHeader=true)
-    val fstLines = Source.fromFile("jvm/src/test/resources/fst/livy-mt-parsed.txt").getLines.toVector
-    val corpus = LatinCorpus.fromFstLines(o2corpus, Latin24Alphabet, fstLines)
-    val lex = "ls.n23674"
-    println("Entries for " + LewisShort.label(lex))
-    println(corpus.lexemeConcordance(lex).toVector.mkString("\n"))
-  }*/
-
-  it should "implement all filtering of the LatinParsedTokenSequence trait such as verbs" in pending /* {
-    val verbs = lc.verbs
-    val expectedVerbs = 2
-    assert(verbs.size == expectedVerbs)
-  }*/
-
-  it should "highlight tokens by grammatical category" in pending
-
-  it should "support cool hover display in HTML environment" in pending
-
   it should "output a CITE collection for all analyses of all tokens" in {
     val abbrs = Vector(
     "abbr#full",
     "ls#urn:cite2:tabulae:ls.v1:"
     )
     val umgr = UrnManager(abbrs)
-    println("\n\n\n" + lc.citeCollectionLines(umgr).mkString("\n"))
+    // Working: need to devise a good unit test:
+    //println("\n\n\n" + lc.citeCollectionLines(umgr).mkString("\n"))
+  }
 
+
+  it should "Correctly read a LatinCorpus from CEX source" in {
+    val chapterFile = "jvm/src/test/resources/c108a.cex"
+    val chapter = LatinCorpus.fromFile(chapterFile)
+    
   }
 
 }

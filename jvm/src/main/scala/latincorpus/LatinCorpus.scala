@@ -127,6 +127,8 @@ object LatinCorpus extends LogSupport {
     LatinCorpus(sorted.map(tknLines => LatinParsedToken(tknLines)))
   }
 
+
+
   def fromFile(f: String, separator: String = "#", cexHeader: Boolean = true): LatinCorpus = {
     if (cexHeader) {
       LatinCorpus(Source.fromFile(f).getLines.toVector.tail, separator)

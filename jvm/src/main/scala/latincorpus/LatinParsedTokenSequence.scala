@@ -104,6 +104,23 @@ trait LatinParsedTokenSequence extends LogSupport {
     formsOnly.distinct
   }
 
+  def citableForms(umgr: UrnManager) = {
+    lexicalTokens.flatMap(t => {
+      if (t.analyses.isEmpty) {
+        Vector(CitableForm(t.urn, None, t.text))
+      } else {
+        t.analyses.map(a => CitableForm(t.urn, Some(ValidForm(a.formUrn)), t.text))
+      }
+    })
+  }
+
+  def functionStrings(umgr: UrnManager) = {
+    citableForms(umgr).map(_.functionString)
+  }
+
+  def lexicalText: Vector[String] = {
+    lexicalTokens.map(_.text)
+  }
 
 
   /** True if one or more tokens matches any one or more
@@ -420,6 +437,12 @@ object LatinParsedTokenSequence extends LogSupport {
     tf.contains(true)
   }
 
+
+  def matchesForm(tokens: Vector[LatinParsedToken]) : Boolean = {
+    false
+  }
+
+
   /** Recursively replace instances of a list of Strings in a given String.
   *
   * @param s String to strip down.
@@ -433,8 +456,14 @@ object LatinParsedTokenSequence extends LogSupport {
     }
   }
 
-
-
+  /** Sort a list of lexemes identified following convention
+  * used with Lewis-Short IDs, where a text prefix is followed by
+  * a parseable, sortable numeric string.
+  *
+  * @param lexIds List of identifiers to sort.
+  * @param prefixes List of prefixing strings to strip off the
+  * beginning of identifiers.
+  */
   def sortLexemes(lexIds: Vector[String], prefixes: Vector[String] = Vector("ls.n")): Vector[String] = {
     val paired = for (lexId <- lexIds.filter(_.nonEmpty)) yield {
       val lexString = stripPrefix(lexId, prefixes).replaceAll("[a-z]+$","")
@@ -459,8 +488,5 @@ object LatinParsedTokenSequence extends LogSupport {
     sorted
   }
 
-  def matchesForm(tokens: Vector[LatinParsedToken]) : Boolean = {
-    false
-  }
 
 }
