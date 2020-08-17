@@ -274,12 +274,16 @@ trait LatinParsedTokenSequence extends LogSupport {
     analyzed.size / singleLexeme.size.toDouble
   }
 
-  /** Compute frequency of individual forms.
-  def formsHistogram  : Histogram[String] = {
-    val freqs : Vector[Frequency[String]] = allAnalyses.map(_.toString).groupBy(s => s).toVector.map{ case (k,v) => Frequency(k, v.size) }
-    Histogram(freqs)
+  def matchesFunctionStrings(requiredFunctions: Vector[String],
+  urnManager : UrnManager = LatinParsedTokenSequence.defaultUmgr): Boolean = {
+    LatinParsedTokenSequence.matchesFunctionStrings(this, requiredFunctions, urnManager)
   }
-*/
+
+  def matchesFunctionStringLists(requiredFunctions: Vector[Vector[String]],
+  urnManager : UrnManager = LatinParsedTokenSequence.defaultUmgr ): Boolean = {
+    LatinParsedTokenSequence.matchesFunctionStringLists(this, requiredFunctions, urnManager)
+  }
+
 
   /** Verb tokens only*/
   lazy val verbs = {
@@ -444,6 +448,55 @@ object LatinParsedTokenSequence extends LogSupport {
     tf.contains(true)
   }
 
+  val defaultAbbrs = Vector(
+  "abbr#full",
+  "ls#urn:cite2:tabulae:ls.v1:"
+  )
+  val defaultUmgr = UrnManager(defaultAbbrs)
+
+  def matchesFunctionStrings(tokenSequence: LatinParsedTokenSequence, requiredFunctions: Vector[String],
+  urnManager : UrnManager = defaultUmgr): Boolean = {
+    //Logger.setDefaultLogLevel(LogLevel.DEBUG)
+    val tokenFunctions = tokenSequence.functionStrings(urnManager)
+    debug("F STRINGS: \n " + tokenFunctions.mkString("\n"))
+    val lcs = SequenceComp(tokenFunctions, requiredFunctions).lcs
+    //Logger.setDefaultLogLevel(LogLevel.WARN)
+    (lcs == requiredFunctions)
+  }
+
+  def filterFunctionStrings(
+    clusters: Vector[LatinParsedTokenSequence],
+    requiredFunctions: Vector[String],
+    urnManager : UrnManager = defaultUmgr) :  Vector[LatinParsedTokenSequence] = {
+
+    clusters.filter(cluster => matchesFunctionStrings(cluster, requiredFunctions, urnManager))
+  }
+
+  // recursively apply lists of required function to "and" requirements together.
+  // as long as requirement is matched, keep recursing.
+  def matchesFunctionStringLists(tokenSequence: LatinParsedTokenSequence,
+    requiredFunctions: Vector[Vector[String]],
+    urnManager : UrnManager = defaultUmgr) : Boolean = {
+
+    if (requiredFunctions.isEmpty) {
+      return(true)
+
+    } else {
+      val currentMatches = matchesFunctionStrings(tokenSequence, requiredFunctions.head, urnManager)
+      if (currentMatches) { // continue recursing through requirements as long as we pass:
+        matchesFunctionStringLists(tokenSequence, requiredFunctions.tail)
+      } else {
+        false
+      }
+    }
+  }
+
+  def filterFunctionStringLists(clusters: Vector[LatinParsedTokenSequence],
+    requiredFunctions: Vector[Vector[String]],
+    urnManager : UrnManager = defaultUmgr) :    Vector[LatinParsedTokenSequence] = {
+
+    clusters.filter(cluster => matchesFunctionStringLists(cluster, requiredFunctions, urnManager))
+  }
 
   def matchesForm(tokens: Vector[LatinParsedToken]) : Boolean = {
     false

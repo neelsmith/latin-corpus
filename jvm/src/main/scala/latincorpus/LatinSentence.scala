@@ -12,30 +12,32 @@ case class LatinSentence(tokens: Vector[LatinParsedToken]) extends LatinParsedTo
 
 object LatinSentence extends LogSupport {
 
-    def sentences(tokens: Vector[LatinParsedToken],
-      currentSentence: Vector[LatinParsedToken] = Vector.empty[LatinParsedToken],
-      currentSentences: Vector[LatinSentence] = Vector.empty[LatinSentence]) : Vector[LatinSentence] = {
-      //Logger.setDefaultLogLevel(LogLevel.DEBUG)
-      if (tokens.isEmpty) {
-        debug("Adding last sentence from tokens: " + currentSentence)
-        //Logger.setDefaultLogLevel(LogLevel.WARN)
-        if (currentSentence.isEmpty) {
-          currentSentences
-        } else {
-          currentSentences :+ LatinSentence(currentSentence)
-        }
+  def sentences(tokens: Vector[LatinParsedToken],
+    currentSentence: Vector[LatinParsedToken] = Vector.empty[LatinParsedToken],
+    currentSentences: Vector[LatinSentence] = Vector.empty[LatinSentence]) : Vector[LatinSentence] = {
+    //Logger.setDefaultLogLevel(LogLevel.DEBUG)
+    if (tokens.isEmpty) {
+      debug("Adding last sentence from tokens: " + currentSentence)
+      //Logger.setDefaultLogLevel(LogLevel.WARN)
+      if (currentSentence.isEmpty) {
+        currentSentences
+      } else {
+        currentSentences :+ LatinSentence(currentSentence)
+      }
+
+    } else {
+      val token = tokens.head
+      if (".;?".contains(token.text)) {
+        val updatedSentences = currentSentences :+ LatinSentence(currentSentence :+ token)
+
+        sentences(tokens.tail, Vector.empty[LatinParsedToken], updatedSentences)
 
       } else {
-        val token = tokens.head
-        if (".;?".contains(token.text)) {
-          val updatedSentences = currentSentences :+ LatinSentence(currentSentence :+ token)
-
-          sentences(tokens.tail, Vector.empty[LatinParsedToken], updatedSentences)
-
-        } else {
-          sentences(tokens.tail, currentSentence :+ token, currentSentences)
-        }
+        sentences(tokens.tail, currentSentence :+ token, currentSentences)
       }
     }
+  }
+
+
 
 }

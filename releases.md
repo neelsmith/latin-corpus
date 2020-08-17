@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**5.2.0**: Add methods for filtering sequences based on function strings.
+
 **5.1.0**: Profile a `LatinCorpus` with histograms of lexical items, tokens, and morphological forms.
 
 **5.0.0**: Simpler redefinition of `LatinCorpus` class breaks API.
