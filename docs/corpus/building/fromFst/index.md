@@ -6,7 +6,7 @@ grand_parent: Using a LatinCorpus
 nav_order: 1
 ---
 
-**Version 5.0.0**
+**Version 5.2.0**
 
 # Building a `LatinCorpus` from SFST output
 
@@ -58,5 +58,5 @@ Number of tokens in the corpus:
 
 ```scala
 println(latinCorpus.size)
-// 32439
+// 32459
 ```

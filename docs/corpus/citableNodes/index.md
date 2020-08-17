@@ -6,7 +6,7 @@ nav_order: 2
 ---
 
 
-**Version 5.0.0**
+**Version 5.2.0**
 
 # Working with parsed tokens
 

@@ -4,8 +4,16 @@ layout: page
 parent: Using a LatinCorpus
 ---
 
-**Version 5.0.0**
+**Version 5.2.0**
 
 # Clustering tokens in citable units
 
-TBA
+
+
+```scala
+import edu.holycross.shot.latincorpus._
+val hyginusUrl = "https://raw.githubusercontent.com/LinguaLatina/analysis/master/data/hyginus/hyginus-latc.cex"
+val hyginus = LatinCorpus.fromUrl(hyginusUrl)
+
+val clustered = hyginus.clusterByCitation
+```
