@@ -6,7 +6,7 @@ nav_order: 0
 has_children: true
 ---
 
-**Version 5.2.0**
+**Version 5.3.0**
 
 # Building a `LatinCorpus`
 

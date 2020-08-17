@@ -5,7 +5,7 @@ parent: Using a LatinCorpus
 nav_order: 1
 ---
 
-**Version 5.2.0**
+**Version 5.3.0**
 
 # Saving a `LatinCorpus`
 
