@@ -22,5 +22,11 @@ class LatinSentenceSpec extends FlatSpec {
     assert(sentences.size == expectedSize)
   }
 
+  it should "be able to parse any LatinParsedTokenSequence into sentences" in {
+    val sentences = LatinSentence(chapter)
+    val expectedSize = 7
+    assert(sentences.size == expectedSize)
+  }
+
 
 }

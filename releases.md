@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**5.4.0**: Supports building a Vector of `LatinSentence`s from any `LatinParsedTokenSequence`.
+
 **5.3.0**: Supports default value for all methods requiring a `UrnManager`.
 
 **5.2.0**: Add methods for filtering sequences based on function strings.

@@ -11,6 +11,9 @@ case class LatinSentence(tokens: Vector[LatinParsedToken]) extends LatinParsedTo
 }
 
 object LatinSentence extends LogSupport {
+  def apply(seq: LatinParsedTokenSequence): Vector[LatinSentence] = {
+    sentences(seq.tokens)
+  }
 
   def sentences(tokens: Vector[LatinParsedToken],
     currentSentence: Vector[LatinParsedToken] = Vector.empty[LatinParsedToken],
