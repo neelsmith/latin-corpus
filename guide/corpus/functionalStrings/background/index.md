@@ -14,6 +14,6 @@ Each analysis of a token can produce a `ValidForm` (from the `tabulae` library).
 - for finite verbs: its mood
 - for nouns, pronouns, gerund, gerundive, participle: its case
 - for adjectives, adverbs, supines: empty string
-- for unparsed lexical tokens: `??`
+- for unparsed lexical tokens: `not analyzed`
 
 The format of the lower-case string label is `type: value`, e.g., `verb: indicative`, `noun: dative` or `conjunction`.
