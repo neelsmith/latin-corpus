@@ -103,7 +103,7 @@ trait LatinParsedTokenSequence extends LogSupport {
     formsOnly.distinct
   }
 
-  def citableFormsPerToken(umgr: UrnManager) : Vector[Vector[CitableForm]]= {
+  def citableFormsPerToken(umgr: UrnManager = LatinParsedTokenSequence.defaultUmgr) : Vector[Vector[CitableForm]]= {
     lexicalTokens.map(t => {
       if (t.analyses.isEmpty) {
         Vector(CitableForm(t.urn, None, t.text))
@@ -113,15 +113,15 @@ trait LatinParsedTokenSequence extends LogSupport {
     })
   }
 
-  def citableForms(umgr: UrnManager): Vector[CitableForm] = {
+  def citableForms(umgr: UrnManager = LatinParsedTokenSequence.defaultUmgr): Vector[CitableForm] = {
     citableFormsPerToken(umgr).flatten
   }
 
-  def functionStrings(umgr: UrnManager) = {
+  def functionStrings(umgr: UrnManager = LatinParsedTokenSequence.defaultUmgr) = {
     citableForms(umgr).map(_.functionString)
   }
 
-  def functionStringsPerToken(umgr: UrnManager) = {
+  def functionStringsPerToken(umgr: UrnManager = LatinParsedTokenSequence.defaultUmgr) = {
     citableFormsPerToken(umgr).map( v => v.map(_.functionString))
   }
 
@@ -162,10 +162,10 @@ trait LatinParsedTokenSequence extends LogSupport {
   *
   * @param umgr UrnManager to expand abbreviated identifiers.
   */
-  def analysisUrns(umgr: UrnManager): Vector[LemmatizedFormUrns] = tokens.flatMap(t => t.analysisUrns(umgr: UrnManager))
-  def cexLines(umgr: UrnManager, separator: String = "#") : Vector[String] = analysisUrns(umgr).map(_.cex(separator))
+  def analysisUrns(umgr: UrnManager = LatinParsedTokenSequence.defaultUmgr): Vector[LemmatizedFormUrns] = tokens.flatMap(t => t.analysisUrns(umgr: UrnManager))
+  def cexLines(umgr: UrnManager = LatinParsedTokenSequence.defaultUmgr, separator: String = "#") : Vector[String] = analysisUrns(umgr).map(_.cex(separator))
 
-  def citeCollectionLines(umgr: UrnManager, urnBase: String = "urn:cite2:linglat:tkns.v1:", separator: String = "#") = {
+  def citeCollectionLines(umgr: UrnManager = LatinParsedTokenSequence.defaultUmgr, urnBase: String = "urn:cite2:linglat:tkns.v1:", separator: String = "#") = {
     val citable = for ( (ln, i) <- cexLines(umgr, separator).zipWithIndex) yield {
       val recordId = todayFormatted + "_" + i
       val urnStr = urnBase + recordId
@@ -175,7 +175,7 @@ trait LatinParsedTokenSequence extends LogSupport {
     citable
   }
 
-  def cex(umgr: UrnManager, urnBase: String = "urn:cite2:linglat:tkns.v1:", separator: String = "#") : String = {
+  def cex(umgr: UrnManager = LatinParsedTokenSequence.defaultUmgr, urnBase: String = "urn:cite2:linglat:tkns.v1:", separator: String = "#") : String = {
     val header = "urn#label#passage#token#lexeme#form#category#sequence\n"
     header + citeCollectionLines(umgr, urnBase, separator).mkString("\n")
   }

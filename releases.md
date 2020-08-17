@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**5.3.0**: Supports default value for all methods requiring a `UrnManager`.
+
 **5.2.0**: Add methods for filtering sequences based on function strings.
 
 **5.1.0**: Profile a `LatinCorpus` with histograms of lexical items, tokens, and morphological forms.
