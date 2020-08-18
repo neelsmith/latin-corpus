@@ -28,6 +28,19 @@ class CorpusIndexingSpec extends FlatSpec {
     assert(chapter.lexemeTokenIndex(sum).toSet == expectedForms)
   }
 
+  it should "look up passages for a lexeme" in {
+    val sum = "ls.n46529"
+    val expectedSize = 5
+    assert(chapter.passagesForLexeme(sum).size == expectedSize)
+  }
+
+  it should "create a concordance of lexemes" in {
+    val sum = "ls.n46529"
+    val expectedSize = 5
+    assert(chapter.lexemeConcordance(sum).size == expectedSize)
+
+  }
+
   it should "pair lexemes and tokens" in pending /*{
     // This is OK: figure out a good test for it:
     println(chapter.lexemeTokenPairings.size)

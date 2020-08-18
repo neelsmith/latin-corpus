@@ -67,6 +67,10 @@ trait LatinParsedTokenSequence extends LogSupport {
     distinctLexemesPlusTokens
   }
 
+  def labelledLexemeTokenPairings = {
+    lexemeTokenPairings.map{ case (l,t) => (LewisShort.label(l), t) }
+  }
+
   def lexemesOnly : Vector[String]  = {
     analyzed.flatMap(t => t.analyses.map(a => a.lemmaId))
   }

@@ -29,16 +29,27 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     tokens.map(t => (t.text, t.urn)).groupBy(_._1).toVector.map{ case(k,v) => (k, v.map(_._2)) }.toMap
   }
 
-  /** Map lexemes to an (unsorted) list of passages where the lexeme occurs.*/
-  def lexemeConcordance : Map[String, Vector[CtsUrn]]= {
-    val tknConcordance = tokenConcordance
-    //Logger.setDefaultLogLevel(LogLevel.DEBUG)
-    val distinctLexemesPlusTokens = lexemeTokenPairings
-    val concData = distinctLexemesPlusTokens.map{ case (lex,tkn) => (lex, tknConcordance(tkn) ) }
 
-    //Logger.setDefaultLogLevel(LogLevel.INFO)
-    concData.toMap
+  def passagesForLexeme(lexId: String) : Vector[CtsUrn] = {
+    try {
+      val tokens = lexemeTokenIndex(lexId)
+      tokens.flatMap(t => tokenConcordance(t))
+
+    } catch {
+      case t: Throwable => {
+        println(t)
+        throw t
+      }
+    }
   }
+  /** Map lexemes to an (unsorted) list of passages where the lexeme occurs.*/
+  lazy val lexemeConcordance : Map[String, Vector[CtsUrn]]= {
+    val pairings = for (l <- lexemes) yield {
+      (l -> passagesForLexeme(l))
+    }
+    pairings.toMap
+  }
+
   def labelledLexemeConcordance:  Map[String, Vector[CtsUrn]]= {
     lexemeConcordance.toVector.map{ case (lex,psgs) => (LewisShort.label(lex), psgs)}.toMap
   }

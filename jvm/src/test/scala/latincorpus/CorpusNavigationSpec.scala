@@ -51,7 +51,13 @@ class CorpusNavigationSpec extends FlatSpec {
     assert(chapter.formConcordance(conjunction) == expected)
   }
 
-
+  it should "do a lot of cool things" in {
+    val sum = "ls.n46529"
+    // 28 distinct tokens from sum !
+    assert( corpus.lexemeTokenIndex(sum).size == 28)
+    // totalling 756 passages:
+    assert( corpus.passagesForLexeme(sum).size == 756)
+  }
 
 
 }

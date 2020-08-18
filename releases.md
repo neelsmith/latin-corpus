@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**5.5.0**: Adds faster `passagesForLexeme` method in `LatinCorpus` and fixes a bug in compiling `lexemeConcordance`.
+
 **5.4.0**: Supports building a Vector of `LatinSentence`s from any `LatinParsedTokenSequence`.
 
 **5.3.0**: Supports default value for all methods requiring a `UrnManager`.
