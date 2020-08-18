@@ -91,6 +91,11 @@ trait LatinParsedTokenSequence extends LogSupport {
     val analyzedForms = this.analyzed.map(t => (t.text, t.analyses.map(_.lemmaId).distinct))
     analyzedForms.groupBy(_._1).map{ case (s,v) => (s, v.map(_._2).flatten.distinct)}
   }
+  def tokenLabelledLexemeIndex : Map[String,Vector[String]] = {
+    tokenLexemeIndex.toVector.map{ case (tkn, v) => (tkn, v.map(lex => LewisShort.label(lex)))}.toMap
+  }
+
+
   /** Index of lexeme Ids to a Vector of tokens.*/
   def lexemeTokenIndex  : Map[String,Vector[String]] = {
     lexemeTokenPairings.groupBy(_._1).toVector.map{ case (k,v) => (k, v.map(_._2))}.toMap

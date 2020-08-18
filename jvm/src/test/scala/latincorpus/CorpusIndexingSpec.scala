@@ -22,6 +22,16 @@ class CorpusIndexingSpec extends FlatSpec {
     assert(chapter.tokenLexemeIndex("quem").size == expectedLexemes)
   }
 
+
+  it should "index from tokens to labelled lexemes" in {
+    val labelledLexemes = chapter.tokenLabelledLexemeIndex("quem").toSet
+    val expected = Set("ls.n40242:quis1", "ls.n40103:qui1")    
+    assert(labelledLexemes == expected)
+
+  }
+
+
+
   it should "index from lexemes to tokens" in {
     val expectedForms = Set("sunt", "essent", "est")
     val sum = "ls.n46529"

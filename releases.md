@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**5.6.0**: Adds `corpusLabelledLexemeIndex` to `LatinCorpus` class.
+
 **5.5.0**: Adds faster `passagesForLexeme` method in `LatinCorpus` and fixes a bug in compiling `lexemeConcordance`.
 
 **5.4.0**: Supports building a Vector of `LatinSentence`s from any `LatinParsedTokenSequence`.
