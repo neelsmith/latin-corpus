@@ -319,17 +319,17 @@ trait LatinParsedTokenSequence extends LogSupport {
        val adjectiveCases = adjectives.flatMap(_.analyses.flatMap(a => a.substantiveCase)).distinct
 
        // Add gerund and supine?
-       (nounCases ++ pronounCases ++ adjectiveCases)
+       (nounCases ++ pronounCases ++ adjectiveCases).distinct
      }
      case "gender" => {
        val nounGenders: Vector[Gender] = nouns.flatMap(_.analyses.flatMap(a => a.substantiveGender)).distinct
        val pronounGenders = pronouns.flatMap(_.analyses.flatMap(a => a.substantiveGender)).distinct
        val adjectiveGenders = adjectives.flatMap(_.analyses.flatMap(a => a.substantiveGender)).distinct
-       (nounGenders ++ pronounGenders ++ adjectiveGenders)
+       (nounGenders ++ pronounGenders ++ adjectiveGenders).distinct
      }
 
      case "person" => {
-       verbs.flatMap(_.analyses.flatMap(a => a.verbPerson))
+       verbs.flatMap(_.analyses.flatMap(a => a.verbPerson)).distinct
      }
 
      case "tense" => {
