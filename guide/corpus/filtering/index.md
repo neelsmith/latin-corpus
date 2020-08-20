@@ -39,3 +39,7 @@ val hyginusSelection = LatinCorpus.fromUrl(c196aUrl)
 val c196a = hyginusSelection.clusterByCitation.head
 val tfilter = TokenSequenceFilter(c196a)
 ```
+
+This is verbose but works:
+
+sentences.filter(s => TokenSequenceFilter(s).limitCase(Vector(Dative)))
