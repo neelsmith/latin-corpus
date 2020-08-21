@@ -140,6 +140,55 @@ case class LatinParsedToken(
   }
   // ///////////////////////////////////////////////
 
+  def valuesForCategory(prop: MorphologicalCategoryValues): Vector[MorphologicalProperty] = {
+    val matches = prop.name match {
+
+      case "case" => {
+        // Collect all values for GrammaticalCase in all substantives:
+        val caseValues: Vector[GrammaticalCase] = analyses.flatMap(a => a.substantiveCase).distinct
+        caseValues
+      }
+
+      case "gender" => {
+        val genderValues: Vector[Gender] = analyses.flatMap(a => a.substantiveGender).distinct
+        genderValues
+      }
+
+      case "person" => {
+        analyses.flatMap(a => a.verbPerson).distinct
+      }
+
+      case "tense" => {
+        val verbTenses = analyses.flatMap( a => a.verbTense)
+        val ptcplTenses = analyses.flatMap( a => a.participleTense)
+        val infinTenses = analyses.flatMap(a => a.infinitiveTense)
+
+        (verbTenses ++ ptcplTenses ++ infinTenses).distinct
+
+        }
+
+        case "mood" => {
+          analyses.flatMap(a => a.verbMood)
+        }
+        case "voice" => {
+          val verbVoices = analyses.flatMap( a => a.verbVoice)
+          val ptcplVoices = analyses.flatMap( a => a.participleVoice)
+          val infinVoices = analyses.flatMap(a => a.infinitiveVoice)
+
+          (verbVoices ++ ptcplVoices ++ infinVoices).distinct
+        }
+      }
+      matches
+   }
+
+
+  def morphologyMatches(property: MorphologicalCategoryValues, propertyValue:  MorphologicalProperty) : Boolean = {
+    valuesForCategory(property).contains(propertyValue)
+  }
+
+
+
+
   /** Map analyses to [[LemmatizedFormUrns]] with assitance of a
   * [[UrnManager]] to expand abbreviations fto full URNs.
   *

@@ -302,6 +302,9 @@ trait LatinParsedTokenSequence extends LogSupport {
   Vector.empty[(TenseMood)]
  }
 
+
+ def filterMorphologically(property: MorphologicalCategoryValues, value:  MorphologicalProperty) = {
+ }
  /** Collect distinct values for a class of MorphologicalCategoryValues.
  *
  * @param prop Morphological property to collect values for.
@@ -338,8 +341,9 @@ trait LatinParsedTokenSequence extends LogSupport {
 
        }
 
-       case "mood" => finiteVerbs.flatMap(_.analyses.flatMap(a => a.verbMood))
-
+       case "mood" => {
+         finiteVerbs.flatMap(_.analyses.flatMap(a => a.verbMood))
+       }
        case "voice" => {
          val verbVoices = finiteVerbs.flatMap(v => v.analyses.flatMap( a => a.verbVoice))
          val ptcplVoices = participles.flatMap(p => p.analyses.flatMap( a => a.participleVoice))
@@ -349,7 +353,6 @@ trait LatinParsedTokenSequence extends LogSupport {
        }
      }
      matches
-
   }
 
 
@@ -428,8 +431,6 @@ trait LatinParsedTokenSequence extends LogSupport {
   lazy val uninflecteds = {
     analyzed.filter(a => a.uninflected)
   }
-
-
 
 
 
