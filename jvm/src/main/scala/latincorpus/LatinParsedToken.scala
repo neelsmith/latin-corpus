@@ -187,8 +187,6 @@ case class LatinParsedToken(
   }
 
 
-
-
   /** Map analyses to [[LemmatizedFormUrns]] with assitance of a
   * [[UrnManager]] to expand abbreviations fto full URNs.
   *

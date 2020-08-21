@@ -6,9 +6,7 @@ title: Searching
 
 # Searching: overview
 
-## Need filtering sequence by URN
 
-Basic cross-type navigation
 
 ## Create a `LatinParsedTokenSequence`
 

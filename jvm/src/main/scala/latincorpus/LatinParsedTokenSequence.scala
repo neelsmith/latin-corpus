@@ -303,8 +303,11 @@ trait LatinParsedTokenSequence extends LogSupport {
  }
 
 
- def filterMorphologically(property: MorphologicalCategoryValues, value:  MorphologicalProperty) = {
+ def morphologyMatches(property: MorphologicalCategoryValues, value:  MorphologicalProperty) :  Boolean = {
+   tokens.map(t => t.morphologyMatches(property, value)).contains(true)
  }
+
+ 
  /** Collect distinct values for a class of MorphologicalCategoryValues.
  *
  * @param prop Morphological property to collect values for.
