@@ -19,7 +19,7 @@ class LatinTokenSequenceSpec extends FlatSpec {
     println(c108a.size + " tokens, " + c108a.nouns.size + " nouns.")
   }
   it should "extract  verb tokens" in {
-    println(c108a.size + " tokens, " + c108a.verbs.size + " finite verbs forms.")
+    println(c108a.size + " tokens, " + c108a.finiteVerbs.size + " finite verbs forms.")
   }
   it should "extract pronoun tokens" in {
     println(c108a.size + " tokens, " + c108a.pronouns.size + " pronouns.")
@@ -38,11 +38,11 @@ class LatinTokenSequenceSpec extends FlatSpec {
   it should "extract supine tokens" in {
     println(c108a.size + " tokens, " + c108a.supines.size + " supines.")
   }
-  it should "extract indeclinable tokens" in {
-    println(c108a.size + " tokens, " + c108a.indeclinables.size + " uninflected tokens.")
+  it should "extract uninflected tokens" in {
+    println(c108a.size + " tokens, " + c108a.uninflecteds.size + " uninflected tokens.")
   }
   it should "cover all the pos tokens in the citable unit" in pending /* {
-    val totals = c108a.nouns.size + c108a.verbs.size + c108a.pronouns.size + c108a.participles.size + c108a.adjectives.size + c108a.adjectives.size +  c108a.supines.size + c108a.indeclinables.size
+    val totals = c108a.nouns.size + c108a.finiteVerbs.size + c108a.pronouns.size + c108a.participles.size + c108a.adjectives.size + c108a.adjectives.size +  c108a.supines.size + c108a.indeclinables.size
     assert(c108a.size  == totals)
   }*/
 

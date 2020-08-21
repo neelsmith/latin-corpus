@@ -23,21 +23,4 @@ case class LatinPhrase(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     CitableNode(urn,text.mkString.trim)
   }
 
-  def indicatives = {
-
-  }
-
-  def conjunctions: Boolean = {
-    val tokenIndecls = for (t <- tokens) yield {
-      val indecls = t.analyses.map (a => a.indeclinablePartOfSpeech).flatten.map(_.toString)
-      if (indecls.contains("Conjunction"))  {
-        println(t.text + " " + indecls)
-        true
-      } else {
-        false
-      }
-    }
-    tokenIndecls.toVector.contains(true)
-  }
-
 }

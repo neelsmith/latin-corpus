@@ -126,6 +126,7 @@ object LatinCorpus extends LogSupport {
 
   //urn#label#passage#token#lexeme#form#category#sequence
   def apply(cexLines: Vector[String], separator: String = "#") : LatinCorpus = {
+    
     val byToken = cexLines.groupBy( ln => {
       val cols = ln.split(separator)
       cols(2)

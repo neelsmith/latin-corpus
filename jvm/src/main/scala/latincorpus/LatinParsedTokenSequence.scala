@@ -294,14 +294,11 @@ trait LatinParsedTokenSequence extends LogSupport {
   }
 
 
-  /** Verb tokens only*/
-  lazy val verbs = {
-    analyzed.filter(_.analyses(0).posLabel == "verb")
-  }
+
 
 
  def tenseMoodValues : Vector[TenseMood] = {
-  //verbs.flatMap(_.analyses.flatMap(a => (a.verbTense, a.verbMood) )).distinct
+  //finiteVerbs.flatMap(_.analyses.flatMap(a => (a.verbTense, a.verbMood) )).distinct
   Vector.empty[(TenseMood)]
  }
 
@@ -329,11 +326,11 @@ trait LatinParsedTokenSequence extends LogSupport {
      }
 
      case "person" => {
-       verbs.flatMap(_.analyses.flatMap(a => a.verbPerson)).distinct
+       finiteVerbs.flatMap(_.analyses.flatMap(a => a.verbPerson)).distinct
      }
 
      case "tense" => {
-       val verbTenses = verbs.flatMap(v => v.analyses.flatMap( a => a.verbTense))
+       val verbTenses = finiteVerbs.flatMap(v => v.analyses.flatMap( a => a.verbTense))
        val ptcplTenses = participles.flatMap(p => p.analyses.flatMap( a => a.participleTense))
        val infinTenses = infinitives.flatMap(i => i.analyses.flatMap(a => a.infinitiveTense))
 
@@ -341,10 +338,10 @@ trait LatinParsedTokenSequence extends LogSupport {
 
        }
 
-       case "mood" => verbs.flatMap(_.analyses.flatMap(a => a.verbMood))
+       case "mood" => finiteVerbs.flatMap(_.analyses.flatMap(a => a.verbMood))
 
        case "voice" => {
-         val verbVoices = verbs.flatMap(v => v.analyses.flatMap( a => a.verbVoice))
+         val verbVoices = finiteVerbs.flatMap(v => v.analyses.flatMap( a => a.verbVoice))
          val ptcplVoices = participles.flatMap(p => p.analyses.flatMap( a => a.participleVoice))
          val infinVoices = infinitives.flatMap(i => i.analyses.flatMap(a => a.infinitiveVoice))
 
@@ -355,55 +352,87 @@ trait LatinParsedTokenSequence extends LogSupport {
 
   }
 
-  /** Noun tokens only*/
-  lazy val nouns = {
-    analyzed.filter(_.analyses(0).posLabel == "noun")
-  }
 
-  /** Adjective tokens only*/
-  lazy val adjectives = {
-    analyzed.filter(_.analyses(0).posLabel == "adjective")
-  }
 
-  /** Adverb tokens only*/
-  lazy val adverbs = {
-    analyzed.filter(_.analyses(0).posLabel == "adverb")
-  }
 
-  /** Adverb tokens only*/
-  lazy val pronouns = {
-    analyzed.filter(_.analyses(0).posLabel == "pronoun")
-  }
 
-  /** Uninflected lexical tokens only*/
-  lazy val indeclinables = {
-    analyzed.filter(_.analyses(0).posLabel == "indeclinable")
+  //// Filter tokens by analytical type:
+  //
+  /** Finite verb tokens only*/
+  lazy val finiteVerbs = {
+    analyzed.filter(a => a.finiteVerb)
   }
 
   /** Participle tokens only*/
   lazy val participles = {
-    analyzed.filter(_.analyses(0).posLabel == "participle")
+      analyzed.filter(a => a.participle)
   }
 
   /** Infinitive tokens only*/
   lazy val infinitives = {
-    analyzed.filter(_.analyses(0).posLabel == "infintive")
+    analyzed.filter(a => a.finiteVerb)
   }
 
   /** Gerundive tokens only*/
   lazy val gerundives = {
-    analyzed.filter(_.analyses(0).posLabel == "gerundive")
+    analyzed.filter(a => a.gerundive)
   }
 
   /** Gerund tokens only*/
   lazy val gerunds = {
-    analyzed.filter(_.analyses(0).posLabel == "gerund")
+    analyzed.filter(a => a.gerund)
   }
 
   /** Supine tokens only*/
   lazy val supines = {
-    analyzed.filter(_.analyses(0).posLabel == "supine")
+    analyzed.filter(a => a.supine)
   }
+
+  ////////////
+
+  /** Noun tokens only*/
+  lazy val nouns = {
+    analyzed.filter(a => a.noun)
+  }
+
+  /** Adjective tokens only*/
+  lazy val adjectives = {
+    analyzed.filter(a => a.adjective)
+  }
+
+  /** Adverb tokens only*/
+  lazy val pronouns = {
+    analyzed.filter(a => a.pronoun)
+  }
+
+
+  /** Adverb tokens only*/
+  lazy val substantives = {
+    analyzed.filter(a => a.substantive)
+  }
+
+  /** Adverb tokens only*/
+  lazy val adverbs = {
+    analyzed.filter(a => a.adverb)
+  }
+
+
+  lazy val prepositions = {
+    analyzed.filter(a => a.preposition)
+  }
+
+  lazy val conjunctions = {
+    analyzed.filter(a => a.conjunction)
+  }
+  /** Uninflected lexical tokens only*/
+  lazy val uninflecteds = {
+    analyzed.filter(a => a.uninflected)
+  }
+
+
+
+
+
 
   val css = "<style>\na.hoverclass {\nposition: relative ;\n}\na.hoverclass:hover::after {\n content: attr(data-tooltip) ;\n position: absolute ;\n  top: 1.1em ;\n  left: 1em ;\n  min-width: 200px ;\n  border: 1px #808080 solid ;\n  padding: 8px ;\n  z-index: 1 ;\n  color: silver;\n  background-color: white;\n}\n</style>\n"
 

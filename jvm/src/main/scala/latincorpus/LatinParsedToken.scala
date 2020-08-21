@@ -46,13 +46,68 @@ case class LatinParsedToken(
     analyses.filter(_.lemmaId == lexeme).nonEmpty
   }
 
+
+
+  /** True if any of analyses are a finite verb form. */
+  def finiteVerb: Boolean = {
+    analyses.map(_.posLabel).contains("verb")
+  }
+  def infinitive: Boolean = {
+    analyses.map(_.posLabel).contains("infinitive")
+  }
+  def participle: Boolean = {
+    analyses.map(_.posLabel).contains("participle")
+  }
+  def gerund: Boolean = {
+    analyses.map(_.posLabel).contains("gerund")
+  }
+  def gerundive: Boolean = {
+    analyses.map(_.posLabel).contains("gerundive")
+  }
+  def supine: Boolean = {
+    analyses.map(_.posLabel).contains("supine")
+  }
+  def verbal: Boolean = {
+    finiteVerb || infinitive || participle || gerund || gerundive || supine
+  }
+
+
+  def noun: Boolean = {
+    analyses.map(_.posLabel).contains("noun")
+  }
+  def pronoun: Boolean = {
+    analyses.map(_.posLabel).contains("pronoun")
+  }
+  def adjective: Boolean = {
+    analyses.map(_.posLabel).contains("adjective")
+  }
+  def substantive: Boolean = {
+    noun || pronoun || adjective
+  }
+
+  def adverb: Boolean  = {
+    analyses.map(_.posLabel).contains("adverb")
+  }
+
+  def uninflected: Boolean = {
+    analyses.map(_.posLabel).contains("indeclinable")
+  }
+
+  def preposition: Boolean = {
+    analyses.map(_.indeclinablePartOfSpeech).contains(Some(Preposition))
+  }
+  def conjunction: Boolean = {
+    analyses.map(_.indeclinablePartOfSpeech).contains(Some(Conjunction))
+  }
+
+
   /** True if the possible analyses of this token include
   * a specific morphological form identified by URN.
   *
   * @param formUrn URN identifying the form to look for.
   * @param umgr UrnManager for expanding abbreviated identifiers.
   */
-  def hasForm(formUrn: Cite2Urn, umgr: UrnManager): Boolean = {
+  def hasForm(formUrn: Cite2Urn, umgr: UrnManager = LatinParsedTokenSequence.defaultUmgr): Boolean = {
     val formUrns = analysisUrns(umgr).filter(a => a.form == formUrn)
     formUrns.nonEmpty
   }
