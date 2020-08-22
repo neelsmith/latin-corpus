@@ -307,7 +307,20 @@ trait LatinParsedTokenSequence extends LogSupport {
    tokens.map(t => t.morphologyMatches(property, value)).contains(true)
  }
 
- 
+ def morphologyMatches(propertySpec: ClassifiedValue) : Boolean = {
+   morphologyMatches(propertySpec.property, propertySpec.propertyValue)
+ }
+
+ def andMorphMatches(propertySpecs: Vector[ClassifiedValue]) : Boolean = {
+   tokens.map(t => t.andMorphMatches(propertySpecs)).contains(true)
+ }
+
+ def orMorphMatches(propertySpecs: Vector[ClassifiedValue]) : Boolean = {
+   tokens.map(t => t.orMorphMatches(propertySpecs)).contains(true)
+ }
+
+
+
  /** Collect distinct values for a class of MorphologicalCategoryValues.
  *
  * @param prop Morphological property to collect values for.

@@ -185,6 +185,20 @@ case class LatinParsedToken(
   def morphologyMatches(property: MorphologicalCategoryValues, propertyValue:  MorphologicalProperty) : Boolean = {
     valuesForCategory(property).contains(propertyValue)
   }
+  def morphologyMatches(propertySpec: ClassifiedValue) : Boolean = {
+    morphologyMatches(propertySpec.property, propertySpec.propertyValue)
+  }
+
+  /** True if token matches all of the listed properties.*/
+  def andMorphMatches(propertySpecs: Vector[ClassifiedValue]) : Boolean = {
+    val tf = propertySpecs.map(prop => morphologyMatches(prop)).distinct
+    (tf.size == 1 && tf.head)
+  }
+
+  def orMorphMatches(propertySpecs: Vector[ClassifiedValue]) : Boolean = {
+    val tf = propertySpecs.map(prop => morphologyMatches(prop)).distinct
+    (tf.contains(true))
+  }
 
 
   /** Map analyses to [[LemmatizedFormUrns]] with assitance of a

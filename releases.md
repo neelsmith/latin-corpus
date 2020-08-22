@@ -1,5 +1,7 @@
 # `latincorpus`: release notes
 
+**6.0.0**:  Adds entirely new mechanism for filtering tokens and sequences of tokens using morphological property specifications.
+
 **5.6.0**: Adds `corpusLabelledLexemeIndex` to `LatinCorpus` class.
 
 **5.5.0**: Adds faster `passagesForLexeme` method in `LatinCorpus` and fixes a bug in compiling `lexemeConcordance`.

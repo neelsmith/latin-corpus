@@ -1,7 +1,13 @@
 package edu.holycross.shot.latincorpus
 
+import edu.holycross.shot.tabulae._
+
 // Objects we can use to identify concepts defined as traits in tabulae library
 
+case class ClassifiedValue(
+  property: MorphologicalCategoryValues,
+  propertyValue: MorphologicalProperty
+)
 
   sealed trait MorphologicalCategoryValues {
     def name: String
