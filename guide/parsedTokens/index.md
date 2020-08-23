@@ -26,9 +26,9 @@ val token = corpus.tokens.head
 
 ## Basic identity
 
-A `LatinParsedToken` is a single token categorized as `Lexical`, `Numeric`, `Punctuation` or `Praenomen`.
+A `LatinParsedToken` is a single token categorized as a `LexicalToken`, `NumericToken`, `PunctuationToken` or `PraenomenToken`.
 
-It is citable by a CTS URN that extends the canonical citation scheme for the text by one level to create a canonical citation for individual tokens.
+It is citable by a CTS URN that extends the canonical citation scheme for the text by one level to create a canonical citation for individual tokens. We'll use as an example a token identified as `32` within the canonically citable passage  `urn:cts:latinLit:stoa1263.stoa001.hc_tkns:108a.1`
 
 ```scala mdoc
 token.urn
@@ -48,7 +48,7 @@ token.analyses.size
 token.analyses.head
 ```
 
-The token has a series of Boolean functions, determining if any analyses belong to a given type of `LemmatizedForm`.  For the token in this example with the text `scripserunt`, the single analysis is specifically a finite verb type.  It also belongs to the broader `verb` category that includes non-finite forms such as infinitives and participles.
+The token has a series of Boolean functions, determining if any analyses belong to a given type of `LemmatizedForm`.  For the token in this example with the text `scripserunt`, the single analysis is specifically a finite verb type.  It also belongs to the broader `verbal` category that includes non-finite forms such as infinitives and participles.
 
 ```scala mdoc
 token.finiteVerb
@@ -65,7 +65,7 @@ token.valuesForCategory(PersonValues)
 token.valuesForCategory(TenseValues)
 token.valuesForCategory(MoodValues)
 token.valuesForCategory(VoiceValues)
-token.valuesForCategory(GrammaticalNumberValues)
+//token.valuesForCategory(GrammaticalNumberValues)
 ```
 
 If no values are found for that property, the result is an empty Vector.
@@ -86,11 +86,17 @@ token.matchesAny(Vector("ls.n43092", "fake.id"))
 
 
 
-## Serialization
+## URN expansion and serialization
 
-
-You can serialize a token to a series of CEX lines with URNs explicitly expanded.
+The `tabulae` library's `LemmatizedForm` uses abbreviated identifiers.  The URNs can be expanded  by converting `LemamtizedForm`s to `LemmatizedFormUrns`.
 
 ```scala mdoc
- token.analysisUrns()
+val expanded  = token.analysisUrns()
+```
+
+These are useful for serializing to a plain-text representation which could be written to a file.
+```scala mdoc
+val cex = expanded.map(analysis => analysis.cex())
+import java.io.PrintWriter
+new PrintWriter("onetoken.cex"){write(cex.mkString("\n"));close;}
 ```
