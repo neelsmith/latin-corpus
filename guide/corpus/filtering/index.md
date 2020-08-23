@@ -18,28 +18,7 @@ val hyginus = LatinCorpus.fromUrl(hyginusUrl)
 
 A simple example:  cluster by citation  unit.
 
-```scala mdoc:silent
+REMOVED in 7.0.0
+```REMOVED in 7.0.0
 val clustered = hyginus.clusterByCitation
 ```
-
-Now create a `MorphologyCollectionsFilter`
-
-```scala mdoc:silent
-val filter = MorphologyCollectionsFilter(clustered)
-```
-
-The `MorphologyCollectionsFilter` delegates the work of filtering individual clusters to a `TokenSequenceFilter`, which works on an indivual clustered unit.
-
-
-Let's take a short example before generalizing to filtering a whole collection.  One kind of clustered unit is a `LatinCitableUnit`.
-
-```scala mdoc:silent
-val c196aUrl = "https://raw.githubusercontent.com/neelsmith/latin-corpus/master/jvm/src/test/resources/sect196a.cex"
-val hyginusSelection = LatinCorpus.fromUrl(c196aUrl)
-val c196a = hyginusSelection.clusterByCitation.head
-val tfilter = TokenSequenceFilter(c196a)
-```
-
-This is verbose but works:
-
-sentences.filter(s => TokenSequenceFilter(s).limitCase(Vector(Dative)))

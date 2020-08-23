@@ -30,13 +30,13 @@ import edu.holycross.shot.latin._
 import edu.holycross.shot.latincorpus._
 val latinCorpus = LatinCorpus.fromFstLines(corpus, Latin24Alphabet, fstLines, strict=false)
 ```
-
-```scala mdoc:silent
+REMOVED IN 7.0.0
+```REMOVED IN 7.0.0
 val clusters = latinCorpus.clusterByCitation
 val morphFilter = MorphologyCollectionsFilter(clusters)
 ```
 
-```scala mdoc:silent
+```
 import edu.holycross.shot.tabulae._
 val caseList = Vector(Nominative, Genitive)
 val nomgenOnly = morphFilter.limitSubstantiveCase(caseList)
@@ -47,18 +47,18 @@ val nomgenNodes = morphFilter.limitSubstantiveCaseNodes(caseList)
 
 Pretty-printing examples:
 
-```scala mdoc
+```
 nomgenNodes.take(5).map(node => node.urn + "  " + node.text).mkString("\n\n")
 ```
 
 or if you just want the text:
 
-```scala mdoc
+```
 val nomgenText = morphFilter.limitSubstantiveCaseText(caseList)
 ```
 
 Pretty-print the first 5 of these:
 
-```scala mdoc
+```
 nomgenText.take(5).mkString("\n\n")
 ```
