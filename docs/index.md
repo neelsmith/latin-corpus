@@ -10,40 +10,43 @@ nav_order: 0
 
 # The `latincorpus` library
 
-## Three central concepts
+## The foundational class hierarchy
 
 The library works with a hierarchy of three central models:  the parsed token, the sequence of parsed tokens, and the collection of parsed token sequences.
 
-### 1. [The `LatinParsedToken`](./parsedTokens/)
+### 1. [The `LatinParsedToken`](./datamodels/parsedTokens/)
 
 The foundational unit for all other structures in the `latincorpus` library is the `LatinParsedToken`.
 
 A `LatinParsedToken` is a categorized token, with an associated list of morphological analyses.  The  `LatinParsedToken` is citable by a CTS URN that extends the canonical citation scheme for the text by one level to create a canonical citation for individual tokens.
 
-See more about [the `LatinParsedToken`](./parsedTokens/)
+See more about [the `LatinParsedToken`](./datamodels/parsedTokens/)
 
 
-### 2. The `LatinParsedTokenSequence` trait
+### 2. [The `LatinParsedTokenSequence` trait](./datamodels/parsedTokenSequence/)
 
 
 The `LatinParsedTokenSequence` trait defines behaviors for an ordered series of `LatinParsedToken`s.
 
-It is implemented by:
+The following implementations are included in the `latin-corpus` library:
 
-- `LatinCorpus` views an entire corpus as a single sequence of `LatinParsedToken`s.  This is useful for surveying the contents of an entire corpus.  To compare different corpora of Latin texts (grouped into corpora according to whatever principle you choose), you could create a `ParsedSequenceCollection` containing multiple instances of `LatinCorpus`.
-- `LatinCitableUnit` is a sequence of tokens ...
-Group from any parsed token sequence: `citableUnits`
-- `LatinSentence`..... group from any parsed token sequence: `sentences`
-- `LatinNGram`... group fromv any parsed token sequence: `ngram(n)`
+- `LatinCorpus`. This is the default implementation of the  `LatinParsedTokenSequence`.  It views a collection of tokens as a single sequence of `LatinParsedToken`s.
+- `LatinCitableUnit`. This represents a sequence of parsed tokens belonging to a single canonically citable unit of text.
+- `LatinEdition`. This represents a sequence of tokens belonging to a single version of a single text.
+- `LatinSentence`. This represents a sequence of tokens belonging to a single sentence.
+- `LatinNGram`.  This represents a single n-gram extracted from a longer sequence of parsed tokens.
+
+See more about [the `LatinParsedTokenSequence` and its implementations](./parsedTokenSequence/).
+
+### 3. [The `ParsedSequenceCollection`](./parsedSequenceCollection/)
+
+A `ParsedSequenceCollection` lets you work with a collection of `LatinParsedTokenSequence`s, such as a collection of sentences, citable nodes, or even a collection of whole corpora.
+
+See more about [the `ParsedSequenceCollection`](./parsedSequenceCollection/).
 
 
 
-### 3. The `ParsedSequenceCollection`
-
-A `ParsedSequenceCollection` works with a Vector of `LatinParsedTokenSequence`s.
-
-
-## Analytical operations: matching and filtering
+## Analytical operations: [matching and filtering](./querying/)
 
 This hierarchy of classes makes it possible to match individual tokens, and apply filters to tokens organized in different ways.
 
