@@ -1,9 +1,14 @@
+Build mdocs in REPO/docs from source in REPO/guide:
 
-Install the gem:
+    sbt docs mdoc
+
+To run server locally, cp Gemfile and _config.yml to REPO/docs.
+
+If the gem is not already installed, install the gem:
 
     gem install just-the-docs
 
-Then:
+Then withint REPO/docs:
 
     bundle exec jekyll serve
     
