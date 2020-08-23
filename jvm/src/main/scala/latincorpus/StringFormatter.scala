@@ -103,7 +103,8 @@ object StringFormatter extends LogSupport {
     }*/
 
 
-    /** Attach HTML markup to effect display of form information when
+    /*
+    * Attach HTML markup to effect display of form information when
     * mouse is over a token.
     *
     * @param mfs Vector of filters to apply.

@@ -62,12 +62,6 @@ class LatinParsedTokenSpec extends FlatSpec {
     assert(parsedToken.matchesAny(noneatall) == false)
   }
 
-  it should "extract an option for the analytical combinationa TenseMood" in {
-    val cex = Vector("urn:cite2:linglat:tkns.v1:2020_08_02_44077#Record 2020_08_02_44077#urn:cts:latinLit:stoa1263.stoa001.hc_tkns:196a.1.19#deciperent#urn:cite2:tabulae:ls.v1:n12498#urn:cite2:tabulae:morphforms.v1:322210004#LexicalToken#44077")
-    val corpus = LatinCorpus(cex)
-    val verb = corpus.tokens.head
-    println(verb.tenseMood)
-  }
 
   it should "report if the form of the token matches a form specified by URN" in {
     val cex = Vector("urn:cite2:linglat:tkns.v1:2020_08_02_44077#Record 2020_08_02_44077#urn:cts:latinLit:stoa1263.stoa001.hc_tkns:196a.1.19#deciperent#urn:cite2:tabulae:ls.v1:n12498#urn:cite2:tabulae:morphforms.v1:322210004#LexicalToken#44077")

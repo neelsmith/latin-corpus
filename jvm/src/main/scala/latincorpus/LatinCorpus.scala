@@ -18,7 +18,7 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 /** A morphologically parsed Latin corpus citable at the level
 * of classified tokens.
 *
-* @param tokens Ordered list of [[LatinParsedTokene]]s making u this corpus.
+* @param tokens Ordered list of [[LatinParsedToken]]s making u this corpus.
 */
 case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedTokenSequence {
   //Logger.setDefaultLogLevel(LogLevel.WARN)
@@ -76,7 +76,7 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     Histogram(ambiguous)
   }
   */
-  
+
 }
 
 

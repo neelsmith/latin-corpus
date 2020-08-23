@@ -113,32 +113,6 @@ case class LatinParsedToken(
   }
 
   // ///////////////////////////////////////////////
-  //
-  // Support special combos not defined in tabulae's
-  // LemmatizedForm class
-
-  def tenseValue(prop: MorphologicalProperty) : Tense = {
-    prop match {
-      case t: Tense =>  t
-      case _ =>  throw new Exception(s"${prop}  is not a Tense")
-    }
-  }
-  def moodValue(prop: MorphologicalProperty) : Mood = {
-    prop match {
-      case m: Mood => m
-      case _ => throw new Exception(s"${prop} is not a Mood")
-    }
-  }
-  def tenseMood: Vector[TenseMood] = {
-    val options = analyses.map(a => Vector(a.verbTense,a.verbMood) )
-    val noNulls = options.filterNot(v => v(0) == None || v(1) == None )
-    noNulls.map(v => TenseMood(
-        tenseValue(v(0).get),
-        moodValue(v(1).get)
-      )
-    )
-  }
-  // ///////////////////////////////////////////////
 
   def valuesForCategory(prop: MorphologicalCategoryValues): Vector[MorphologicalProperty] = {
     val matches = prop.name match {
@@ -201,8 +175,8 @@ case class LatinParsedToken(
   }
 
 
-  /** Map analyses to [[LemmatizedFormUrns]] with assitance of a
-  * [[UrnManager]] to expand abbreviations fto full URNs.
+  /** Map analyses to [[LemmatizedFormUrns]] with assistance of a
+  * UrnManager to expand abbreviations fto full URNs.
   *
   * @param umgr UrnManger to use for expanding abbreviated IDs.
   */
