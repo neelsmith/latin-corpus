@@ -14,11 +14,10 @@ class MorphologyMatchingSpec extends FlatSpec {
 
   val chapterFile = "jvm/src/test/resources/c108a.cex"
   val chapter = LatinCorpus.fromFile(chapterFile, cexHeader = false)
-  val sentences = LatinSentence.sentences(chapter.tokens)
+  val testVerb = chapter.sentences.sequences(2).finiteVerbs(2)
 
 
   "A LatinParsedToken" should "test for a specified morphological property" in {
-    val testVerb = sentences(2).finiteVerbs(2)
     val third = ClassifiedValue(PersonValues, Third)
     assert(testVerb.morphologyMatches(third))
 
@@ -26,7 +25,6 @@ class MorphologyMatchingSpec extends FlatSpec {
   }
 
   it should "test for property/value combinations" in {
-    val testVerb = sentences(2).finiteVerbs(2)
     assert(testVerb.morphologyMatches(TenseValues, Perfect))
     assert(testVerb.morphologyMatches(PersonValues, Third))
   }
@@ -35,12 +33,10 @@ class MorphologyMatchingSpec extends FlatSpec {
     val pft = ClassifiedValue(TenseValues, Perfect)
     val third = ClassifiedValue(PersonValues, Third)
     val testProps = Vector(pft, third)
-    val testVerb = sentences(2).finiteVerbs(2)
     assert(testVerb.andMorphMatches(testProps))
   }
 
   it should "be able to test by or-ing morphological properties" in {
-    val testVerb = sentences(2).finiteVerbs(2)
     val pft = ClassifiedValue(TenseValues, Perfect)
     val impft = ClassifiedValue(TenseValues, Imperfect)
     val testTenses = Vector(pft, impft)

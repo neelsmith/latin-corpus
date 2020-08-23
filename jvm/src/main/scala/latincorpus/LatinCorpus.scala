@@ -81,19 +81,24 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
 
   /** Cluster  into [[LatinCitableUnit]]s all [[LatinParsedToken]]s with common CTS URNs for the parent level of the passage hierarchy.
   */
-  def clusterByCitation : Vector[LatinCitableUnit] = {
+  def clusterByCitation : ParsedSequenceCollection = {
     val zipped = tokens.zipWithIndex
     val grouped = zipped.groupBy(_._1.urn.collapsePassageBy(1))
     val ordered = grouped.toVector.sortBy(_._2.head._2)
     //val tidy = ordered.map{ case (u,v) => (u, v.sortBy(_._2).map(_._1.text).mkString(" "))}
 
-    ordered.map{ case (u,v) => LatinCitableUnit(v.sortBy(_._2).map(_._1)) }
+    val citableNodes = ordered.map{ case (u,v) => LatinCitableUnit(v.sortBy(_._2).map(_._1)) }
+    ParsedSequenceCollection(citableNodes)
   }
+
+
+  def sentences: ParsedSequenceCollection = LatinSentence(this)
+
 
 
   /** Segment the sequence of tokens into [[LatinPhrase]]s based on punctuation
   ** tokens.
-  */
+
   def segmentByPhrase(
     source: Vector[LatinParsedToken] = tokens,
     collected: Vector[LatinParsedToken] =   Vector.empty[LatinParsedToken],
@@ -118,7 +123,7 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
         segmentByPhrase(source.tail, collected :+ source.head, phrases)
       }
     }
-  }
+  }  */
 }
 
 
@@ -126,7 +131,7 @@ object LatinCorpus extends LogSupport {
 
   //urn#label#passage#token#lexeme#form#category#sequence
   def apply(cexLines: Vector[String], separator: String = "#") : LatinCorpus = {
-    
+
     val byToken = cexLines.groupBy( ln => {
       val cols = ln.split(separator)
       cols(2)

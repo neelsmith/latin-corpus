@@ -11,21 +11,27 @@ case class LatinSentence(tokens: Vector[LatinParsedToken]) extends LatinParsedTo
 }
 
 object LatinSentence extends LogSupport {
-  def apply(seq: LatinParsedTokenSequence): Vector[LatinSentence] = {
+
+  def apply(seq: LatinParsedTokenSequence):
+  ParsedSequenceCollection = {
+  //Vector[LatinSentence] = {
     sentences(seq.tokens)
   }
 
   def sentences(tokens: Vector[LatinParsedToken],
     currentSentence: Vector[LatinParsedToken] = Vector.empty[LatinParsedToken],
-    currentSentences: Vector[LatinSentence] = Vector.empty[LatinSentence]) : Vector[LatinSentence] = {
+    currentSentences: Vector[LatinSentence] = Vector.empty[LatinSentence]) :
+    ParsedSequenceCollection = {
+
+    ///Vector[LatinSentence] = {
     //Logger.setDefaultLogLevel(LogLevel.DEBUG)
     if (tokens.isEmpty) {
       debug("Adding last sentence from tokens: " + currentSentence)
       //Logger.setDefaultLogLevel(LogLevel.WARN)
       if (currentSentence.isEmpty) {
-        currentSentences
+        ParsedSequenceCollection(currentSentences)
       } else {
-        currentSentences :+ LatinSentence(currentSentence)
+        ParsedSequenceCollection(currentSentences :+ LatinSentence(currentSentence))
       }
 
     } else {

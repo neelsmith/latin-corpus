@@ -13,7 +13,7 @@ class LatinTokenSequenceSpec extends FlatSpec {
   val f = "jvm/src/test/resources/c108a.cex"
   val lc = LatinCorpus.fromFile(f)
   val citableUnits = lc.clusterByCitation
-  val c108a = citableUnits.head
+  val c108a = citableUnits.sequences.head
 
   "A LatinParsedTokenSequence" should "extract noun tokens" in {
     println(c108a.size + " tokens, " + c108a.nouns.size + " nouns.")
