@@ -206,7 +206,7 @@ case class LatinParsedToken(
   *
   * @param umgr UrnManger to use for expanding abbreviated IDs.
   */
-  def analysisUrns(umgr: UrnManager) : Vector[LemmatizedFormUrns] = {
+  def analysisUrns(umgr: UrnManager = LatinParsedTokenSequence.defaultUmgr) : Vector[LemmatizedFormUrns] = {
     val lexNull = Cite2Urn("urn:cite2:tabulae:ls.v1:null")
     val morphNull =  Cite2Urn("urn:cite2:tabulae:morphforms.v1:null")
     if (analyses.isEmpty) {

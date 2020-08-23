@@ -81,7 +81,7 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
 
   /** Cluster  into [[LatinCitableUnit]]s all [[LatinParsedToken]]s with common CTS URNs for the parent level of the passage hierarchy.
   */
-  def clusterByCitation : ParsedSequenceCollection = {
+  def citableUnits : ParsedSequenceCollection = {
     val zipped = tokens.zipWithIndex
     val grouped = zipped.groupBy(_._1.urn.collapsePassageBy(1))
     val ordered = grouped.toVector.sortBy(_._2.head._2)
