@@ -18,4 +18,4 @@ Binaries are available from bintray: for maven, ivy or gradle coordinates, see [
 
 ## Documentation
 
-- User's guide: <https://neelsmith.github.io/latin-corpus/>
+- User's guide currently being updated with preview of release 7.0.0: <https://neelsmith.github.io/latin-corpus/>
