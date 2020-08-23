@@ -9,8 +9,9 @@ parent: Using a LatinCorpus
 # Clustering tokens in citable units
 
 
+NOT IN 7.0.0
 
-```scala mdoc:silent
+```scala
 import edu.holycross.shot.latincorpus._
 val hyginusUrl = "https://raw.githubusercontent.com/LinguaLatina/analysis/master/data/hyginus/hyginus-latc.cex"
 val hyginus = LatinCorpus.fromUrl(hyginusUrl)
