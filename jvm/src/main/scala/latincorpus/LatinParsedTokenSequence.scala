@@ -167,6 +167,22 @@ trait LatinParsedTokenSequence extends LogSupport {
 
 
 
+
+  /** Cluster  into [[LatinCitableUnit]]s all [[LatinParsedToken]]s with common CTS URNs for the parent level of the passage hierarchy.
+  */
+  def citableUnits : ParsedSequenceCollection = {
+    val zipped = tokens.zipWithIndex
+    val grouped = zipped.groupBy(_._1.urn.collapsePassageBy(1))
+    val ordered = grouped.toVector.sortBy(_._2.head._2)
+    //val tidy = ordered.map{ case (u,v) => (u, v.sortBy(_._2).map(_._1.text).mkString(" "))}
+
+    val citableNodes = ordered.map{ case (u,v) => LatinCitableUnit(v.sortBy(_._2).map(_._1)) }
+    ParsedSequenceCollection(citableNodes)
+  }
+  def sentences: ParsedSequenceCollection = LatinSentence(this)
+
+
+
   /** Represent this corpus as a sequence of CEX lines.
   *
   * @param umgr UrnManager to expand abbreviated identifiers.

@@ -12,7 +12,7 @@ class LatinCitableUnitSpec extends FlatSpec {
 
   val c196aUrl = "https://raw.githubusercontent.com/neelsmith/latin-corpus/master/jvm/src/test/resources/sect196a.cex"
   val hyginusSelection = LatinCorpus.fromUrl(c196aUrl)
-  val c196a = hyginusSelection.clusterByCitation.sequences.head
+  val c196a = hyginusSelection.citableUnits.sequences.head
 
 
   "A LatinCitable" should "compose an OHCO2 CitableNode" in pending /*{

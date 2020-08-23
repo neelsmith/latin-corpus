@@ -76,54 +76,7 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
     Histogram(ambiguous)
   }
   */
-
-
-
-  /** Cluster  into [[LatinCitableUnit]]s all [[LatinParsedToken]]s with common CTS URNs for the parent level of the passage hierarchy.
-  */
-  def citableUnits : ParsedSequenceCollection = {
-    val zipped = tokens.zipWithIndex
-    val grouped = zipped.groupBy(_._1.urn.collapsePassageBy(1))
-    val ordered = grouped.toVector.sortBy(_._2.head._2)
-    //val tidy = ordered.map{ case (u,v) => (u, v.sortBy(_._2).map(_._1.text).mkString(" "))}
-
-    val citableNodes = ordered.map{ case (u,v) => LatinCitableUnit(v.sortBy(_._2).map(_._1)) }
-    ParsedSequenceCollection(citableNodes)
-  }
-
-
-  def sentences: ParsedSequenceCollection = LatinSentence(this)
-
-
-
-  /** Segment the sequence of tokens into [[LatinPhrase]]s based on punctuation
-  ** tokens.
-
-  def segmentByPhrase(
-    source: Vector[LatinParsedToken] = tokens,
-    collected: Vector[LatinParsedToken] =   Vector.empty[LatinParsedToken],
-    phrases : Vector[LatinPhrase] = Vector.empty[LatinPhrase]
-  ): Vector[LatinPhrase] = {
-    debug("Segmenting phrases: source size " + source.size)
-    if (source.isEmpty) {
-      phrases
-    } else {
-
-      if (source.head.category.toString == "PunctuationToken") {
-        source.head.text match {
-          case "." => {
-            val phrase = LatinPhrase(collected :+ source.head)
-            segmentByPhrase(source.tail, Vector.empty[LatinParsedToken], phrases :+ phrase)
-          }
-          case _ => segmentByPhrase(source.tail, collected :+ source.head, phrases)
-        }
-
-
-      } else {
-        segmentByPhrase(source.tail, collected :+ source.head, phrases)
-      }
-    }
-  }  */
+  
 }
 
 

@@ -81,7 +81,7 @@ val fst = """> sed
 
 
   it should "cluster a corpus into citable nodes" in  {
-    val clustered = lc.clusterByCitation
+    val clustered = lc.citableUnits
     val numberClusters = 1
     assert(clustered.size == numberClusters)
   }
@@ -100,7 +100,7 @@ val fst = """> sed
   it should "Correctly read a LatinCorpus from CEX source" in {
     val chapterFile = "jvm/src/test/resources/c108a.cex"
     val chapter = LatinCorpus.fromFile(chapterFile)
-    
+
   }
 
 }
