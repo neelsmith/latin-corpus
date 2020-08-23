@@ -14,7 +14,7 @@ nav_order: 0
 
 The library works with a hierarchy of three central models:  the parsed token, the sequence of parsed tokens, and the collection of parsed token sequences.
 
-### 1. The `LatinParsedToken`
+### 1. [The `LatinParsedToken`](./parsedTokens/)
 
 The foundational unit for all other structures in the `latincorpus` library is the `LatinParsedToken`.
 
