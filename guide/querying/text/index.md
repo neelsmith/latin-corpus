@@ -1,5 +1,5 @@
 ---
-title: Matching text
+title: Matching textual contents
 layout: page
 nav_order: 1
 parent: Matching and filtering data sets
