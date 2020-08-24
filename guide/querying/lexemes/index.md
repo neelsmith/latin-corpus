@@ -1,5 +1,5 @@
 ---
-title: Matching and filtering token sequences
+title: Matching and filtering lexemes
 layout: page
 nav_order: 2
 parent: Matching and filtering data sets

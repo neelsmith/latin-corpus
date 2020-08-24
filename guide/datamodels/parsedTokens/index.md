@@ -14,6 +14,12 @@ parent: Data models
 
 # The `LatinParsedToken`
 
+## Background
+
+The `LatinParsedToken` is the atomic unit in the `latincorpus` library.  It presumes that for any text represented as a String or sequence of code points, you can associate an orthographic system capable of parsing 100% of the string into a series of classified tokens.  You can subsequently apply a morphological parser to tokens classified as lexical tokens, and by associating morphological analyses with each lexical token, create a sequence of `LatinParsedToken`s.  An example of this background work is described on [the Lingua Latina Legenda project's website](https://lingualatina.github.io/analysis/).
+
+
+
 ```scala mdoc:invisible
 //
 // Load a token to use as example on this page:
@@ -27,7 +33,7 @@ val token = corpus.tokens.head
 
 ## Basic identity
 
-A `LatinParsedToken` is a single token categorized as a `LexicalToken`, `NumericToken`, `PunctuationToken` or `PraenomenToken`.
+A `LatinParsedToken` is a single token categorized as a `LexicalToken`, `NumericToken`, `PunctuationToken` or `PraenomenToken`.  
 
 It is citable by a CTS URN that extends the canonical citation scheme for the text by one level to create a canonical citation for individual tokens. We'll use as an example a token identified as `32` within the canonically citable passage  `urn:cts:latinLit:stoa1263.stoa001.hc_tkns:108a.1`
 
