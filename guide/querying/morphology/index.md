@@ -27,19 +27,19 @@ import edu.holycross.shot.tabulae._
 We define one or more `ClassifiedValue`s, a pairing of a specific value belonging to a specific class.  The `tabulae` library's `Imperfect` object belongs to the `TenseValues` class, for example.
 
 ```scala mdoc:silent
-val impft = ClassifiedValue(TenseValues, Imperfect)
+val imperfect = ClassifiedValue(TenseValues, Imperfect)
 ```
 
 We can filter tokens for a classified value using the `morphologyMatches` method.
 
 ```scala mdoc:silent
-val impftTokens = hyginus.tokens.filter(_.morphologyMatches(impft))
+val imperfectTokens = hyginus.tokens.filter(_.morphologyMatches(imperfect))
 ```
 
 Lots of imperfects in Hyginus! 667 of them.
 
 ```scala mdoc
-impftTokens.size
+imperfectTokens.size
 ```
 
 
@@ -49,8 +49,8 @@ We can also work with Vectors of classified values.  We can separate out imperfe
  ```scala mdoc:silent
 val indicative = ClassifiedValue(MoodValues, Indicative)
 val subjunctive = ClassifiedValue(MoodValues, Subjunctive)
-val impftIndic = Vector(impft, indicative)
-val impftSubj = Vector(impft, subjunctive)
+val imperfectIndicative = Vector(imperfect, indicative)
+val imperfectSubjunctive = Vector(imperfect, subjunctive)
 ```
 
 
@@ -58,15 +58,15 @@ The `andMorphMatches` method with apply logical `and` to require that the token 
 
 
 ```scala mdoc:silent
-val impftIndicTokens =  hyginus.tokens.filter(t => t.andMorphMatches(impftIndic))
-val impftSubjTokens = hyginus.tokens.filter(t => t.andMorphMatches(impftSubj))
+val imperfectIndicativeTokens =  hyginus.tokens.filter(t => t.andMorphMatches(imperfectIndicative))
+val imperfectSubjunctiveTokens = hyginus.tokens.filter(t => t.andMorphMatches(imperfectSubjunctive))
 ```
 
 So our result is 135 indicatives versus 532 subjunctives.  (Teach the imperfect subjunctive early and often.)
 
 ```scala mdoc
-impftIndicTokens.size
-impftSubjTokens.size
+imperfectIndicativeTokens.size
+imperfectSubjunctiveTokens.size
 ```
 
 As with any filtering operation in Scala, we can chain results together to further filters.  To find all forms that are *either* present indicative passive, *or* impferfect indicative passive, we could apply a parallel `orMorphMathces` method first, to select all tokens that are *either* in the perfect or imperfect tense:
@@ -75,13 +75,13 @@ As with any filtering operation in Scala, we can chain results together to furth
 
 or-ing the requirements:
 ```scala mdoc:silent
-val pft = ClassifiedValue(TenseValues, Perfect)
-val pftImpft = hyginus.tokens.filter(t => t.orMorphMatches(Vector(pft, impft)))
+val perfect = ClassifiedValue(TenseValues, Perfect)
+val perfectOrImperfect = hyginus.tokens.filter(t => t.orMorphMatches(Vector(perfect, imperfect)))
 ```
 
 (And they are legion: almost 3600.)
 ```scala mdoc
-pftImpft.size
+perfectOrImperfect.size
 ```
 
 And then applying to that set of tokens a second filter `and`ing a requirement that the tokens be indicative mood and passive voice.
@@ -90,13 +90,13 @@ And then applying to that set of tokens a second filter `and`ing a requirement t
 ```scala mdoc:silent
 val passive = ClassifiedValue(VoiceValues, Passive)
 val indicative = ClassifiedValue(MoodValues, Indicative)
-val indicPassive = Vector(indicative, passive)
+val indicativePassive = Vector(indicative, passive)
 ```
 ```scala mdoc:silent
-val pftOrImpftIndicPass =  pftImpft.filter(t => t.andMorphMatches(indicPassive))
+val perfectOrimperfectIndicativePassive =  perfectOrImperfect.filter(t => t.andMorphMatches(indicativePassive))
 ```
 
 Only 63 of those!
 ```scala mdoc
-pftOrImpftIndicPass.size
+perfectOrimperfectIndicativePassive.size
 ```
