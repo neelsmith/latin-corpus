@@ -6,4 +6,7 @@ parent: Matching and filtering data sets
 ---
 
 
-# Matching and filtering collections of sequences
+# Matching and filtering function strings
+
+
+TBA
