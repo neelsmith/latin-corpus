@@ -16,7 +16,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
   settings(
     name := "latincorpus",
     organization := "edu.holycross.shot",
-    version := "7.0.0-preview",
+    version := "7.0.0-pr3",
     licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
     resolvers += Resolver.jcenterRepo,
     resolvers += Resolver.bintrayRepo("neelsmith", "maven"),
@@ -36,7 +36,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
     libraryDependencies ++= Seq(
       "org.scala-js" %% "scalajs-stubs" % "1.0.0" % "provided",
       "com.github.pathikrit" %% "better-files" % "3.5.0",
-      "edu.holycross.shot" %% "tabulae" % "7.0.5"
+      "edu.holycross.shot" %% "tabulae" % "7.0.6"
     )
   ).
   jsSettings(
@@ -53,6 +53,6 @@ lazy val docs = project
       mdocOut := file("docs"),
       mdocExtraArguments := Seq("--no-link-hygiene"),
       mdocVariables := Map(
-        "VERSION" -> "7.0.0-preview"
+        "VERSION" -> "7.0.0-pr3"
       )
     )
