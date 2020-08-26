@@ -8,25 +8,38 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 object StringFormatter extends LogSupport {
 
   val defaultFormAmbiguityStyle: String = "text-decoration-line: underline; text-decoration-style: wavy;"
-  val defaultLexicalAmbiguityStyle: String = "border-left: solid;  padding: 3px;"
-  val defaultUnanalyzedStyle: String = ""
+  val defaultLexicalAmbiguityStyle: String = "border-bottom: solid;  padding: 3px;"
+  val defaultUnanalyzedStyle: String = "border-bottom: dotted;"
 
   def tokenFormStyled(
     token: LatinParsedToken,
     highlighter: FormsHighlighter,
     formAmbiguityStyle: String = defaultFormAmbiguityStyle,
-    lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle
+    lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
+    unanalyzedStyle: String = defaultUnanalyzedStyle
   ): String = {
 
 
+    val unanalyzed = if (token.unanalyzed) { unanalyzedStyle } else { "" }
+    
+    val ambiguity = {
+      if (token.lexicallyAmbiguous) {
+        lexicalAmbiguityStyle
+      } else if (token.ambiguous) {
+        formAmbiguityStyle
+      } else {
+        ""
+      }
+    }
+    val formHighlighting = {
+    highlighter.highlightForToken(token)
+    }
 
-
-    if (highlighter.addHighlight(token)) {
-      "<span style =\"" + s"${highlighter.highlightString} ${formAmbiguityStyle} ${lexicalAmbiguityStyle}" + "\">" + token.text.trim + "</span>"
+    if (ambiguity.nonEmpty || formHighlighting.nonEmpty || unanalyzed.nonEmpty) {
+      "<span style =\"" + s"${formHighlighting} ${ambiguity} ${unanalyzed}" + "\">" + token.text.trim + "</span>"
     } else {
       token.text.trim
     }
-
   }
 
   // Apply highlighting for forms
@@ -34,7 +47,8 @@ object StringFormatter extends LogSupport {
     tokens: Vector[LatinParsedToken],
     highlighter: FormsHighlighter,
     formAmbiguityStyle: String = defaultFormAmbiguityStyle,
-    lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle
+    lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
+    unanalyzedStyle: String = defaultUnanalyzedStyle
   ) : String = {
 
     val hilited = tokens.map(t => {
@@ -43,7 +57,7 @@ object StringFormatter extends LogSupport {
           t.text.trim
         }
         case _ => {
-          " " + tokenFormStyled(t, highlighter, formAmbiguityStyle,lexicalAmbiguityStyle)
+          " " + tokenFormStyled(t, highlighter, formAmbiguityStyle,lexicalAmbiguityStyle, unanalyzedStyle)
         }
       }
     })

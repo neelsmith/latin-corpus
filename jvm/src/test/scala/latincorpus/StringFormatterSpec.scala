@@ -18,7 +18,7 @@ class StringFormatterSpec extends FlatSpec {
     val properties = Vector(MorphologicalValue.indicative)
     val highlighter = FormsHighlighter(properties,hl)
 
-    val formatted = StringFormatter.tokensFormStyled(chapter.tokens, highlighter)
+    val formatted = StringFormatter.tokensFormStyled(chapter.tokens, highlighter, unanalyzedStyle = "")
     println(formatted)
   }
 
@@ -44,8 +44,12 @@ class StringFormatterSpec extends FlatSpec {
     assert(StringFormatter.defaultFormAmbiguityStyle == expected)
   }
   it should "define default CSS styling for lexical ambiguity" in {
-    val expected = "border-left: solid;  padding: 3px;"
+    val expected = "border-bottom: solid;  padding: 3px;"
     assert(StringFormatter.defaultLexicalAmbiguityStyle == expected)
+  }
+  it should  "define default CSS styling for unanalyzed tokens" in {
+    val expected = "border-bottom: dotted;"
+    assert(StringFormatter.defaultUnanalyzedStyle == expected)
   }
 
 
