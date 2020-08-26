@@ -22,8 +22,4 @@ case class LatinCitableUnit(tokens: Vector[LatinParsedToken]) extends LatinParse
     }
     CitableNode(urn,text.mkString.trim)
   }
-
-
-
-
 }

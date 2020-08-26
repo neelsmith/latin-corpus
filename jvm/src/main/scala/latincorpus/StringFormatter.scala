@@ -21,7 +21,7 @@ object StringFormatter extends LogSupport {
 
 
     val unanalyzed = if (token.unanalyzed) { unanalyzedStyle } else { "" }
-    
+
     val ambiguity = {
       if (token.lexicallyAmbiguous) {
         lexicalAmbiguityStyle
@@ -64,11 +64,27 @@ object StringFormatter extends LogSupport {
     hilited.mkString("").trim
   }
 
-  def formHighlightedByClass(
 
-  ) : String = {
-    ""
+  def tokenLexemeStyled(token: LatinParsedToken, formAmbiguityStyle: String = defaultFormAmbiguityStyle,
+  lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
+  unanalyzedStyle: String = defaultUnanalyzedStyle) : String = {""}
+
+  def tokensLexemeStyled(tokens: Vector[LatinParsedToken], formAmbiguityStyle: String = defaultFormAmbiguityStyle,
+  lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
+  unanalyzedStyle: String = defaultUnanalyzedStyle) : String = {
+    val hilited = tokens.map(t => {
+      t.category.toString match {
+        case "PunctuationToken" => {
+          t.text.trim
+        }
+        case _ => {
+          " " + tokenLexemeStyled(t, formAmbiguityStyle,lexicalAmbiguityStyle, unanalyzedStyle)
+        }
+      }
+    })
+    hilited.mkString("").trim
   }
+
     /** Compose a String highlighting a specified part of speech.
     *
     * @param label Labelling String identifying a part of speech
@@ -92,83 +108,10 @@ object StringFormatter extends LogSupport {
     }  */
 
 
-/*
-    def highlightForms(
-      tokens: Vector[LatinParsedToken],
-      highlighters: Vector[Highlighter]) : String = {
-
-      val hilited = tokens.map(t => {
-        if (t.analyses.map(_.posLabel).contains(label)) {
-          s"${hlOpen}${t.text}${hlClose}"
-        } else {
-          t.text
-        }
-      })
-      hilited.mkString(" ")
-    }
-*/
-/*
-    def formatSingleAnalysis(
-      tokens: Vector[LatinParsedToken],
-      text: String,
-      analysis: LemmatizedForm,
-      highlighters: Vector[FormsHighlighter]) : String =  {
-
-        ""
-        /*
-      val formatted = for  (hl <- highlighters) yield {
-        if (hl.mf.agrees(analysis)) {
-          (true, "<TAG>" + text + "</TAG>")
-          //(true, hl.opening + text + hl.closing)
-        } else {
-        (false, text)
-        }
-      }
-      val flattened = formatted.filter(_._1 == true).map(_._2)
-
-      if (flattened.isEmpty) {
-        ""
-      } else {
-        flattened(0)
-      }
-
-    }*/
-
-/*
-    def highlight(tokens: Vector[LatinParsedToken], tkn: LatinParsedToken, highlighters: Vector[FormsHighlighter]) : String  = {
 
 
-      val formatted =  for (a <- tkn.analyses) yield {
-        formatSingleAnalysis(tokens, tkn.text, a, highlighters)
-      }
-      if (formatted.flatten.isEmpty) {
-        tkn.text
-      } else {
-        formatted(0)
-      }
-    }
 
-*/
 
-      /*
-
-    def highlightForms(tokens: Vector[LatinParsedToken], highlighters: Vector[FormsHighlighter]) : String = {
-      ""
-
-      //Logger.setDefaultLogLevel(LogLevel.DEBUG)
-      val hilited = tokens.map(t => {
-        t.category.toString match {
-          case "PunctuationToken" => {
-            t.text.trim
-          }
-          case _ => {
-            " " + highlight(tokens, t, highlighters)
-          }
-        }
-      })
-      hilited.mkString("").trim */
-    }
-*/
 
 
     /*
