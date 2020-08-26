@@ -14,9 +14,19 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 // some set of properties
 case class FormsHighlighter(
   properties: Vector[ClassifiedValue],
-  highlight: String
-) {
+  highlight: String,
+  booleanAnd : Boolean = true
+) extends Highlighter{
+
   def addHighlight(token: LatinParsedToken): Boolean = {
-    false
+    if (booleanAnd) {
+      token.andMorphMatches(properties)
+    } else {
+      token.orMorphMatches(properties)
+    }
   }
+
+  def highlightString = highlight
+
+
 }
