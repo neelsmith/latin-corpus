@@ -12,7 +12,7 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 // association of tagging strings for
 // some set of properties
-case class Highlighter(
+case class FormsHighlighter(
   properties: Vector[ClassifiedValue],
   highlight: String
 ) {

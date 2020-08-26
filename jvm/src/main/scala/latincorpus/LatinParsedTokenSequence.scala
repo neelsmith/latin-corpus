@@ -213,11 +213,12 @@ trait LatinParsedTokenSequence extends LogSupport {
   * @param hlOpen Opening (left) String marking highlighted token.
   * @param hlClose Closing (right) String marking highlighted
   * token.
-  */
+
   def highlightPoS(label: String, hlOpen : String = "**", hlClose : String = "**") : String = {
     StringFormatter.highlightPoS(tokens, label, hlOpen, hlClose)
   }
-
+  */
+/*
   def formatSingleAnalysis(text: String, analysis: LemmatizedForm, highlighters: Vector[Highlighter]) : String =  {
     StringFormatter.formatSingleAnalysis(tokens, text, analysis, highlighters)
   }
@@ -226,11 +227,10 @@ trait LatinParsedTokenSequence extends LogSupport {
   def highlight(tkn: LatinParsedToken, highlighters: Vector[Highlighter]) : String  = {
     StringFormatter.highlight(tokens, tkn, highlighters)
   }
-
-
   def highlightForms(highlighters: Vector[Highlighter]) : String = {
     StringFormatter.highlightForms(tokens, highlighters)
   }
+  */
 
 
   /*def highlightForms(mf : MorphologyFilter,

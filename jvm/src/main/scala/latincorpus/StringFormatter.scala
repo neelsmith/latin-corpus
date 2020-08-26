@@ -27,10 +27,35 @@ object StringFormatter extends LogSupport {
       hilited.mkString(" ")
     }
 
-    def formatSingleAnalysis(tokens: Vector[LatinParsedToken], text: String, analysis: LemmatizedForm, highlighters: Vector[Highlighter]) : String =  {
+
+/*
+    def highlightForms(
+      tokens: Vector[LatinParsedToken],
+      highlighters: Vector[Highlighter]) : String = {
+
+      val hilited = tokens.map(t => {
+        if (t.analyses.map(_.posLabel).contains(label)) {
+          s"${hlOpen}${t.text}${hlClose}"
+        } else {
+          t.text
+        }
+      })
+      hilited.mkString(" ")
+    }
+*/
+
+    def formatSingleAnalysis(
+      tokens: Vector[LatinParsedToken],
+      text: String,
+      analysis: LemmatizedForm,
+      highlighters: Vector[FormsHighlighter]) : String =  {
+
+        ""
+        /*
       val formatted = for  (hl <- highlighters) yield {
         if (hl.mf.agrees(analysis)) {
-          (true, hl.opening + text + hl.closing)
+          (true, "<TAG>" + text + "</TAG>")
+          //(true, hl.opening + text + hl.closing)
         } else {
         (false, text)
         }
@@ -45,7 +70,7 @@ object StringFormatter extends LogSupport {
     }
 
 
-    def highlight(tokens: Vector[LatinParsedToken], tkn: LatinParsedToken, highlighters: Vector[Highlighter]) : String  = {
+    def highlight(tokens: Vector[LatinParsedToken], tkn: LatinParsedToken, highlighters: Vector[FormsHighlighter]) : String  = {
       val formatted =  for (a <- tkn.analyses) yield {
         formatSingleAnalysis(tokens, tkn.text, a, highlighters)
       }
@@ -53,12 +78,14 @@ object StringFormatter extends LogSupport {
         tkn.text
       } else {
         formatted(0)
-      }
+      }*/
     }
 
 
 
-    def highlightForms(tokens: Vector[LatinParsedToken], highlighters: Vector[Highlighter]) : String = {
+    def highlightForms(tokens: Vector[LatinParsedToken], highlighters: Vector[FormsHighlighter]) : String = {
+      ""
+      /*
       //Logger.setDefaultLogLevel(LogLevel.DEBUG)
       val hilited = tokens.map(t => {
         t.category.toString match {
@@ -70,37 +97,9 @@ object StringFormatter extends LogSupport {
           }
         }
       })
-      hilited.mkString("").trim
+      hilited.mkString("").trim */
     }
 
-    /*
-    def highlightForms(tokens: Vector[LatinParsedToken], mf : MorphologyCollectionsFilter,
-      hlOpen : String = "**",
-      hlClose : String = "**") : String= {
-      //Logger.setDefaultLogLevel(LogLevel.WARN)
-
-      val hilited = tokens.map(t => {
-        t.category.toString match {
-          case "PunctuationToken" => {
-            t.text.trim
-          }
-          case _ => {
-            val formsMatch = t.analyses.map(mf.agrees(_))
-
-            if (formsMatch.contains(true)) {
-              s" ${hlOpen}${t.text}${hlClose}"
-            } else {
-              " " + t.text
-            }
-          }
-        }
-      })
-
-
-
-      debug("Highlighted toekns: " + hilited.mkString("").trim)
-      hilited.mkString("").trim
-    }*/
 
 
     /*
@@ -118,7 +117,7 @@ object StringFormatter extends LogSupport {
 
         val label = t.analyses.map(_.formLabel).mkString(", or ")
         val opener = s"<a href=" + "\"" + "#" + "\"" +  " data-tooltip=\"" + label + "\"" +  " class=\"hoverclass\">"
-        val hls = mfs.map ( mfilt => Highlighter(mfilt, opener, closer))
+        val hls = mfs.map ( mfilt => FormsHighlighter(mfilt, opener, closer))
 
         val highlighted = this.highlight(t, hls)
         if (highlighted == t.text) {
