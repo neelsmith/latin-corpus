@@ -39,3 +39,43 @@ case class ClassifiedValue(
   case object UninflectedValues extends MorphologicalCategoryValues {
     def name = "uninflected"
   }
+
+
+object MorphologicalValue {
+  // P
+  val first = ClassifiedValue(PersonValues, First)
+  val second = ClassifiedValue(PersonValues, First)
+  val third = ClassifiedValue(PersonValues, Third)
+  // N
+  val singular = ClassifiedValue(GrammaticalNumberValues, Singular)
+  val plural = ClassifiedValue(GrammaticalNumberValues, Plural)
+  // T
+  val present = ClassifiedValue(TenseValues, Present)
+  val future = ClassifiedValue(TenseValues, Future)
+  val imperfect = ClassifiedValue(TenseValues, Imperfect)
+  val perfect = ClassifiedValue(TenseValues, Perfect)
+  val pluperfect = ClassifiedValue(TenseValues, Pluperfect)
+  val futureperfect = ClassifiedValue(TenseValues, FuturePerfect)
+  // M
+  val indicative = ClassifiedValue(MoodValues, Indicative)
+  val imperative = ClassifiedValue(MoodValues, Imperative)
+  val subjunctive = ClassifiedValue(MoodValues, Subjunctive)
+  // V
+  val active = ClassifiedValue(VoiceValues, Active)
+  val passive = ClassifiedValue(VoiceValues, Passive)
+  // G
+  val masculine = ClassifiedValue(GenderValues, Masculine)
+  val feminine = ClassifiedValue(GenderValues, Feminine)
+  val neuter = ClassifiedValue(GenderValues, Neuter)
+  // C
+  val nominative = ClassifiedValue(GrammaticalCaseValues, Nominative)
+  val genitive = ClassifiedValue(GrammaticalCaseValues, Genitive)
+  val dative = ClassifiedValue(GrammaticalCaseValues, Dative)
+  val accusative = ClassifiedValue(GrammaticalCaseValues, Accusative)
+  val ablative = ClassifiedValue(GrammaticalCaseValues, Ablative)
+  val vocative = ClassifiedValue(GrammaticalCaseValues, Vocative)
+  // Degree
+  val positive = ClassifiedValue(DegreeValues, Positive)
+  val comparative = ClassifiedValue(DegreeValues, Comparative)
+  val superlative = ClassifiedValue(DegreeValues, Superlative)
+}

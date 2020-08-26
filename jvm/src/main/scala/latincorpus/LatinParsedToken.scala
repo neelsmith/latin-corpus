@@ -116,6 +116,20 @@ case class LatinParsedToken(
 
   def valuesForCategory(prop: MorphologicalCategoryValues): Vector[MorphologicalProperty] = {
     val matches = prop.name match {
+      case "degree" => {
+        val advDegree = analyses.flatMap(a => a.adverbDegree).distinct
+        val adjDegree = analyses.flatMap(a => a.adjectiveDegree).distinct
+        (advDegree ++ adjDegree).distinct
+      }
+
+      case "number" => {
+        val substantiveNumbers: Vector[GrammaticalNumber] = analyses.flatMap(a => a.substantiveNumber).distinct
+        val verbNumbers: Vector[GrammaticalNumber] = analyses.flatMap(a => a.verbNumber).distinct
+        // participles?
+
+        (substantiveNumbers ++ verbNumbers).distinct
+      }
+
 
       case "case" => {
         // Collect all values for GrammaticalCase in all substantives:

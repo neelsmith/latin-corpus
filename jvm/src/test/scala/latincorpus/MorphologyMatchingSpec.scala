@@ -20,7 +20,6 @@ class MorphologyMatchingSpec extends FlatSpec {
   "A LatinParsedToken" should "test for a specified morphological property" in {
     val third = ClassifiedValue(PersonValues, Third)
     assert(testVerb.morphologyMatches(third))
-
     // plural, ind, act
   }
 
@@ -44,6 +43,11 @@ class MorphologyMatchingSpec extends FlatSpec {
   }
 
 
+  // test each class:
+
+  it should "test on person" in {
+
+  }
 
 
 }

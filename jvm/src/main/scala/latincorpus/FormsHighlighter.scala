@@ -10,8 +10,13 @@ import edu.holycross.shot.histoutils._
 import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
+// association of tagging strings for
+// some set of properties
 case class Highlighter(
-  mf: MorphologyFilter,
-  opening: String = "**",
-  closing : String = "**"
-)
+  properties: Vector[ClassifiedValue],
+  highlight: String
+) {
+  def addHighlight(token: LatinParsedToken): Boolean = {
+    false
+  }
+}
