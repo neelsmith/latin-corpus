@@ -9,16 +9,13 @@ import org.scalatest.FlatSpec
 
 class FormsHighlighterSpec extends FlatSpec {
 
-
   val chapterFile = "jvm/src/test/resources/c108a.cex"
   val chapter = LatinCorpus.fromFile(chapterFile, cexHeader = false)
   val testVerb = chapter.sentences.sequences(2).finiteVerbs(2)
 
-
   // include in HTML style element:
   val hl = "color: blue;"
   val properties = Vector(MorphologicalValue.third, MorphologicalValue.perfect)
-
 
   "A FormsHighlighter" should "associate a highlighting String with a Vector of ClassifiedValues" in {
     val  hiliter = FormsHighlighter(properties, hl)
@@ -52,6 +49,5 @@ class FormsHighlighterSpec extends FlatSpec {
     val actualString = hiliter.highlightForToken(testVerb)
     assert(actualString.isEmpty)
   }
-
 
 }

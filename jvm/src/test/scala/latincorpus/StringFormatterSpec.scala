@@ -19,10 +19,25 @@ class StringFormatterSpec extends FlatSpec {
     val highlighter = FormsHighlighter(properties,hl)
 
     val formatted = StringFormatter.tokensFormStyled(chapter.tokens, highlighter, unanalyzedStyle = "")
-    println(formatted)
+    //println(formatted)
   }
 
-  it should "compose an HTML style attribute for spans matching lexical items" in pending
+  it should "compose an HTML style attribute for spans matching lexical items" in {
+    val hl = "color: blue;"
+    val transfero = "ls.n48775"
+    val lexemes = Vector(transfero)
+    val highlighter = LexemesHighlighter(lexemes,hl)
+
+// tokens: Vector[LatinParsedToken],
+  //highlighter: LexemesHighlighter,
+  //lexemesIds: Vector[String],
+    val formatted = StringFormatter.tokensLexemeStyled(
+      chapter.tokens,
+      highlighter,
+      lexemes,
+      unanalyzedStyle = "")
+    println(formatted)
+  }
 
   it should "compose an HTML  style attribute for spans matching part of speech" in pending
 

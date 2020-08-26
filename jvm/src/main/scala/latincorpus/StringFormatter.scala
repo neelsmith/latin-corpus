@@ -18,10 +18,7 @@ object StringFormatter extends LogSupport {
     lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
     unanalyzedStyle: String = defaultUnanalyzedStyle
   ): String = {
-
-
     val unanalyzed = if (token.unanalyzed) { unanalyzedStyle } else { "" }
-
     val ambiguity = {
       if (token.lexicallyAmbiguous) {
         lexicalAmbiguityStyle
@@ -32,7 +29,7 @@ object StringFormatter extends LogSupport {
       }
     }
     val formHighlighting = {
-    highlighter.highlightForToken(token)
+      highlighter.highlightForToken(token)
     }
 
     if (ambiguity.nonEmpty || formHighlighting.nonEmpty || unanalyzed.nonEmpty) {
@@ -60,25 +57,52 @@ object StringFormatter extends LogSupport {
           " " + tokenFormStyled(t, highlighter, formAmbiguityStyle,lexicalAmbiguityStyle, unanalyzedStyle)
         }
       }
-    })
+    }
+    )
     hilited.mkString("").trim
   }
 
 
-  def tokenLexemeStyled(token: LatinParsedToken, formAmbiguityStyle: String = defaultFormAmbiguityStyle,
-  lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
-  unanalyzedStyle: String = defaultUnanalyzedStyle) : String = {""}
+  def tokenLexemeStyled(token: LatinParsedToken,
+    highlighter: LexemesHighlighter,
+    lexemeIds: Vector[String],
+    formAmbiguityStyle: String = defaultFormAmbiguityStyle,
+    lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
+    unanalyzedStyle: String = defaultUnanalyzedStyle) : String = {
+    val unanalyzed = if (token.unanalyzed) { unanalyzedStyle } else { "" }
+    val ambiguity = {
+      if (token.lexicallyAmbiguous) {
+        lexicalAmbiguityStyle
+      } else if (token.ambiguous) {
+        formAmbiguityStyle
+      } else {
+        ""
+      }
+    }
+    val lexemeHighlighting = {
+      highlighter.highlightForToken(token)
+    }
+    if (ambiguity.nonEmpty || lexemeHighlighting.nonEmpty || unanalyzed.nonEmpty) {
+      "<span style =\"" + s"${lexemeHighlighting} ${ambiguity} ${unanalyzed}" + "\">" + token.text.trim + "</span>"
+    } else {
+      token.text.trim
+    }
+  }
 
-  def tokensLexemeStyled(tokens: Vector[LatinParsedToken], formAmbiguityStyle: String = defaultFormAmbiguityStyle,
-  lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
-  unanalyzedStyle: String = defaultUnanalyzedStyle) : String = {
+  def tokensLexemeStyled(tokens: Vector[LatinParsedToken],
+    highlighter: LexemesHighlighter,
+    lexemesIds: Vector[String],
+    formAmbiguityStyle: String = defaultFormAmbiguityStyle,
+    lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
+    unanalyzedStyle: String = defaultUnanalyzedStyle) : String = {
     val hilited = tokens.map(t => {
       t.category.toString match {
         case "PunctuationToken" => {
           t.text.trim
         }
         case _ => {
-          " " + tokenLexemeStyled(t, formAmbiguityStyle,lexicalAmbiguityStyle, unanalyzedStyle)
+          " " + tokenLexemeStyled(t, highlighter,
+            lexemesIds, formAmbiguityStyle,lexicalAmbiguityStyle, unanalyzedStyle)
         }
       }
     })
