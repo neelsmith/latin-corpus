@@ -7,7 +7,45 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 object StringFormatter extends LogSupport {
 
+  val defaultFormAmbiguityStyle: String = "text-decoration-line: underline; text-decoration-style: wavy;"
+  val defaultLexicalAmbiguityStyle: String = "border-left: solid;  padding: 3px;"
 
+  def tokenFormStyled(
+    token: LatinParsedToken,
+    highlighter: FormsHighlighter
+  ): String = {
+    if (highlighter.addHighlight(token)) {
+      "<span style =\"" + highlighter.highlightString + "\">" + token.text.trim + "</span>" 
+    } else {
+      token.text.trim
+    }
+
+  }
+
+  // Apply highlighting for forms
+  def tokensFormStyled(
+    tokens: Vector[LatinParsedToken],
+    highlighter: FormsHighlighter
+  ) : String = {
+
+    val hilited = tokens.map(t => {
+      t.category.toString match {
+        case "PunctuationToken" => {
+          t.text.trim
+        }
+        case _ => {
+          " " + tokenFormStyled(t, highlighter)
+        }
+      }
+    })
+    hilited.mkString("").trim
+  }
+
+  def formHighlightedByClass(
+
+  ) : String = {
+    ""
+  }
     /** Compose a String highlighting a specified part of speech.
     *
     * @param label Labelling String identifying a part of speech
@@ -15,8 +53,10 @@ object StringFormatter extends LogSupport {
     * @param hlOpen Opening (left) String marking highlighted token.
     * @param hlClose Closing (right) String marking highlighted
     * token.
-    */
+
     def highlightPoS(tokens: Vector[LatinParsedToken], label: String, hlOpen : String = "**", hlClose : String = "**") : String = {
+      ""
+
       val hilited = tokens.map(t => {
         if (t.analyses.map(_.posLabel).contains(label)) {
           s"${hlOpen}${t.text}${hlClose}"
@@ -25,7 +65,8 @@ object StringFormatter extends LogSupport {
         }
       })
       hilited.mkString(" ")
-    }
+
+    }  */
 
 
 /*
@@ -43,7 +84,7 @@ object StringFormatter extends LogSupport {
       hilited.mkString(" ")
     }
 */
-
+/*
     def formatSingleAnalysis(
       tokens: Vector[LatinParsedToken],
       text: String,
@@ -67,10 +108,13 @@ object StringFormatter extends LogSupport {
       } else {
         flattened(0)
       }
-    }
 
+    }*/
 
+/*
     def highlight(tokens: Vector[LatinParsedToken], tkn: LatinParsedToken, highlighters: Vector[FormsHighlighter]) : String  = {
+
+
       val formatted =  for (a <- tkn.analyses) yield {
         formatSingleAnalysis(tokens, tkn.text, a, highlighters)
       }
@@ -78,14 +122,16 @@ object StringFormatter extends LogSupport {
         tkn.text
       } else {
         formatted(0)
-      }*/
+      }
     }
 
+*/
 
+      /*
 
     def highlightForms(tokens: Vector[LatinParsedToken], highlighters: Vector[FormsHighlighter]) : String = {
       ""
-      /*
+
       //Logger.setDefaultLogLevel(LogLevel.DEBUG)
       val hilited = tokens.map(t => {
         t.category.toString match {
@@ -99,7 +145,7 @@ object StringFormatter extends LogSupport {
       })
       hilited.mkString("").trim */
     }
-
+*/
 
 
     /*
