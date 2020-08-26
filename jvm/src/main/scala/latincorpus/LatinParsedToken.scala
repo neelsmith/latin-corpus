@@ -22,6 +22,12 @@ case class LatinParsedToken(
   /** Text of this token's CitableNode.*/
   def text = cn.text
 
+  def unanalyzed: Boolean = analyses.isEmpty
+  def ambiguous: Boolean = analyses.size > 1
+  def lexicallyAmbiguous : Boolean = {
+    analyses.map(_.lemmaId).distinct.size > 1
+  }
+  def singleAnalysis : Boolean = analyses.size == 1
 
   /** True if one or more analyses of this token parses
   * to any item in a given list of lexemes.

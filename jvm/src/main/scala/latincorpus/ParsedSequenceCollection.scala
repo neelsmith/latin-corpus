@@ -22,4 +22,8 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 case class ParsedSequenceCollection(sequences: Vector[LatinParsedTokenSequence]) extends LogSupport {
 
   def size = sequences.size
+
+  def moreLike(txt: String) = {
+    
+  }
 }

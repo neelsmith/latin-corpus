@@ -77,6 +77,12 @@ case class LatinCorpus(tokens: Vector[LatinParsedToken]) extends LatinParsedToke
   }
   */
 
+/*
+  def sentencesLike(txt: String) = {
+    val lexemes = tokenLabelledLexemeIndex(txt)
+    val matching = sentences.sequences.filter(s => s.)
+  }
+*/
 }
 
 
