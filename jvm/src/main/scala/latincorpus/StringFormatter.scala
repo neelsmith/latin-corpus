@@ -9,13 +9,20 @@ object StringFormatter extends LogSupport {
 
   val defaultFormAmbiguityStyle: String = "text-decoration-line: underline; text-decoration-style: wavy;"
   val defaultLexicalAmbiguityStyle: String = "border-left: solid;  padding: 3px;"
+  val defaultUnanalyzedStyle: String = ""
 
   def tokenFormStyled(
     token: LatinParsedToken,
-    highlighter: FormsHighlighter
+    highlighter: FormsHighlighter,
+    formAmbiguityStyle: String = defaultFormAmbiguityStyle,
+    lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle
   ): String = {
+
+
+
+
     if (highlighter.addHighlight(token)) {
-      "<span style =\"" + highlighter.highlightString + "\">" + token.text.trim + "</span>" 
+      "<span style =\"" + s"${highlighter.highlightString} ${formAmbiguityStyle} ${lexicalAmbiguityStyle}" + "\">" + token.text.trim + "</span>"
     } else {
       token.text.trim
     }
@@ -25,7 +32,9 @@ object StringFormatter extends LogSupport {
   // Apply highlighting for forms
   def tokensFormStyled(
     tokens: Vector[LatinParsedToken],
-    highlighter: FormsHighlighter
+    highlighter: FormsHighlighter,
+    formAmbiguityStyle: String = defaultFormAmbiguityStyle,
+    lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle
   ) : String = {
 
     val hilited = tokens.map(t => {
@@ -34,7 +43,7 @@ object StringFormatter extends LogSupport {
           t.text.trim
         }
         case _ => {
-          " " + tokenFormStyled(t, highlighter)
+          " " + tokenFormStyled(t, highlighter, formAmbiguityStyle,lexicalAmbiguityStyle)
         }
       }
     })
