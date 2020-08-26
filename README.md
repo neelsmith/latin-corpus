@@ -9,14 +9,13 @@ A JVM library for working with a citable corpus of morphologically parsed texts 
 
 The `latincorpus` library is undergoing active development as part of a three-year project beginning in the academic year 2020-2021 in the Classics Department at the College of the Holy Cross.  For more information about the project, see <https://lingualatina.github.io/>.
 
-The current published release is 6.0.0. The 7.x series represents an API-breaking, substantial reworking of the library.  Binaries of prerelease versions are available from bintray with the version designation `7.0.0.-prN`.
+The current published release is 6.0.0. The 7.x series represents an API-breaking, substantial reworking of the library.  Binaries of prerelease versions as well as published releases are available from bintray with the version designation `7.0.0.-prN`: for maven, ivy or gradle coordinates, see [this page](https://bintray.com/neelsmith/maven/latincorpus).
 
 
 
 See [release notes](releases.md).
 
 
-Binaries are available from bintray: for maven, ivy or gradle coordinates, see [this page](https://bintray.com/neelsmith/maven/latincorpus).
 
 
 ## Documentation
