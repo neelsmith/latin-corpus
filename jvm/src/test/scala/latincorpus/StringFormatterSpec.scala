@@ -36,7 +36,7 @@ class StringFormatterSpec extends FlatSpec {
       highlighter,
       lexemes,
       unanalyzedStyle = "")
-    println(formatted)
+    //println(formatted)
   }
 
   it should "compose an HTML  style attribute for spans matching part of speech" in pending
@@ -67,5 +67,19 @@ class StringFormatterSpec extends FlatSpec {
     assert(StringFormatter.defaultUnanalyzedStyle == expected)
   }
 
+  it should "compose a string summary for a token" in {
+    val tkn = chapter.tokens.filter(_.text == "capere").head
+    // println(StringFormatter.summary(tkn))
+  }
+  it should "compose an HTML hover link for a token" in {
+    val tkn = chapter.tokens.filter(_.text == "capere").head
+    //println(StringFormatter.hover(tkn))
+  }
+
+  it should "format strings highlighting only analytical status" in {
+    val formatted = StringFormatter.labelledForms(chapter.tokens)
+    import java.io.PrintWriter
+    new PrintWriter("testhover.md") { write(formatted + "\n\n\n" + StringFormatter.tooltipCss);close;}
+  }
 
 }

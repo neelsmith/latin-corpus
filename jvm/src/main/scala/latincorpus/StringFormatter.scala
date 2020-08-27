@@ -11,6 +11,14 @@ object StringFormatter extends LogSupport {
   val defaultLexicalAmbiguityStyle: String = "border-bottom: solid;  padding: 3px;"
   val defaultUnanalyzedStyle: String = "border-bottom: dotted;"
 
+  /** Format a single token as a string using a [[FormsHighlighter]].
+  *
+  * @param token Token to format.
+  * @param highlighter Highlighting to apply to specified forms.
+  * @param formAmbiguityStyle CSS string with style specifications for ambiguous tokens.
+  * @param lexicalAmbiguityStyle CSS string with style specifications for lexically ambiguous tokens.
+  * @param unanalyzedStyle CSS string with style specifications for unanalyzed tokens.
+  */
   def tokenFormStyled(
     token: LatinParsedToken,
     highlighter: FormsHighlighter,
@@ -39,7 +47,14 @@ object StringFormatter extends LogSupport {
     }
   }
 
-  // Apply highlighting for forms
+  /** Format a series of tokens as a string using a [[FormsHighlighter]].
+  *
+  * @param token Token to format.
+  * @param highlighter Highlighting to apply to specified forms.
+  * @param formAmbiguityStyle CSS string with style specifications for ambiguous tokens.
+  * @param lexicalAmbiguityStyle CSS string with style specifications for lexically ambiguous tokens.
+  * @param unanalyzedStyle CSS string with style specifications for unanalyzed tokens.
+  */
   def tokensFormStyled(
     tokens: Vector[LatinParsedToken],
     highlighter: FormsHighlighter,
@@ -63,22 +78,31 @@ object StringFormatter extends LogSupport {
   }
 
 
+
+  /** Format a single token as a string using a [[LexemesHighlighter]].
+  *
+  * @param token Token to format.
+  * @param highlighter Highlighting to apply to specified forms.
+  * @param formAmbiguityStyle CSS string with style specifications for ambiguous tokens.
+  * @param lexicalAmbiguityStyle CSS string with style specifications for lexically ambiguous tokens.
+  * @param unanalyzedStyle CSS string with style specifications for unanalyzed tokens.
+  */
   def tokenLexemeStyled(token: LatinParsedToken,
     highlighter: LexemesHighlighter,
     lexemeIds: Vector[String],
     formAmbiguityStyle: String = defaultFormAmbiguityStyle,
     lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
     unanalyzedStyle: String = defaultUnanalyzedStyle) : String = {
+
     val unanalyzed = if (token.unanalyzed) { unanalyzedStyle } else { "" }
-    val ambiguity = {
-      if (token.lexicallyAmbiguous) {
-        lexicalAmbiguityStyle
-      } else if (token.ambiguous) {
-        formAmbiguityStyle
-      } else {
-        ""
-      }
+    val ambiguity = if (token.lexicallyAmbiguous) {
+      lexicalAmbiguityStyle
+    } else if (token.ambiguous) {
+      formAmbiguityStyle
+    } else {
+      ""
     }
+
     val lexemeHighlighting = {
       highlighter.highlightForToken(token)
     }
@@ -89,6 +113,14 @@ object StringFormatter extends LogSupport {
     }
   }
 
+  /** Format a series of tokens as a string using a [[LexemesHighlighter]].
+  *
+  * @param token Token to format.
+  * @param highlighter Highlighting to apply to specified forms.
+  * @param formAmbiguityStyle CSS string with style specifications for ambiguous tokens.
+  * @param lexicalAmbiguityStyle CSS string with style specifications for lexically ambiguous tokens.
+  * @param unanalyzedStyle CSS string with style specifications for unanalyzed tokens.
+  */
   def tokensLexemeStyled(tokens: Vector[LatinParsedToken],
     highlighter: LexemesHighlighter,
     lexemesIds: Vector[String],
@@ -131,40 +163,94 @@ object StringFormatter extends LogSupport {
 
     }  */
 
+/*
+* @param formAmbiguityStyle CSS string with style specifications for ambiguous tokens.
+* @param lexicalAmbiguityStyle CSS string with style specifications for lexically ambiguous tokens.
+* @param unanalyzedStyle CSS string with style specifications for unanalyzed tokens.
+*/
+
+  def summary(token: LatinParsedToken) : String = {
+    if (token.unanalyzed) {
+      ""
+    } else {
+      val byLexeme = token.analyses.groupBy(_.lemmaId)
+      val html = for (lex <- byLexeme.keySet) yield {
+        val short = byLexeme(lex).map(a => s"ANALYSIS: ${a.toString}")
+        "LEXEME: " + LewisShort.label(lex) + " " + short.mkString(";  ")
+      }
+      html.mkString("  || ")
+    }
+  }
+
+  def hover(token: LatinParsedToken) : String = {
+    "<a href=" + "\"" + "#" + "\"" +  " data-tooltip=\"" + summary(token) + "\"" +  " class=\"hoverclass\">" + token.text + "</a>"
+  }
+
+  def labelledForm(token: LatinParsedToken,
+    formAmbiguityStyle: String = defaultFormAmbiguityStyle,
+    lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
+    unanalyzedStyle: String = defaultUnanalyzedStyle
+  ): String = {
 
 
+    if (token.unanalyzed) {
+      "<span style =\"" + s"${unanalyzedStyle}" + "\">" + token.text.trim + "</span>"
+
+    } else {
+      val ambiguity = if (token.lexicallyAmbiguous) {
+        lexicalAmbiguityStyle
+      } else if (token.ambiguous) {
+        formAmbiguityStyle
+      } else {
+        ""
+      }
+
+      val formatted = if (ambiguity.nonEmpty) {
+        "<span style =\"" + s"${ambiguity}" + "\">" + hover(token) + "</span>"
+
+      } else {
+        hover(token)
+      }
+      formatted
+    }
+  }
 
 
+def labelledForms(tokens: Vector[LatinParsedToken],
+  formAmbiguityStyle: String = defaultFormAmbiguityStyle,
+  lexicalAmbiguityStyle: String = defaultLexicalAmbiguityStyle,
+  unanalyzedStyle: String = defaultUnanalyzedStyle) : String = {
+  val labelled = tokens.map(t => {
+    t.category.toString match {
+      case "PunctuationToken" => {
+        t.text.trim
+      }
+      case _ => {
+        " " + labelledForm(t, formAmbiguityStyle, lexicalAmbiguityStyle, unanalyzedStyle )
+      }
+    }
+  })
+  labelled.mkString("").trim
+}
 
 
-
-    /*
-    * Attach HTML markup to effect display of form information when
-    * mouse is over a token.
-    *
-    * @param mfs Vector of filters to apply.
-    * @param color Color to use in HTML highlighting.
-
-    def hover(tokens: Vector[LatinParsedToken], mfs : Vector[MorphologyCollectionsFilter],
-      color: String = "green") : String = {
-
-      val closer = "</a>"
-      val hilited = tokens.map(t => {
-
-        val label = t.analyses.map(_.formLabel).mkString(", or ")
-        val opener = s"<a href=" + "\"" + "#" + "\"" +  " data-tooltip=\"" + label + "\"" +  " class=\"hoverclass\">"
-        val hls = mfs.map ( mfilt => FormsHighlighter(mfilt, opener, closer))
-
-        val highlighted = this.highlight(t, hls)
-        if (highlighted == t.text) {
-          t.text
-        } else {
-          "<span color=\"" + color + "\">" + highlighted + "</span>"
-        }
-
-      })
-      hilited.mkString(" ") + "\n\n\n" + css
-
-    }    */
+    val tooltipCss = """<style>
+a.hoverclass {
+  position: relative ;
+}
+a.hoverclass:hover::after {
+  content: attr(data-tooltip) ;
+  position: absolute ;
+  top: 1.1em ;
+  left: 1em ;
+  min-width: 200px ;
+  border: 1px #808080 solid ;
+  padding: 8px ;
+  z-index: 1 ;
+  color: silver;
+  background-color: white;
+}
+</style>
+"""
 
 }
