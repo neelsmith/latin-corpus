@@ -252,6 +252,8 @@ trait LatinParsedTokenSequence extends LogSupport {
   /** All tokens with at least one morphological analysis.*/
   lazy val analyzed: Vector[LatinParsedToken] = tokens.filter(_.analyses.nonEmpty)
 
+  lazy val unanalyzed: Vector[LatinParsedToken] = tokens.filter(_.analyses.isEmpty)
+
   /** All lexical tokens.*/
   lazy val lexicalTokens: Vector[LatinParsedToken] = tokens.filter(t => t.category == LexicalToken)
 

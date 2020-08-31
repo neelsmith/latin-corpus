@@ -5,7 +5,7 @@ A JVM library for working with a citable corpus of morphologically parsed texts 
 `latin-corpus` reads output from a morphological parser built with [tabulae](https://github.com/neelsmith/tabulae), and applies it to a citable text corpus. `latin-corpus` supports higher-level manipulation of the corpus than `tabulae`'s token-level paring. It can profile usage of arbitrary combinations of morphological features or vocabulary in a corpus, and can filter the corpus to include or exclude passages containing a specified set of features or vocabulary.
 
 
-## Current versions:  6.0.0 / 7.0.0-pr5
+## Current versions:  6.0.0 / 7.0.0-pr6
 
 The `latincorpus` library is undergoing active development as part of a three-year project beginning in the academic year 2020-2021 in the Classics Department at the College of the Holy Cross.  For more information about the project, see <https://lingualatina.github.io/>.
 
