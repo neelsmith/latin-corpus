@@ -6,7 +6,7 @@ nav_order: 0
 
 
 
-**Version 7.0.0-preview**
+**Version 7.0.0-pr6**
 
 # The `latincorpus` library
 

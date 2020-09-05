@@ -6,6 +6,8 @@ parent: Matching and filtering data sets
 ---
 
 
+> *Documentation compiled with version* **7.0.0-pr6**
+
 # Matching and filtering morphological properties
 
 
@@ -38,7 +40,7 @@ Lots of imperfects in Hyginus! 667 of them.
 
 ```scala
 imperfectTokens.size
-// res0: Int = 667
+// res0: Int = 690
 ```
 
 ## Filtering for a list of morphological values
@@ -46,10 +48,9 @@ imperfectTokens.size
 We can also work with Vectors of classified values.  We can separate out imperfect subjunctives from imperfect indicatives, for example, using a Vector listing both a mood value and a tense value.
 
 ```scala
-val indicative = ClassifiedValue(MoodValues, Indicative)
-val subjunctive = ClassifiedValue(MoodValues, Subjunctive)
-val imperfectIndicative = Vector(imperfect, indicative)
-val imperfectSubjunctive = Vector(imperfect, subjunctive)
+
+val imperfectIndicative = Vector(MorphologicalValue.imperfect, MorphologicalValue.indicative)
+val imperfectSubjunctive = Vector(MorphologicalValue.imperfect, MorphologicalValue.subjunctive)
 ```
 
 
@@ -65,9 +66,9 @@ So our result is 135 indicatives versus 532 subjunctives.  (Teach the imperfect 
 
 ```scala
 imperfectIndicativeTokens.size
-// res1: Int = 135
+// res1: Int = 136
 imperfectSubjunctiveTokens.size
-// res2: Int = 532
+// res2: Int = 554
 ```
 
 
@@ -88,20 +89,19 @@ val perfectOrImperfect = hyginus.tokens.filter(t => t.orMorphMatches(Vector(perf
 (And they are legion: almost 3600.)
 ```scala
 perfectOrImperfect.size
-// res3: Int = 3592
+// res3: Int = 3657
 ```
 
 And then applying to that set of tokens a second filter `and`ing a requirement that the tokens be indicative mood and passive voice.
 
 
 ```scala
-val passive = ClassifiedValue(VoiceValues, Passive)
-val indicativePassive = Vector(indicative, passive)
+val indicativePassive = Vector(MorphologicalValue.indicative, MorphologicalValue.passive)
 val perfectOrimperfectIndicativePassive =  perfectOrImperfect.filter(t => t.andMorphMatches(indicativePassive))
 ```
 
 Only 63 of those!
 ```scala
 perfectOrimperfectIndicativePassive.size
-// res4: Int = 63
+// res4: Int = 65
 ```

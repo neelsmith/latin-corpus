@@ -5,6 +5,8 @@ nav_order: 1
 parent: Matching and filtering data sets
 ---
 
+> *Documentation compiled with version* **@VERSION@**
+
 # Matching text
 
 ```scala mdoc:invisible

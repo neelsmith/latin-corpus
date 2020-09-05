@@ -8,7 +8,7 @@ parent: Data models
 
 
 
-**Version 7.0.0-preview**
+**Version 7.0.0-pr6**
 
 
 # The `ParsedSequenceCollection`

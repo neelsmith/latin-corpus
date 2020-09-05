@@ -6,6 +6,8 @@ parent: Matching and filtering data sets
 ---
 
 
+> *Documentation compiled with version* **@VERSION@**
+
 # Matching and filtering morphological properties
 
 
@@ -50,10 +52,9 @@ imperfectTokens.size
 We can also work with Vectors of classified values.  We can separate out imperfect subjunctives from imperfect indicatives, for example, using a Vector listing both a mood value and a tense value.
 
 ```scala mdoc:silent
-val indicative = ClassifiedValue(MoodValues, Indicative)
-val subjunctive = ClassifiedValue(MoodValues, Subjunctive)
-val imperfectIndicative = Vector(imperfect, indicative)
-val imperfectSubjunctive = Vector(imperfect, subjunctive)
+
+val imperfectIndicative = Vector(MorphologicalValue.imperfect, MorphologicalValue.indicative)
+val imperfectSubjunctive = Vector(MorphologicalValue.imperfect, MorphologicalValue.subjunctive)
 ```
 
 
@@ -96,8 +97,7 @@ And then applying to that set of tokens a second filter `and`ing a requirement t
 
 
 ```scala mdoc:silent
-val passive = ClassifiedValue(VoiceValues, Passive)
-val indicativePassive = Vector(indicative, passive)
+val indicativePassive = Vector(MorphologicalValue.indicative, MorphologicalValue.passive)
 val perfectOrimperfectIndicativePassive =  perfectOrImperfect.filter(t => t.andMorphMatches(indicativePassive))
 ```
 

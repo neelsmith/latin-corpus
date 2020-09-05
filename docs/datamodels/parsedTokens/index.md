@@ -9,7 +9,7 @@ parent: Data models
 
 
 
-**Version 7.0.0-preview**
+**Version 7.0.0-pr6**
 
 
 # The `LatinParsedToken`
@@ -135,5 +135,5 @@ val cex = expanded.map(analysis => analysis.cex())
 // )
 import java.io.PrintWriter
 new PrintWriter("onetoken.cex"){write(cex.mkString("\n"));close;}
-// res17: PrintWriter = repl.MdocSession$App$$anon$1@37968445
+// res17: PrintWriter = repl.MdocSession$App$$anon$1@1ff88c02
 ```

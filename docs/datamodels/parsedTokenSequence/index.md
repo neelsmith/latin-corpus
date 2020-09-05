@@ -8,7 +8,7 @@ parent: Data models
 
 
 
-**Version 7.0.0-preview**
+**Version 7.0.0-pr6**
 
 
 # The `LatinParsedTokenSequence`
@@ -41,9 +41,9 @@ In the `LatinCorpus`, all tokens are simply a single sequence.  We can compare t
 
 ```scala
 hyginus.size
-// res0: Int = 32459
+// res0: Int = 32463
 hyginus.lexicalTokens.size
-// res1: Int = 27701
+// res1: Int = 27705
 ```
 
 ```scala
