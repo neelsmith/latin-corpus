@@ -37,7 +37,7 @@ We can filter tokens for a classified value using the `morphologyMatches` method
 val imperfectTokens = hyginus.tokens.filter(_.morphologyMatches(MorphologicalValue.imperfect))
 ```
 
-Lots of imperfects in Hyginus! 667 of them.
+Lots of imperfects in Hyginus!
 
 ```scala mdoc
 imperfectTokens.size
@@ -62,7 +62,7 @@ val imperfectIndicativeTokens =  hyginus.tokens.filter(t => t.andMorphMatches(im
 val imperfectSubjunctiveTokens = hyginus.tokens.filter(t => t.andMorphMatches(imperfectSubjunctive))
 ```
 
-So our result is 135 indicatives versus 532 subjunctives.  (Teach the imperfect subjunctive early and often.)
+So our result is that imperfect subjunctives are roughly four times as frequent as imperfect indicatives.  (Teach the imperfect subjunctive early and often.)
 
 ```scala mdoc
 imperfectIndicativeTokens.size
@@ -74,7 +74,7 @@ imperfectSubjunctiveTokens.size
 
 ## Chaining filters with `and`ing and `or`ing
 
-As with any filtering operation in Scala, we can chain results together to further filters.  To find all forms that are *either* present indicative passive, *or* impferfect indicative passive, we could apply a parallel `orMorphMathces` method first, to select all tokens that are *either* in the perfect or imperfect tense:
+As with any filtering operation in Scala, we can chain results together to apply further filters.  To find all forms that are *either* present indicative passive, *or* impferfect indicative passive, we could apply a parallel `orMorphMathces` method first, to select all tokens that are *either* in the perfect or imperfect tense:
 
 
 
@@ -83,7 +83,7 @@ or-ing the requirements:
 val perfectOrImperfect = hyginus.tokens.filter(t => t.orMorphMatches(Vector(MorphologicalValue.perfect, MorphologicalValue.imperfect)))
 ```
 
-(And they are legion: almost 3600.)
+(And they are legion: more than 3600.)
 ```scala mdoc
 perfectOrImperfect.size
 ```
@@ -96,7 +96,7 @@ val indicativePassive = Vector(MorphologicalValue.indicative, MorphologicalValue
 val perfectOrimperfectIndicativePassive =  perfectOrImperfect.filter(t => t.andMorphMatches(indicativePassive))
 ```
 
-Only 63 of those!
+Considerable fewer of those!
 ```scala mdoc
 perfectOrimperfectIndicativePassive.size
 ```
