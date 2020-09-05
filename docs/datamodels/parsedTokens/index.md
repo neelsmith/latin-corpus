@@ -135,5 +135,5 @@ val cex = expanded.map(analysis => analysis.cex())
 // )
 import java.io.PrintWriter
 new PrintWriter("onetoken.cex"){write(cex.mkString("\n"));close;}
-// res17: PrintWriter = repl.MdocSession$App$$anon$1@1ff88c02
+// res17: PrintWriter = repl.MdocSession$App$$anon$1@19522cfc
 ```

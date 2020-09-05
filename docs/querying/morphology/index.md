@@ -24,16 +24,12 @@ For morphological filtering and querying, we need the `tabulae` library.
 import edu.holycross.shot.tabulae._
 ```
 
-We define one or more `ClassifiedValue`s, a pairing of a specific value belonging to a specific class.  The `tabulae` library's `Imperfect` object belongs to the `TenseValues` class, for example.
+
+
+We can filter tokens for a classified value using the `morphologyMatches` method together with member values of the `MorphologicalValue` object.
 
 ```scala
-val imperfect = ClassifiedValue(TenseValues, Imperfect)
-```
-
-We can filter tokens for a classified value using the `morphologyMatches` method.
-
-```scala
-val imperfectTokens = hyginus.tokens.filter(_.morphologyMatches(imperfect))
+val imperfectTokens = hyginus.tokens.filter(_.morphologyMatches(MorphologicalValue.imperfect))
 ```
 
 Lots of imperfects in Hyginus! 667 of them.
@@ -82,8 +78,7 @@ As with any filtering operation in Scala, we can chain results together to furth
 
 or-ing the requirements:
 ```scala
-val perfect = ClassifiedValue(TenseValues, Perfect)
-val perfectOrImperfect = hyginus.tokens.filter(t => t.orMorphMatches(Vector(perfect, imperfect)))
+val perfectOrImperfect = hyginus.tokens.filter(t => t.orMorphMatches(Vector(MorphologicalValue.perfect, MorphologicalValue.imperfect)))
 ```
 
 (And they are legion: almost 3600.)
